@@ -1,0 +1,8 @@
+# Verified on: Python 3.11.15, CUDA 13.0, NVIDIA RTX 4090 (24GB)
+# Install order matters: vllm pins its own torch build.
+vllm==0.24.0
+torch==2.11.0+cu130
+transformers==5.13.0
+datasets==5.0.1
+pillow==12.3.0
+numpy==2.3.5

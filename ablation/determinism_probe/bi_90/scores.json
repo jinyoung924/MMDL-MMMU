@@ -1,0 +1,213 @@
+{
+  "per_subject": {
+    "Accounting": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Agriculture": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Architecture_and_Engineering": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Art": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    },
+    "Art_Theory": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Basic_Medical_Science": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Biology": {
+      "correct": 0,
+      "num": 3,
+      "acc": 0.0
+    },
+    "Chemistry": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Clinical_Medicine": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Computer_Science": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Design": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Economics": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Electronics": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Energy_and_Power": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Finance": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    },
+    "Geography": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "History": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Literature": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    },
+    "Manage": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Marketing": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    },
+    "Materials": {
+      "correct": 0,
+      "num": 3,
+      "acc": 0.0
+    },
+    "Math": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Mechanical_Engineering": {
+      "correct": 0,
+      "num": 3,
+      "acc": 0.0
+    },
+    "Music": {
+      "correct": 0,
+      "num": 3,
+      "acc": 0.0
+    },
+    "Pharmacy": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    },
+    "Physics": {
+      "correct": 1,
+      "num": 3,
+      "acc": 0.3333333333333333
+    },
+    "Psychology": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    },
+    "Public_Health": {
+      "correct": 2,
+      "num": 3,
+      "acc": 0.6666666666666666
+    },
+    "Sociology": {
+      "correct": 3,
+      "num": 3,
+      "acc": 1.0
+    }
+  },
+  "overall_macro": 0.5666666666666667,
+  "overall_micro": 0.5666666666666667,
+  "n_questions": 90,
+  "elapsed_sec": 99.5,
+  "truncated": 28,
+  "fallback_guess": 5,
+  "answer_tag_found": 62,
+  "config": {
+    "model": "Qwen/Qwen3-VL-4B-Instruct",
+    "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "data": "MMMU/MMMU",
+    "data_revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "out": "ablation/determinism_probe/bi_90",
+    "subjects": [
+      "Accounting",
+      "Agriculture",
+      "Architecture_and_Engineering",
+      "Art",
+      "Art_Theory",
+      "Basic_Medical_Science",
+      "Biology",
+      "Chemistry",
+      "Clinical_Medicine",
+      "Computer_Science",
+      "Design",
+      "Diagnostics_and_Laboratory_Medicine",
+      "Economics",
+      "Electronics",
+      "Energy_and_Power",
+      "Finance",
+      "Geography",
+      "History",
+      "Literature",
+      "Manage",
+      "Marketing",
+      "Materials",
+      "Math",
+      "Mechanical_Engineering",
+      "Music",
+      "Pharmacy",
+      "Physics",
+      "Psychology",
+      "Public_Health",
+      "Sociology"
+    ],
+    "limit": 3,
+    "prompt_style": "cot",
+    "max_new_tokens": 2048,
+    "max_pixels": 1310720,
+    "min_pixels": 4096,
+    "max_model_len": 24576,
+    "gpu_mem_util": 0.9,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 1.5,
+    "seed": 0
+  }
+}

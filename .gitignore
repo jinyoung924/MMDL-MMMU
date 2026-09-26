@@ -1,0 +1,12 @@
+# 모델 가중치 (LoRA 어댑터·병합 체크포인트, 26GB). pilot_forgetting/train_sft.py로 다시 만듭니다
+pilot_forgetting/runs/*/step*/
+# 인코더 탐침 입력 데이터 (831MB). python encoder_probe/probe.py data 로 다시 만듭니다
+encoder_probe/data/
+# 실행 로그. 결과는 각 폴더의 scores.json과 문서에 있습니다
+*.log
+# 초기 임시 분석. reports/와 failure_diagnosis/로 대체됐습니다
+analysis/
+# 수업 과제 안내문
+assignment_guidance.md
+Submission_template.md
+__pycache__/
