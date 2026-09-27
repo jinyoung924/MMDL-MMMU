@@ -1,8 +1,18 @@
-# Verified on: Python 3.11.15, CUDA 13.0, NVIDIA RTX 4090 (24GB)
-# Install order matters: vllm pins its own torch build.
-vllm==0.24.0
-torch==2.11.0+cu130
-transformers==5.13.0
-datasets==5.0.1
-pillow==12.3.0
-numpy==2.3.5
+# MMMU-val 평가 파이프라인 의존성
+# 검증 환경: Colab Pro, NVIDIA L4, driver 580.82.07 (CUDA 13.0), Python 3.13.15
+# 버전 출처: results/v5_maxtok8192/environment.json (58.44점 실행에서 기록)
+#
+# 주의
+# - PyPI의 torch 2.13.0은 CUDA 13.0 빌드이므로 NVIDIA 드라이버 580 이상이 필요하다.
+# - torchvision / torchaudio 는 vllm 0.29.0 이 고정하는 버전이다.
+# - Colab 에서는 사전 설치된 torch 스택과 CUDA 빌드가 달라 충돌하므로 scripts/setup_colab.sh 를 쓴다.
+
+vllm==0.29.0
+torch==2.13.0
+torchvision==0.28.0
+torchaudio==2.11.0
+transformers==5.16.1
+datasets==4.8.5
+# 12.3.0 은 `from PIL._typing import _Ink` ImportError 가 나는 결함 릴리스라 직전 버전으로 고정
+pillow==12.2.0
+numpy
