@@ -10,3 +10,8 @@ analysis/
 assignment_guidance.md
 Submission_template.md
 __pycache__/
+
+# RunPod runs: weights are never committed (rebuild with train_sft.py); venvs live on /workspace
+runs/**/step*/
+*_merged/
+.venv/

@@ -33,6 +33,8 @@ python analyze.py failures results/seed*                           # 늘 틀림 
 | `failure_diagnosis/` | 실패 유형별 사례집 (이미지·문제·5 seed 응답) |
 | `pilot_forgetting/` | 망각 파일럿: PathVQA LoRA-SFT 코드와 평가 결과 |
 | `encoder_probe/` | 비전 인코더 탐침 코드와 결과 |
+| `cloud/` | RunPod 실행: 환경 설치, 결과 브랜치 push, pod 자동 종료 |
+| `runs/` | 클라우드 실행 결과 (`runs/<RUN_NAME>/`, `results/<RUN_NAME>` 브랜치에서 병합됨) |
 
 ## 읽는 순서
 
@@ -57,4 +59,16 @@ python analyze.py failures results/seed*                           # 늘 틀림 
 - 실행 로그, 초기 임시 분석, 수업 과제 안내문.
 - 학습·탐침 환경은 평가 환경에 `peft`, `accelerate`(탐침은 `verovio`, `cairosvg`, `scikit-learn`도)를 더한 것입니다.
 
-루트의 `mmmu_baseline.md`는 `main` 브랜치의 파일입니다. 이 브랜치의 보고서는 `reports/mmmu_baseline.md`입니다.
+## 클라우드(RunPod) 실행
+
+실험 한 번의 루프는 네 명령입니다. 자세한 절차와 규칙은 [cloud/README.md](cloud/README.md) §0을 **먼저** 읽으세요.
+
+```bash
+bash cloud/local.sh push-code "실험 X"          # ① 로컬 main: 코드 커밋 + push
+RUN_NAME=exp_x bash cloud/runpod.sh            # ② pod: 설치 → smoke → 평가 → results/exp_x 브랜치로 자동 push → 종료
+bash cloud/local.sh fetch exp_x                # ③ 로컬: runs/exp_x/ 를 받아 analyze.py 로 분석
+bash cloud/local.sh merge exp_x                # ④ 로컬: 남길 결과만 main에 병합 (버리면 drop)
+```
+
+pod 배포 시 환경변수 `GITHUB_TOKEN`, `RUNPOD_USER_API_KEY`, `PUBLIC_KEY`가 필요합니다. 코드 커밋은 main에만, 결과 커밋은
+`results/<RUN_NAME>` 브랜치에만 쌓이며 결과 브랜치는 `runs/<RUN_NAME>/` 아래 파일만 추가하므로 병합 충돌이 나지 않습니다.
