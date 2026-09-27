@@ -1,4 +1,8 @@
 # MMMU-val Baseline Evaluation Report — Qwen3-VL-4B-Instruct
+
+- **팀명**: _(기입)_
+- **팀원**: _(기입)_
+- **작성일**: _(기입)_
 - **재현 커맨드**: `bash scripts/run_mmmu_eval.sh --model_path Qwen/Qwen3-VL-4B-Instruct --data_root ./data/hf_datasets`
 
 ---
@@ -19,11 +23,12 @@
 # 1) 의존성 설치 (새 venv 기준. Colab은 bash scripts/setup_colab.sh)
 pip install -r requirements.txt
 
-# 2) 평가: 추론 → 채점 → 집계. 결과는 results/<run_tag>/ 에 저장
+# 2) 평가: 추론 → 채점 → 집계. 결과는 results/<run_tag>/ 에 저장 (기본 run_tag: baseline)
+#    제출 결과 폴더(results/v5_maxtok8192)와 겹치지 않는 새 폴더에 쓴다.
 bash scripts/run_mmmu_eval.sh \
   --model_path Qwen/Qwen3-VL-4B-Instruct \
   --data_root ./data/hf_datasets \
-  --run_tag v5_maxtok8192
+  --run_tag baseline
 
 # 파인튜닝 체크포인트 재평가: 경로와 run_tag만 바꾼다 (나머지 설정은 동일하게 유지)
 bash scripts/run_mmmu_eval.sh --model_path /path/to/checkpoint --data_root ./data/hf_datasets --run_tag ft_v1
@@ -32,7 +37,7 @@ bash scripts/run_mmmu_eval.sh --model_path /path/to/checkpoint --data_root ./dat
 - `--model_path`가 HF repo id면 `--model_revision`(기본값 ebb281ec…)으로 고정해 받고, 로컬 디렉터리면 그대로 읽는다. `--data_root`는 `load_dataset(..., cache_dir=...)`로 넘어가며, 비어 있으면 MMMU를 revision 98e6ac0c…로 내려받는다.
 - 산출물: `raw_generations.jsonl`(문항별 원본 응답·토큰 수·종료 사유), `graded_results.csv`, `summary.json`, `results_table.md`(5번 표), `run_config.json`(실행 조건 지문), `environment.json`.
 - 같은 `run_tag`에 다른 설정으로 이어 쓰려 하면 `run_config.json` 대조에서 실행을 거부한다. 중단 후 재실행하면 완료된 문항 id는 건너뛴다.
-- **제출 결과의 출처.** 5번 표는 [`colab/mmmu_eval_v5.ipynb`](../colab/mmmu_eval_v5.ipynb) 실행 결과([`results/v5_maxtok8192/`](../results/v5_maxtok8192/))다. `scripts/mmmu_eval.py`는 이 노트북의 프롬프트·이미지 처리·채점 셀을 원문 그대로 옮긴 것이고, v5 원본 응답 900건을 재채점(`--grade_only`)해 문항 단위로 불일치 0건임을 확인했다.
+- **제출 결과의 출처.** 5번 표는 [`colab/mmmu_eval_v5.ipynb`](../colab/mmmu_eval_v5.ipynb) 실행 결과([`results/v5_maxtok8192/`](../results/v5_maxtok8192/))다. `scripts/mmmu_eval.py`는 이 노트북의 프롬프트·이미지 처리·채점 셀을 원문 그대로 옮긴 것이고, v5 원본 응답 900건을 재채점(`--grade_only`)해 문항 단위로 불일치 0건임을 확인했다. 프롬프트 재현은 `--verify_prompts_against results/v5_maxtok8192/raw_generations.jsonl`로 확인한다: _(실행 결과 기입)_
 - **소요 시간 주석.** 모델 로드는 vLLM 로그 기준 17:21:07→17:26:08(약 5분)이다. 추론 루프 로그는 36개 배치 중 35개까지 누적 162.1분이 남았고, 마지막 배치 로그는 Colab 연결이 끊긴 구간이라 출력에서 유실됐다. 평균 배치 시간(4.6분)을 더해 추정했다.
 
 ## 2. 프롬프트

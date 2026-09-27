@@ -756,7 +756,8 @@ def parse_args():
                    help="MMMU 데이터셋 캐시 디렉터리. 없으면 여기로 내려받고, 있으면 재사용 (--grade_only 외 필수)")
     p.add_argument("--dataset_revision", default=DEFAULT_DATASET_REVISION)
     p.add_argument("--output_root", default="results", help="결과 상위 디렉터리")
-    p.add_argument("--run_tag", default="v5_maxtok8192", help="결과 하위 디렉터리 이름")
+    p.add_argument("--run_tag", default="baseline",
+                   help="결과 하위 디렉터리 이름. 제출 결과(v5_maxtok8192)를 덮지 않도록 새 이름을 쓴다")
     p.add_argument("--max_new_tokens", type=int, default=8192)
     p.add_argument("--max_model_len", type=int, default=12288)
     p.add_argument("--image_max_pixels", type=int, default=1_048_576)
@@ -784,7 +785,6 @@ def main():
 
     run_tag = args.run_tag + ("_smoke" if args.limit_per_subject else "")
     output_dir = os.path.join(args.output_root, run_tag)
-    os.makedirs(output_dir, exist_ok=True)
     raw_log_path = os.path.join(output_dir, "raw_generations.jsonl")
     config_path = os.path.join(output_dir, "run_config.json")
 
@@ -802,12 +802,14 @@ def main():
     }
     expected_n = None if args.limit_per_subject else 900
 
-    # --- 프롬프트 재현 검증 모드 (GPU 불필요) ---
+    # --- 프롬프트 재현 검증 모드 (GPU 불필요, 결과 디렉터리를 만들지 않음) ---
     if args.verify_prompts_against:
         subject_datasets, flat_index = load_mmmu(args.data_root, args.dataset_revision, args.limit_per_subject)
         ok = verify_prompts(subject_datasets, flat_index, args.verify_prompts_against)
         print("프롬프트 재현: " + ("일치" if ok else "불일치 있음"))
         sys.exit(0 if ok else 1)
+
+    os.makedirs(output_dir, exist_ok=True)
 
     # --- 재채점 모드 (GPU 불필요) ---
     if args.grade_only:
@@ -828,6 +830,15 @@ def main():
         return
 
     # --- 전체 실행 ---
+    # 이미 끝난 실행 디렉터리면 추론 없이 summary.json 을 덮어쓰게 되므로 막는다.
+    if expected_n and os.path.exists(raw_log_path) and os.path.exists(os.path.join(output_dir, "summary.json")):
+        with open(raw_log_path, encoding="utf-8") as f:
+            n_done = len({json.loads(l)["id"] for l in f if l.strip()})
+        if n_done >= expected_n:
+            raise SystemExit(
+                f"[중단] {output_dir} 는 이미 {n_done}문항이 완료된 실행입니다.\n"
+                f"  새로 재현하려면 --run_tag 를 다른 이름으로, 재채점만 하려면 --grade_only 를 쓰세요.")
+
     t_script = time.time()
     check_or_write_run_config(config_path, run_config)
     monitor = GpuMemMonitor().start()
