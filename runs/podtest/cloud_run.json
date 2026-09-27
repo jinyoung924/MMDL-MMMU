@@ -1,0 +1,16 @@
+{
+  "run_name": "podtest",
+  "results_branch": "results/podtest",
+  "code_commit": "8ee6f0f5bf657bcc81d8f7d0fed3121dbb6681f8",
+  "model": "Qwen/Qwen3-VL-4B-Instruct",
+  "out": "runs/podtest",
+  "seeds": "0 1 2 3 4",
+  "run_cmd": "python run_eval.py --seed 0 --limit 2 --out runs/podtest/seed0 && bash cloud/push_results.sh runs/podtest/seed0 && python analyze.py aggregate runs/podtest/seed0",
+  "pod_id": "ltg90n7scjle7l",
+  "gpu": "NVIDIA GeForce RTX 4090, 24564 MiB, 595.91.07",
+  "started_utc": "2026-09-27T06:08:21Z",
+  "status": "failed",
+  "exit_code": 1,
+  "finished_utc": "2026-09-27T06:24:46Z",
+  "elapsed_min": 18.6
+}
