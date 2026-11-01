@@ -15,3 +15,9 @@ __pycache__/
 runs/**/step*/
 *_merged/
 .venv/
+
+# data_ablation: datasets are re-created by prepare_data.py (manifest.json + reports stay); weights never committed
+runs/**/data/images/
+runs/**/data/*.jsonl
+runs/**/data/*.zip
+data_ablation/data/
