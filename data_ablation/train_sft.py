@@ -2,7 +2,7 @@
 """LoRA SFT of Qwen3-VL-4B-Instruct on one or more record files (data_ablation/common.py format).
 
 python data_ablation/train_sft.py --data runs/abl_cosyn/data/sft.jsonl --out runs/abl_cosyn/train
-python data_ablation/train_sft.py --merge runs/abl_cosyn/train/step1500        # -> step1500_merged/ for run_eval.py
+python data_ablation/train_sft.py --merge runs/abl_cosyn/train/step1500 [--merged-dir /content/merged/abl_cosyn]
 
 Generalised from pilot_forgetting/train_sft.py (same LoRA targets, optimiser, masking) with three changes:
   * data comes from jsonl records (prompt / response / images) instead of a hard-coded dataset
@@ -10,9 +10,12 @@ Generalised from pilot_forgetting/train_sft.py (same LoRA targets, optimiser, ma
     response = explanation + "Answer: X" line, so what is learned is the same behaviour the evaluation measures
   * the budget is FIXED across conditions: --steps x --bs x --accum examples (default 1500 x 8 x 1 = 12,000),
     so every dataset gets the same number of gradient updates and the same number of examples
-Runs in the training env (eval env + peft/accelerate; cloud/runpod.sh TRAIN=1).
+
+Resumable: every --ckpt-every steps the adapter + optimiser + scheduler + RNG + data cursor go to <out>/latest/.
+Re-running the same command continues from there (Colab sessions die; at most --ckpt-every steps are lost).
+Runs in the training env (eval env + peft/accelerate; cloud/runpod.sh TRAIN=1 or data_ablation/setup_colab.sh).
 """
-import argparse, json, math, random, sys, time
+import argparse, json, math, random, shutil, sys, time
 from pathlib import Path
 
 import torch
@@ -61,8 +64,21 @@ def encode(proc, rows, max_len):
     return enc
 
 
+def save_ckpt(model, opt, sched, state, out, tag):
+    """Write to <out>/<tag>.tmp then rename, so a session dying mid-save never leaves a half checkpoint."""
+    tmp, dst = out / f"{tag}.tmp", out / tag
+    if tmp.exists():
+        shutil.rmtree(tmp)
+    model.save_pretrained(tmp)
+    torch.save({"opt": opt.state_dict(), "sched": sched.state_dict(), "torch_rng": torch.get_rng_state(),
+                "cuda_rng": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None, **state}, tmp / "state.pt")
+    if dst.exists():
+        shutil.rmtree(dst)
+    tmp.rename(dst)
+
+
 def train(a):
-    from peft import LoraConfig, get_peft_model
+    from peft import LoraConfig, PeftModel, get_peft_model
     from transformers import AutoModelForImageTextToText, AutoProcessor
     torch.manual_seed(a.seed)
     rows = load_records(a.data, a.max_images)
@@ -70,14 +86,22 @@ def train(a):
     need = a.steps * a.bs * a.accum
     print(f"[train] {len(rows)} records, budget {a.steps} steps x {a.bs} x {a.accum} = {need} examples "
           f"({need / len(rows):.2f} epochs)", flush=True)
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
     proc = AutoProcessor.from_pretrained(MODEL, revision=MODEL_REV, **PIXELS)
     model = AutoModelForImageTextToText.from_pretrained(MODEL, revision=MODEL_REV, dtype=torch.bfloat16).to(a.device)
     model.gradient_checkpointing_enable()
     model.enable_input_require_grads()
-    model = get_peft_model(model, LoraConfig(r=a.rank, lora_alpha=2 * a.rank, lora_dropout=0.05,
-                                             target_modules=LORA_TARGETS))
+    latest = out / "latest"
+    resume = a.resume and (latest / "state.pt").exists()
+    if resume:
+        model = PeftModel.from_pretrained(model, latest, is_trainable=True)
+    else:
+        model = get_peft_model(model, LoraConfig(r=a.rank, lora_alpha=2 * a.rank, lora_dropout=0.05,
+                                                 target_modules=LORA_TARGETS))
     model.print_trainable_parameters()
     opt = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=a.lr, weight_decay=0.0)
+
     def lr_mult(s):
         warm = min(1.0, (s + 1) / a.warmup)
         if not a.cosine:
@@ -86,13 +110,32 @@ def train(a):
         return warm * 0.5 * (1 + math.cos(math.pi * frac))
 
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_mult)
-    out = Path(a.out)
-    out.mkdir(parents=True, exist_ok=True)
     rng = random.Random(a.seed)
-    order, pos, t0, log = list(range(len(rows))), len(rows), time.time(), []
-    skipped_oom = 0
+    order, pos, step0, log, skipped_oom, elapsed0 = list(range(len(rows))), len(rows), 0, [], 0, 0.0
+    if resume:
+        st = torch.load(latest / "state.pt", map_location="cpu", weights_only=False)
+        opt.load_state_dict(st["opt"])
+        sched.load_state_dict(st["sched"])
+        torch.set_rng_state(st["torch_rng"])
+        if st.get("cuda_rng") is not None and torch.cuda.is_available():
+            torch.cuda.set_rng_state_all(st["cuda_rng"])
+        rng.setstate(st["py_rng"])
+        order, pos, step0, log, skipped_oom, elapsed0 = st["order"], st["pos"], st["step"], st["log"], st["skipped_oom"], st["elapsed_s"]
+        assert st["n_records"] == len(rows), f"resume: data changed ({st['n_records']} -> {len(rows)} records)"
+        print(f"[train] resumed from step {step0} ({latest})", flush=True)
+    t0 = time.time() - elapsed0
+
+    def state():
+        return {"step": step, "py_rng": rng.getstate(), "order": order, "pos": pos, "log": log, "skipped_oom": skipped_oom,
+                "elapsed_s": time.time() - t0, "n_records": len(rows), "config": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(a).items()}}
+
+    def write_log():
+        (out / "log.json").write_text(json.dumps({"config": state()["config"], "n_records": len(rows), "skipped_oom": skipped_oom,
+                                                  "code_commit": git_commit(), "log": log}, indent=2))
+
     model.train()
-    for step in range(1, a.steps + 1):
+    step = step0
+    for step in range(step0 + 1, a.steps + 1):
         losses = []
         for _ in range(a.accum):
             if pos + a.bs > len(order):
@@ -117,20 +160,23 @@ def train(a):
             log.append({"step": step, "loss": sum(losses) / len(losses), "lr": sched.get_last_lr()[0],
                         "elapsed_s": round(time.time() - t0)})
             print(f"step {step}/{a.steps} loss {log[-1]['loss']:.4f} lr {log[-1]['lr']:.2e} {log[-1]['elapsed_s']}s", flush=True)
+        if step % a.ckpt_every == 0 and step < a.steps:
+            save_ckpt(model, opt, sched, state(), out, "latest")
+            write_log()
         if step in a.save_at or step == a.steps:
             model.save_pretrained(out / f"step{step}")
-            (out / "log.json").write_text(json.dumps({"config": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(a).items()},
-                                                      "n_records": len(rows), "skipped_oom": skipped_oom,
-                                                      "code_commit": git_commit(), "log": log}, indent=2))
+            write_log()
+    if (out / "latest").exists() and step == a.steps:
+        shutil.rmtree(out / "latest")  # final adapter is in step<N>/; the resume state is no longer needed
     print(f"[train] done in {(time.time() - t0) / 60:.1f} min, adapters in {out}", flush=True)
 
 
-def merge(adapter):
+def merge(adapter, merged_dir=""):
     """Adapter -> full bf16 model dir that run_eval.py / vLLM can load like the original checkpoint."""
     from peft import PeftModel
     from transformers import AutoModelForImageTextToText, AutoProcessor
     base = AutoModelForImageTextToText.from_pretrained(MODEL, revision=MODEL_REV, dtype=torch.bfloat16)
-    dst = Path(str(adapter).rstrip("/") + "_merged")
+    dst = Path(merged_dir) if merged_dir else Path(str(adapter).rstrip("/") + "_merged")
     PeftModel.from_pretrained(base, adapter).merge_and_unload().save_pretrained(dst)
     AutoProcessor.from_pretrained(MODEL, revision=MODEL_REV).save_pretrained(dst)
     print(f"merged -> {dst}")
@@ -141,22 +187,25 @@ if __name__ == "__main__":
     ap.add_argument("--data", nargs="*", default=[], help="one or more sft.jsonl files")
     ap.add_argument("--out", default="runs/sft/train")
     ap.add_argument("--merge", default="", help="adapter dir to merge instead of training")
+    ap.add_argument("--merged-dir", default="", help="where the merged model goes (default <adapter>_merged)")
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--rank", type=int, default=16)
     ap.add_argument("--steps", type=int, default=1500)
-    ap.add_argument("--bs", type=int, default=8, help="A100 80GB default; use 2-4 with --accum on 24GB")
+    ap.add_argument("--bs", type=int, default=8, help="A100 80GB default; 24GB (L4/4090): --bs 2 --accum 4")
     ap.add_argument("--accum", type=int, default=1)
     ap.add_argument("--warmup", type=int, default=50)
     ap.add_argument("--cosine", type=int, default=1, help="1 = cosine decay after warmup, 0 = constant")
     ap.add_argument("--max-len", type=int, default=4096, help="tokens per example incl. image tokens")
     ap.add_argument("--max-images", type=int, default=4)
     ap.add_argument("--save-at", type=int, nargs="*", default=[])
+    ap.add_argument("--ckpt-every", type=int, default=100, help="resume checkpoint interval (steps)")
+    ap.add_argument("--resume", type=int, default=1, help="1 = continue from <out>/latest if present")
     ap.add_argument("--log-every", type=int, default=25)
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
     if a.merge:
-        merge(a.merge)
+        merge(a.merge, a.merged_dir)
     else:
         assert a.data, "--data is required"
         train(a)

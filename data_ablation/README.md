@@ -26,7 +26,22 @@
 
 `pmcvqa`만 풀이 출처가 다르다(데이터셋에 풀이가 없음). 이것이 교란 변수라고 판단되면 `COT_SOURCE=self`로 세 조건 모두 self-CoT로 맞출 수 있다.
 
-## 실행 (RunPod, A100 80GB)
+## 실행 A: Colab Pro (L4) — `colab_ablation.ipynb`
+
+노트북을 Colab에서 열고(`File → Open notebook → GitHub → jinyoung924/MMDL-MMMU, data-ablation 브랜치, data_ablation/colab_ablation.ipynb`) 설정 셀에서 `COND`만 고른 뒤 위에서부터 실행한다. 코드는 브랜치에서 clone, `runs/`는 Google Drive(`MyDrive/MMDL-MMMU/runs`)에 symlink, 이미지와 병합 가중치는 로컬 디스크(`/content/fast`, `/content/merged`)에 둔다.
+
+| 항목 | 값 |
+|---|---|
+| 학습 배치 | `BS=2 ACCUM=4` (22.5 GB). 예산은 A100 설정과 같은 1,500 step × 8 |
+| 세션이 끊기면 | 다시 연결 → 1~4번 셀 재실행. 데이터·오염 검사는 산출물이 있으면 건너뛰고, self-CoT는 `self_cot_partial.jsonl`(500건 단위), 학습은 `train/latest/`(100 step 단위)에서 이어진다. 평가는 끝난 seed를 건너뛴다(seed 하나 2.8h는 원자적) |
+| 비교 기준 | `COND=base`를 먼저 돌리면(`runs/base_l4/eval`, seed당 2.8h) 이후 조건은 자동으로 그것과 비교한다. 없으면 main의 `results/seed*`(RTX 4090)와 비교 |
+| 순서 | `base` → `cosyn` → `vwi` → `pmcvqa`. 조건당 L4 13~18h, 세션당 2~4h씩 |
+| 비용 | L4 약 1.7 CU/h. base 10 CU + 3조건 70~90 CU ≈ Pro 월 100 CU |
+| 결과 공유 | 6번 셀: Colab 보안 비밀 `GITHUB_TOKEN`으로 `results/<RUN_NAME>` 브랜치에 push (가중치·이미지·jsonl 제외) |
+
+처음에는 `SMOKE=True`로 한 번(약 40분) 전 경로를 확인한다. 학습 재개를 함께 확인하려면 smoke 중 학습 단계에서 셀을 중단했다가 다시 실행해 본다(`EXTRA_TRAIN="--ckpt-every 5"`).
+
+## 실행 B: RunPod (A100 80GB)
 
 코드는 이 브랜치를 push한 뒤 pod에서 clone한다. `cloud/runpod.sh`가 환경 설치, `results/<RUN_NAME>` 브랜치 push, pod 종료를 맡는다(`cloud/README.md`).
 
@@ -96,7 +111,8 @@ python data_ablation/prepare_data.py --dataset pmcvqa --inspect
 
 ## 검증 상태
 
-- GPU 없이 확인한 것: 세 어댑터(모의 데이터셋·zip·csv로 전 경로), 오염 검사(pHash 거리 특성, n-gram, 보고서), `summarize.py`와 `analyze.py compare`(main의 seed 파일에 인위적 변화를 준 결과로), 문법·단위 테스트.
+- GPU 없이 확인한 것: 세 어댑터(모의 데이터셋·zip·csv로 전 경로), 오염 검사(pHash 거리 특성, n-gram, 보고서), self-CoT의 청크 저장·재개(모의 vLLM으로 중간에 죽이고 재실행), `summarize.py`와 `analyze.py compare`(main의 seed 파일에 인위적 변화를 준 결과로), `run_condition.sh` 제어 흐름(GPU 단계 스텁), 문법·단위 테스트.
+- `train_sft.py`의 체크포인트·재개와 `setup_colab.sh`는 GPU·Colab이 없어 실행하지 못했다. smoke 실행에서 먼저 확인한다.
 - **실제 HF 데이터로는 아직 돌리지 않았다.** VWI의 이미지 아카이브 파일명(`imgs.zip`/`images.zip`)과 내부 경로, PMC-VQA의 `Answer_label` 형식은 카드 기준으로 썼고 `--inspect`로 먼저 확인해야 한다. 어댑터는 이름이 다르면 멈추고 후보 목록을 출력한다.
 - 학습·self-CoT·평가는 pod에서 처음 돌릴 때 아래처럼 약 30분짜리 smoke를 한 번 돌려 전 경로를 확인한 뒤 본 실행을 권한다(결과는 베이스라인과 비교 불가, 끝나면 `runs/smoke_*` 삭제).
 

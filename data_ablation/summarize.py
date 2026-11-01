@@ -15,7 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from analyze import load  # noqa: E402
 
-BASE = [Path("results") / f"seed{s}" for s in range(5)]
+BASE = [Path("results") / f"seed{s}" for s in range(5)]  # overridden by --base (e.g. a baseline re-measured on L4)
 TARGET = {  # subjects whose always-wrong items the dataset was chosen for (reports/failure_tagging_1차)
     "cosyn": ["Chemistry", "Electronics", "Music", "Math", "Computer_Science", "Materials", "Mechanical_Engineering", "Energy_and_Power"],
     "vwi": ["Math", "Physics", "Chemistry", "Finance", "Economics", "Accounting", "Electronics", "Mechanical_Engineering", "Energy_and_Power", "Materials"],
@@ -100,9 +100,15 @@ def main():
     ap.add_argument("--runs", nargs="+", required=True)
     ap.add_argument("--out", default="")
     ap.add_argument("--top-subjects", type=int, default=6)
+    ap.add_argument("--base", nargs="*", default=None, help="baseline seed dirs (default results/seed0..4)")
     a = ap.parse_args()
+    global BASE
+    if a.base:
+        BASE = [Path(b) for b in a.base]
+    if any(d.is_dir() and not (d / "scores.json").exists() for d in BASE):  # a parent dir given: expand seed*
+        BASE = sorted(p for b in BASE for p in (b.glob("seed*") if not (b / "scores.json").exists() else [b]))
     res = [r for r in (summarize_run(p) for p in a.runs) if r]
-    lines = ["# 데이터셋별 LoRA SFT 효과 (main 베이스라인 results/seed* 대비, 문항·seed 짝 비교)", "",
+    lines = [f"# 데이터셋별 LoRA SFT 효과 (베이스라인 {', '.join(str(b) for b in BASE)} 대비, 문항·seed 짝 비교)", "",
              "| 조건 | 학습 레코드 | seeds | base | tuned | Δ 전체 [95% CI] | Δ 표적 과목 | Δ 비표적 과목 | 잘림 % (base→tuned) | Answer 태그 % |",
              "|---|---|---|---|---|---|---|---|---|---|"]
     for r in res:
