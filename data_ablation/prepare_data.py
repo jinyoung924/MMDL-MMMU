@@ -36,6 +36,15 @@ def resolve_sha(repo, revision):
     return info.sha
 
 
+def as_records(seq):
+    """`datasets` returns a Sequence of structs either as a list of dicts or, column-wise, as a dict of lists
+    ({"question": [...], "answer": [...]}). Normalise to a list of dicts."""
+    if isinstance(seq, dict):
+        keys = list(seq)
+        return [dict(zip(keys, vals)) for vals in zip(*(seq[k] for k in keys))]
+    return list(seq or [])
+
+
 def save_image(img, path):
     path.parent.mkdir(parents=True, exist_ok=True)
     if img.mode not in ("RGB", "L"):
@@ -60,7 +69,7 @@ def prep_cosyn(a, cfg):
             if got >= per_subset:
                 break
             r = ds[i]
-            qas = [q for q in r["qa_pairs"] if q.get("question") and q.get("answer")]
+            qas = [q for q in as_records(r["qa_pairs"]) if q.get("question") and q.get("answer")]
             if not qas:
                 continue
             rng.shuffle(qas)
