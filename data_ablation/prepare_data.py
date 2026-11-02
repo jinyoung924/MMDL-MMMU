@@ -180,11 +180,12 @@ def prep_vwi(a, cfg):
         if len(rows) >= a.n:
             break
         r = ds[i]
-        if len(r["conversations"]) != 2:
+        conv = as_records(r["conversations"])
+        if len(conv) != 2:
             skipped["multi_turn"] += 1
             continue
-        human = next((c["value"] for c in r["conversations"] if c["from"] in ("human", "user")), None)
-        gpt = next((c["value"] for c in r["conversations"] if c["from"] in ("gpt", "assistant")), None)
+        human = next((c["value"] for c in conv if c.get("from") in ("human", "user")), None)
+        gpt = next((c["value"] for c in conv if c.get("from") in ("gpt", "assistant")), None)
         if not human or not gpt:
             skipped["no_turns"] += 1
             continue
