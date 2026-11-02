@@ -28,7 +28,7 @@
 
 ## 실행 A: Colab Pro (L4) — `colab_ablation.ipynb`
 
-노트북을 Colab에서 열고(`File → Open notebook → GitHub → jinyoung924/MMDL-MMMU, data-ablation 브랜치, data_ablation/colab_ablation.ipynb`) 설정 셀에서 `COND`만 고른 뒤 위에서부터 실행한다. 코드는 브랜치에서 clone, `runs/`는 Google Drive(`MyDrive/MMDL-MMMU/runs`)에 symlink, 이미지와 병합 가중치는 로컬 디스크(`/content/fast`, `/content/merged`)에 둔다.
+노트북을 Colab에서 열고(`File → Open notebook → GitHub → jinyoung924/MMDL-MMMU, dongjun-lee 브랜치, data_ablation/colab_ablation.ipynb`) 설정 셀에서 `COND`만 고른 뒤 위에서부터 실행한다. 코드는 브랜치에서 clone, `runs/`는 Google Drive(`MyDrive/MMDL-MMMU/runs`)에 symlink, 이미지와 병합 가중치는 로컬 디스크(`/content/fast`, `/content/merged`)에 둔다.
 
 | 항목 | 값 |
 |---|---|
@@ -46,7 +46,7 @@
 코드는 이 브랜치를 push한 뒤 pod에서 clone한다. `cloud/runpod.sh`가 환경 설치, `results/<RUN_NAME>` 브랜치 push, pod 종료를 맡는다(`cloud/README.md`).
 
 ```bash
-git clone -b data-ablation https://github.com/jinyoung924/MMDL-MMMU.git /workspace/MMDL-MMMU && cd /workspace/MMDL-MMMU
+git clone -b dongjun-lee https://github.com/jinyoung924/MMDL-MMMU.git /workspace/MMDL-MMMU && cd /workspace/MMDL-MMMU
 
 # 1차 선별: 조건 하나 = pod 하나 (세 조건을 세 pod에서 동시에 돌려도 됨). 끝나도 pod를 살려 둔다.
 TRAIN=1 RUN_NAME=abl_cosyn  SEEDS="0 1" AUTO_TERMINATE=0 RUN_CMD='bash data_ablation/run_condition.sh cosyn'  nohup bash cloud/runpod.sh &
