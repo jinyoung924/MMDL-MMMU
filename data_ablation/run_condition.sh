@@ -17,6 +17,7 @@
 # Knobs (env): N_RECORDS=12000  STEPS=1500  BS=8  ACCUM=1  SEEDS="0 1"  COT_SOURCE=dataset|self  PROTECT_PRO=0|1
 #              MIN_RECORDS=1000  SMOKE=0|1 (1 = 30-question eval only, for a first end-to-end check)
 #              BASE_DIRS="results/seed0 ... results/seed4" (paired baseline; on other hardware use a re-measured one)
+#              PROTECT_CACHE=runs/protected_index.json (MMMU protected-set index; under runs/ so Colab keeps it on Drive)
 #              FAST_DIR=<local dir>  (copy of data/ for image reads; outputs still go to runs/<RUN_NAME>/data)
 #              MERGED_ROOT=<local dir> (merged 9 GB model goes to $MERGED_ROOT/<RUN_NAME> instead of runs/)
 #              EXTRA_PREP="..." (passed to prepare_data.py)  EXTRA_TRAIN="..." (passed to train_sft.py)
@@ -49,7 +50,7 @@ if [[ ! -f "$DATA/raw.jsonl" ]]; then
 fi
 # 2. decontamination (MMMU dev/val/test [+ MMMU-Pro])
 if [[ ! -f "$DATA/clean.jsonl" ]]; then
-  python data_ablation/decontaminate.py --data "$DATA" $NOIMG $PRO
+  python data_ablation/decontaminate.py --data "$DATA" $NOIMG $PRO --cache "${PROTECT_CACHE:-runs/protected_index.json}"
 fi
 # images on a fast local disk (Google Drive is slow for 12k random reads); jsonl/report files stay in $DATA
 IMG_DIR="$DATA"
