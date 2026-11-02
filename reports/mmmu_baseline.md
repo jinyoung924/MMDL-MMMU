@@ -1,9 +1,17 @@
 # MMMU-val Baseline Evaluation Report — Qwen3-VL-4B-Instruct
 
-- **팀명**: _(기입)_
-- **팀원**: _(기입)_
-- **작성일**: _(기입)_
-- **재현 커맨드**: `bash scripts/run_mmmu_eval.sh --model_path Qwen/Qwen3-VL-4B-Instruct --data_root ./data/hf_datasets`
+- **팀명**: 11조
+- **팀원**: 김진영, 김동준, 이솔규, 이영민
+- **작성일**: 2026-09-28
+- **재현 커맨드**: `bash eval.sh` (5 seed × 900문항 → 평균 ± 표준편차, RTX 4090 기준 약 6.4시간)
+
+> 이 파이프라인은 **체크포인트 경로 하나만 바꿔** fine-tuned 모델을 같은 조건으로 재평가하도록 만들었습니다:
+> `bash eval.sh /abs/path/to/finetuned_ckpt results_ft`. 프롬프트·생성 파라미터·파서·데이터 revision은 전부
+> `run_eval.py`의 기본값에 고정되어 있고, 실제 사용된 값은 매 실행 `scores.json`의 `config`에 기록됩니다.
+>
+> 코드는 [`run_eval.py`](../run_eval.py)(1회 실행: 프롬프트 구성 → vLLM 생성 → 채점), [`analyze.py`](../analyze.py)(seed 집계·실패 분석),
+> [`eval.sh`](../eval.sh)(한 커맨드 진입점) 세 파일, 의존성은 [`requirements.txt`](../requirements.txt) 하나입니다.
+> 아래 모든 설정값은 실측으로 골랐고, 근거가 된 실행 결과는 [`ablation/`](../ablation/)에 응답 전문과 함께 들어 있습니다.
 
 ---
 
@@ -11,66 +19,77 @@
 
 | 항목 | 값 |
 |---|---|
-| 모델 checkpoint | `Qwen/Qwen3-VL-4B-Instruct` (ebb281ec70b05090aa6165b016eac8ec08e71b17) |
-| 추론 백엔드 | vLLM 0.29.0 (torch 2.13.0+cu130, transformers 5.16.1, datasets 4.8.5). Qwen 공식 recipe의 `presence_penalty`를 vLLM `SamplingParams`는 지원하고 `transformers.generate()`는 지원하지 않는다. 배치 추론으로 900문항 처리 시간도 줄인다. Qwen 공식 MMMU 평가 스크립트도 vLLM을 쓴다. |
-| 사용 GPU | NVIDIA L4, CUDA 기준 22.0 GiB (nvidia-smi 23,034 MiB), Colab Pro, driver 580.82.07 |
-| 실측 peak VRAM | 미측정. vLLM이 `gpu_memory_utilization=0.90`으로 미리 확보하므로 상한은 약 19.8 GiB(22.0 × 0.90)다. 엔진이 별도 프로세스라 로그가 노트북에 남지 않았다. 제출 스크립트는 실측값을 `summary.json`의 `peak_vram`에 기록한다. |
-| 총 소요 시간 | 약 2시간 52분 (모델 로드 약 5분 + 추론 약 2시간 47분, 데이터 로드 제외). 아래 주석 참고 |
-| 의존성 | [`requirements.txt`](../requirements.txt) (Colab: [`scripts/setup_colab.sh`](../scripts/setup_colab.sh)) |
-| 실행 커맨드 | `bash scripts/run_mmmu_eval.sh --model_path <HF repo id 또는 체크포인트 경로> --data_root <MMMU 데이터 캐시 경로>` (전체 예시는 아래) |
+| 모델 checkpoint | `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08e71b17` (bf16, 양자화 없음) |
+| 데이터셋 | `MMMU/MMMU` revision `98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68`, split `validation`. 30개 과목 config를 **각각** `load_dataset("MMMU/MMMU", <과목>, split="validation", revision=...)`로 로드. 필터링·서브샘플링 없음 (과목당 30문항, 총 900문항) |
+| 추론 백엔드 | **vLLM 0.24.0** (offline `LLM.generate`), `VLLM_BATCH_INVARIANT=1`. **선택 이유**: `transformers.generate()`로 한 건씩 돌리면 GPU가 대부분 놀아 900문항 × 이미지 평가가 수 시간 이상 걸립니다. vLLM은 continuous batching + paged KV cache로 같은 24GB 카드에서 실행 시간을 한 자릿수 배 줄이고, KV cache 예산(`gpu_memory_utilization`)이 명시적 knob이 되어 VRAM 한도를 문서화하기 쉽습니다. 부작용(배치 구성에 따라 출력이 달라짐)은 배치 불변 모드로 막았습니다(§3.1) |
+| 사용 GPU | NVIDIA GeForce RTX 4090, 24,564 MiB |
+| 실측 peak VRAM | **23,754 MiB** (`gpu_memory_utilization=0.90`으로 KV cache를 미리 잡는 값이라 "허용한 양"에 가까움. 작은 카드에서는 이 knob을 낮추면 됨) |
+| 총 소요 시간 | 900문항 1회 **76~78분** (배치 불변 모드; 일반 모드는 약 45분), 5 seed 합계 약 6.4시간 |
+| 의존성 | [`requirements.txt`](../requirements.txt) — Python 3.11.15 / CUDA 13.0 / torch 2.11.0+cu130 / transformers 5.13.0 / datasets 5.0.1 |
+| 실행 커맨드 | 아래 |
 
 ```bash
-# 1) 의존성 설치 (새 venv 기준. Colab은 bash scripts/setup_colab.sh)
 pip install -r requirements.txt
-
-# 2) 평가: 추론 → 채점 → 집계. 결과는 results/<run_tag>/ 에 저장 (기본 run_tag: baseline)
-#    제출 결과 폴더(results/v5_maxtok8192)와 겹치지 않는 새 폴더에 쓴다.
-bash scripts/run_mmmu_eval.sh \
-  --model_path Qwen/Qwen3-VL-4B-Instruct \
-  --data_root ./data/hf_datasets \
-  --run_tag baseline
-
-# 파인튜닝 체크포인트 재평가: 경로와 run_tag만 바꾼다 (나머지 설정은 동일하게 유지)
-bash scripts/run_mmmu_eval.sh --model_path /path/to/checkpoint --data_root ./data/hf_datasets --run_tag ft_v1
+bash eval.sh Qwen/Qwen3-VL-4B-Instruct results
+#   인자 1: 모델 — HF repo id 또는 로컬 체크포인트 디렉터리 (로컬이면 revision 무시)
+#   인자 2: 출력 폴더
+# eval.sh 내부 (s = 0..4; 끝난 seed는 건너뛰므로 중단돼도 이어서 실행):
+#   python run_eval.py --model <MODEL> --model-revision ebb281ec... \
+#                      --data MMMU/MMMU --data-revision 98e6ac0c... --seed <s> --out results/seed<s>
+#   python analyze.py aggregate results/seed*        # -> results/table.md, results/scores.json
 ```
 
-- `--model_path`가 HF repo id면 `--model_revision`(기본값 ebb281ec…)으로 고정해 받고, 로컬 디렉터리면 그대로 읽는다. `--data_root`는 `load_dataset(..., cache_dir=...)`로 넘어가며, 비어 있으면 MMMU를 revision 98e6ac0c…로 내려받는다.
-- 산출물: `raw_generations.jsonl`(문항별 원본 응답·토큰 수·종료 사유), `graded_results.csv`, `summary.json`, `results_table.md`(5번 표), `run_config.json`(실행 조건 지문), `environment.json`.
-- 같은 `run_tag`에 다른 설정으로 이어 쓰려 하면 `run_config.json` 대조에서 실행을 거부한다. 중단 후 재실행하면 완료된 문항 id는 건너뛴다.
-- **제출 결과의 출처.** 5번 표는 [`colab/mmmu_eval_v5.ipynb`](../colab/mmmu_eval_v5.ipynb) 실행 결과([`results/v5_maxtok8192/`](../results/v5_maxtok8192/))다. `scripts/mmmu_eval.py`는 이 노트북의 프롬프트·이미지 처리·채점 셀을 원문 그대로 옮긴 것이고, v5 원본 응답 900건을 재채점(`--grade_only`)해 문항 단위로 불일치 0건임을 확인했다. 프롬프트 재현은 `--verify_prompts_against results/v5_maxtok8192/raw_generations.jsonl`로 확인한다: _(실행 결과 기입)_
-- **소요 시간 주석.** 모델 로드는 vLLM 로그 기준 17:21:07→17:26:08(약 5분)이다. 추론 루프 로그는 36개 배치 중 35개까지 누적 162.1분이 남았고, 마지막 배치 로그는 Colab 연결이 끊긴 구간이라 출력에서 유실됐다. 평균 배치 시간(4.6분)을 더해 추정했다.
+- 모델·데이터는 repo에 넣지 않고 `huggingface_hub` 표준 캐시(`~/.cache/huggingface`, `HF_HOME`으로 변경 가능)로 받으며,
+  revision은 `run_eval.py`의 기본값(`MODEL_REV`, `DATA_REV`)으로 pin 했습니다. 하드코딩된 절대경로는 없고, 채점자는
+  위 두 인자 외에 바꿀 것이 없습니다.
+- **재현성 장치**: (1) 실제 사용된 전체 config를 매 실행 `scores.json`에 기록, (2) `analyze.py aggregate`는 seed 외의
+  config가 하나라도 다른 실행은 합치기를 거부, (3) 같은 seed 재실행 시 900문항 중 899개 응답이 글자 단위로 일치하고
+  점수는 동일(64.33, `ablation/repro_seed0`). fine-tuned 체크포인트는 `bash eval.sh <경로> results_ft`로 같은 조건에서 재평가합니다.
 
 ## 2. 프롬프트
 
-**실제 모델에 들어간 프롬프트 전문** (변수 부분은 `{}`로 표시):
+**실제 모델에 들어간 프롬프트 전문** (변수는 `{}`, 최종 채택 = `--prompt-style cot`):
 
-객관식 (`question_type == "multiple-choice"`, 보기 수는 문항에 따라 2~9개):
-
+객관식:
 ```
 {question}
-
 (A) {option_A}
 (B) {option_B}
 (C) {option_C}
-(D) {option_D}
-
-
-Answer with the option's letter from the given choices directly.
+...
+Think step by step, then give your final answer on the last line in exactly this format: "Answer: X"  (X = the letter of the correct option).
 ```
 
-단답형 (`question_type == "open"`):
-
+주관식:
 ```
 {question}
-
-Answer the question using a single word or phrase.
+Think step by step, then give your final answer on the last line in exactly this format: "Answer: <single word or phrase>".
 ```
 
-- 시스템 프롬프트는 없다. 위 텍스트를 user 메시지 하나에 담고 vLLM `llm.chat`이 Qwen3-VL chat template을 적용한다.
-- 질문과 보기에 있는 `<image N>` 태그 자리에 해당 이미지를 끼워 넣는다(텍스트와 이미지 교차). 태그가 없는 문항은 텍스트 뒤에 이미지를 순서대로 붙인다.
-- 마지막 보기 뒤 빈 줄 두 개는 원 구현의 형식(`"{}\n\n{}\n\n..."`에 보기마다 `\n`)을 그대로 따른 결과다.
-- **출처**: MMMU 벤치마크 공식 구현 [MMMU-Benchmark/MMMU](https://github.com/MMMU-Benchmark/MMMU)의 `mmmu/configs/llava1.5.yaml`(지시문)과 `mmmu/utils/data_utils.py`의 `construct_prompt`(보기 형식). 이미지 교차 배치는 직접 구현했다(`scripts/mmmu_eval.py`의 `build_chat_content`).
-- **선택 이유**: 벤치마크 제작자의 레퍼런스 구현이라 특정 모델에 맞춘 조정이 없고, 파인튜닝 전후를 같은 기준으로 비교하기에 중립적이다. Qwen 공식 스크립트는 다른 프롬프트를 쓰며, 그 영향은 7번에서 분석한다.
+이 텍스트가 `Qwen3VLProcessor.apply_chat_template(add_generation_prompt=True)`의 기본 템플릿으로 단일 user turn에 감싸집니다
+(`<|im_start|>user\n … <|im_end|>\n<|im_start|>assistant\n`, 이미지 자리는 `<|vision_start|><|image_pad|>…<|vision_end|>`).
+**system prompt는 넣지 않았습니다.** 문항별로 실제 사용된 텍스트는 `results/seed*/predictions.jsonl`의 `prompt` 필드에 그대로 남아 있습니다.
+
+- **출처**: 질문·선택지 조립(`(A) ...` 줄 형식)은 MMMU 공식 저장소
+  [`mmmu/utils/data_utils.py`](https://github.com/MMMU-Benchmark/MMMU/blob/main/mmmu/utils/data_utils.py)의 `construct_prompt()`를
+  그대로 따랐고, **마지막 지시문 한 문장만 직접 설계**했습니다. 원본 지시문
+  (`Answer with the option's letter from the given choices directly.`, [`llava1.5.yaml`](https://github.com/MMMU-Benchmark/MMMU/blob/main/mmmu/configs/llava1.5.yaml))도
+  같은 조건에서 실측했습니다.
+- **선택 이유 (실측)**: Qwen3-VL-4B는 "바로 답하라"는 지시를 따르지 않고 계산 과목에서 CoT를 시작해 버립니다. 그 결과
+  응답이 예산에서 잘리고, 잘린 응답은 파서가 답을 못 찾아 무작위 추측으로 떨어집니다. 어차피 추론을 하므로 **추론을
+  허용하되 마지막 줄 형식을 강제**하는 쪽이 유리했습니다. 두 변형은 마지막 한 문장만 다르고 폴백 파서를 공유합니다.
+
+  | 프롬프트 (max_new_tokens 8192) | 실행 | 종합 | 잘림 | 무작위 추측 |
+  |---|---|---|---|---|
+  | MMMU 공식 (`answer directly`) | 1회 | 59.78 | 83 | 7 |
+  | 직접 설계 (CoT + 답 형식 강제) | 1회 | 65.44 | 135 | 16 |
+  | **직접 설계 (CoT + 답 형식 강제)** | **5 seed 평균** | **64.93 ± 0.94** | 137.8 | 13.4 |
+
+  차이 5.2점은 seed 간 표준편차(0.94)보다 훨씬 큽니다. 완주한 응답은 예외 없이 `Answer:` 줄을 쓰므로, 태그 미검출은 잘린 응답에서만 생깁니다.
+
+- **이미지 배치**: MMMU는 텍스트 안의 `<image N>` 자리에 이미지를 두며, 선택지 자체가 이미지인 문항도 있습니다.
+  `interleave()`가 프롬프트를 `<image N>` 위치에서 잘라 **등장 순서대로** 텍스트와 이미지를 번갈아 넣고, 참조되지 않은
+  이미지는 버리지 않고 맨 뒤에 덧붙입니다.
 
 ## 3. 생성(Decoding) 설정
 
@@ -78,97 +97,186 @@ Answer the question using a single word or phrase.
 
 | 파라미터 | 값 |
 |---|---|
-| `do_sample` | True (vLLM은 `temperature > 0`이면 샘플링하며 별도 `do_sample` 인자가 없다) |
-| `temperature` | 0.7 |
-| `top_p` | 0.8 |
-| `top_k` | 20 |
-| `repetition_penalty` | 1.0 |
-| `presence_penalty` | 1.5 |
-| `seed` | 3407 |
+| `do_sample` | `true` |
+| `temperature` | `0.7` |
+| `top_p` | `0.8` |
+| `top_k` | `20` |
+| `repetition_penalty` | `1.0` |
+| `presence_penalty` | `1.5` |
+| `seed` | `0, 1, 2, 3, 4` (요청 단위 `SamplingParams(seed=s)` + 배치 불변 모드) |
 
-- **출처**: Qwen 공식 Qwen3-VL 저장소 [README의 "Evaluation Reproduction" 섹션](https://github.com/QwenLM/Qwen3-VL)에 Instruct 모델용으로 명시된 값을 그대로 썼다. 같은 저장소의 MMMU 평가 안내([`evaluation/mmmu/README.md`](https://github.com/QwenLM/Qwen3-VL/blob/main/evaluation/mmmu/README.md))에도 동일한 값이 있다. 공식 recipe의 `out_seq_length`(32768)만 3.2의 이유로 줄였다.
+- **출처**: (1) pin한 revision에 동봉된 `generation_config.json`
+  (`do_sample: true, temperature 0.7, top_p 0.8, top_k 20, repetition_penalty 1.0`),
+  (2) [HuggingFace 모델 카드](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct)의 vision-language 과제 권장값 `presence_penalty 1.5`
+  (텍스트 전용 권장값 temp 1.0 / top_p 1.0 / top_k 40 / presence 2.0과 다르며, MMMU는 VL 과제이므로 VL 값 사용).
+
+- **`presence_penalty`를 바꿔 봤다가 공식값으로 되돌린 경위**: 잘림이 가장 큰 단일 오답 원인이어서(§3.2), "반복 억제
+  (`presence_penalty 1.5`)가 오히려 풀이를 표류시켜 못 끝내게 하는 것 아닌가"를 의심했습니다. 별도 브랜치의 단일 seed 실행에서
+  8,192 토큰 안에 못 끝낸 145문항만 골라 조건을 바꿔 세 번 돌렸습니다(그 실행의 오답 319건 중 102건이 이 문항들).
+
+  | 조건 (같은 145문항) | 검증하려던 가설 | 정답률 | 잘림 |
+  |---|---|---|---|
+  | 같은 설정 재실행 | 잘림이 우연인가 | 35.2% | 96 |
+  | 잘린 응답 뒤에 `Answer:`를 붙여 답 강제 | 답에는 도달했는데 표류하느라 못 쓰는가 | 37.2% | 107 |
+  | 답 강제 + `presence_penalty 0` | 반복 억제가 표류를 유발하는가 | 41.4% | 121 |
+
+  - `presence_penalty`를 0으로 내리자 잘림이 오히려 늘었습니다(107 → 121). 반복 억제가 없으면 같은 계산을 더 맴돕니다.
+    정답률 35~41%의 차이는 145문항 1회 실행의 표본 오차 범위라 판정 근거로 삼지 않았습니다.
+  - 강제로 받아낸 답의 정답률은 31~34%로 4지선다 무작위(25%)에 가까웠습니다. 이 문항들은 "답을 알지만 못 쓴 것"이 아니라
+    모델이 수렴하지 못하는 유형이며, 같은 seed로 다시 돌려도 3분의 2가 다시 잘렸습니다.
+  - 결론: 잘림은 생성 설정으로 회복되지 않으므로 **`presence_penalty`는 공식값 1.5를 유지**하고, 답 강제 후처리도 파이프라인에
+    넣지 않았습니다. 공식 recipe에서 벗어날 근거가 없음을 실측으로 확인한 셈입니다.
+
+- **sampling인데 재현성은 어떻게 확보했나**: seed 고정만으로는 부족했습니다. 같은 설정·seed 0으로 900문항을 두 번 돌리자
+  글자 단위로 같은 응답은 **32개**뿐이었고 점수가 65.44 → 62.44로 달라졌습니다. 원인은 continuous batching으로 배치
+  구성이 바뀌면 bf16 누산 순서가 바뀌어 logits가 미세하게 달라지고, temperature 0.7 샘플링이 이를 증폭하기 때문입니다.
+  - **배치 불변 모드** (`VLLM_BATCH_INVARIANT=1`, 기본값): 60문항 배치와 90문항 배치의 공통 60문항 비교에서 일반 모드
+    0/60 → 배치 불변 60/60 일치. 900문항 재실행에서 899/900 일치, 정오 뒤집힘 0건. 비용은 약 1.7배 느려짐.
+  - **5 seed 평균**: 결정성은 "같은 seed → 같은 결과"만 보장하고 샘플링 분산은 남습니다(seed별 64.22~66.56). 그래서
+    평균 ± 표준편차로 보고하고, fine-tuning 전후 비교도 같은 5 seed로 합니다.
 
 ### 3.2 생성 예산 / 이미지 해상도
 
 | 파라미터 | 값 |
 |---|---|
-| `max_new_tokens` | 8192 (공식 32768) |
-| 이미지 해상도 처리 (`min_pixels`/`max_pixels` 등) | 프로세서 기본값 유지. 면적 1,048,576 px(이미지당 약 1,024 비주얼 토큰)를 넘는 이미지만 종횡비를 유지해 축소 (984장 중 96장, 9.8%) |
-| `max_model_len` | 12,288 (= 생성 8,192 + 프롬프트 4,096) |
-| 기타 | bf16, `gpu_memory_utilization=0.90`, `max_num_seqs=8`, CUDA graph 사용 |
+| `max_new_tokens` | `8192` |
+| `max_pixels` (이미지당) | `1280 × 32 × 32 = 1,310,720` px → 이미지당 최대 **1,280 vision token** |
+| `min_pixels` (이미지당) | `4 × 32 × 32 = 4,096` px |
+| `max_model_len` | `24576` |
+| `limit_mm_per_prompt` | `{"image": 7}` |
+| `gpu_memory_utilization` | `0.90` |
 
-**선택 근거**:
-- **32768을 쓰지 않은 이유.** KV 캐시는 토큰당 144 KiB(36층 × KV 헤드 8 × 128차원 × K·V 2개 × bf16 2바이트)다. 32768토큰까지 가는 시퀀스 하나가 약 4.5 GiB(프롬프트 포함 최대 4.8 GiB)를 차지해, 가중치를 뺀 L4의 KV 여유로는 동시 처리가 1~2개로 줄어든다. 실제로 32768로 시도했을 때(동시 2개 설정) 400문항에 5.8시간이 걸려 900문항 기준 약 13시간이 예상됐고, Colab 세션 한도를 넘겨 중단했다.
-- **8192를 고른 근거.** 2,048토큰 예비 실행에서는 129건(14.3%)이 잘렸고 56.56점이었다. 8,192로 늘리자 잘림이 73건(8.1%)으로 줄고 58.44점이 됐으며, 추론은 약 2시간 47분으로 한 세션 안에 끝났다. 생성 토큰 중앙값은 8이라 대부분의 응답은 예산과 무관하다.
-- **`max_model_len`.** 모델 기본값 262,144를 쓰면 KV 캐시에 36 GiB가 필요해 L4에서 초기화가 실패한다. 900문항 프롬프트의 최대 길이가 2,491토큰이므로 프롬프트 몫은 4,096으로 충분하다.
-- **이미지 상한.** 프로세서 기본 상한(16,777,216 px)이면 이미지 한 장이 최대 16,384토큰까지 커질 수 있다. MMMU는 문항당 최대 7장이라 프롬프트 예산을 넘길 수 있어 이미지당 약 1,024토큰으로 묶었다. 상한 아래 이미지는 원본 그대로 들어간다.
+**생성 예산 — 이 파이프라인에서 점수를 가장 크게 좌우한 단일 파라미터.** 두 프롬프트 × 예산으로 900문항을 재실행했습니다.
+
+| 프롬프트 | `max_new_tokens` | 종합 (1회) | 잘림 | 무작위 추측 | 소요 |
+|---|---|---|---|---|---|
+| mmmu 공식 | 512 | 53.33 | 215 | 108 | 1.5분 |
+| mmmu 공식 | 2048 | 57.56 | 144 | 39 | 4.2분 |
+| mmmu 공식 | 4096 | 60.00 | 118 | 20 | 9.7분 |
+| mmmu 공식 | 8192 | 59.78 | 83 | 7 | 23.2분 |
+| CoT | 4096 | 63.00 | 203 | 22 | 19.9분 |
+| **CoT (채택)** | **8192** | **65.44** (5 seed: 64.93 ± 0.94) | 135 | 16 | 40.3분 (배치 불변 77분) |
+
+- 512는 응답의 24%를 잘랐고, 잘린 문항 정확도는 27.4%(완주 61.5%)였으며 무작위 추측 108건이 **전부** 잘린 응답이었습니다.
+  과목별 `512 잘림 건수`와 `512→4096 상승폭`의 상관계수는 0.859로, 짧은 예산은 평가 장치가 만든 오답을 대량 생산합니다.
+- **8192 선택 근거**는 점수가 아니라(4096→8192 차이는 실행 간 sd 약 2점 안) **잘림 감소**(CoT 203 → 135)입니다.
+  잘린 응답은 채점이 사실상 찍기가 되므로 잘림 자체가 측정 오차원이고, 8192는 잘림을 15%로 낮추면서 1회를 한 시간 안팎에 끝내는 절충점입니다.
+- **16,384로 늘리면?** 5 seed에서 한 번이라도 잘린 224문항을 Qwen 권장치 16,384로 다시 돌린 결과(seed 0·1), 잘린 응답의
+  **70%는 여전히 잘렸고**(반복 루프 82건 중 4건만 종료) 새로 완주한 응답의 정확도도 약 60%로 낮아, 종합은 두 seed 모두
+  **+0.78점**에 그쳤습니다. 비용은 224문항에 seed당 약 190분이라 파이프라인은 8192를 유지합니다.
+
+**이미지 해상도.** Qwen3-VL은 vision token 1개 = 32×32 px(patch 16 × merge 2). 저장소 기본값은 이미지당 16,384 token이라
+7장짜리 문항은 프롬프트가 11만 토큰을 넘겨 24GB에서 감당이 안 됩니다. MMMU val 이미지 982장을 실측하니 중앙값 198k px,
+p95 1.52M px로, 1.31M px 캡을 넘는 이미지는 59장(6%)뿐입니다. 즉 94%는 원본 그대로 들어가고, 최악(7장)도
+8,960 token으로 `max_model_len` 안입니다. 캡을 2,048 token / `max_model_len 32768`로 푼 ablation(`cot_8192_hires`)에서
+모든 픽셀 구간의 변화가 실행 간 흔들림 범위 안이었고(전체 64.70 ± 2.00 → 65.11), 오답 표본 50문항 중 고해상도로 맞힌 수(12)가
+seed만 바꿔 맞힌 수(12)와 같았습니다. 캡은 성능 원인이 아니므로 유지합니다.
 
 ## 4. 채점(파싱) 방식
 
-- 사용한 파서/로직: MMMU 공식 구현 [`mmmu/utils/eval_utils.py`](https://github.com/MMMU-Benchmark/MMMU/blob/main/mmmu/utils/eval_utils.py)의 `parse_multi_choice_response`, `parse_open_response`, `eval_multi_choice`, `eval_open`을 그대로 이식했다(`scripts/mmmu_eval.py` 2절). 직접 추가한 것은 복수 정답 문자열(`"['42', '42.0']"`)을 리스트로 복원하는 `parse_gold_answer` 하나다.
-- 동작 방식 요약:
-  - **객관식**: 응답 앞뒤 구두점을 떼고 (1) `(A)` 괄호 형식, (2) 공백으로 둘러싸인 ` A `, (3) 응답이 5단어를 넘으면 보기 텍스트 자체 순으로 후보를 찾는다. 후보가 여럿이면 응답에서 가장 뒤에 나온 것을 고른다. **후보가 없으면 `random.choice`로 무작위 선택한다**(시드 42, 응답 파일 순서대로 채점해 재현 가능).
-  - **단답형**: 응답을 문장 단위로 나눠 "is", "answer", "therefore", "=" 같은 표지 뒤의 가장 짧은 구절과 그 안의 숫자를 후보로 뽑는다. 숫자는 소수 둘째 자리 반올림 후 정답과 같으면, 문자열은 정답이 후보에 포함되면 정답으로 본다.
-  - 판정은 `graded_results.csv`에 문항별(`pred`, `gold`, `correct`, 토큰 수, `finish_reason`)로 남긴다.
+- **사용한 파서**: MMMU 공식 저장소 [`mmmu/utils/eval_utils.py`](https://github.com/MMMU-Benchmark/MMMU/blob/main/mmmu/utils/eval_utils.py)의
+  `parse_multi_choice_response` / `parse_open_response` / `eval_open`을 **로직 변경 없이 `run_eval.py`에 이식(vendored)**.
+  유일한 변경은 무작위 fallback 발동 여부를 플래그로 함께 반환하는 것(점수에 영향 없음).
+- **0단계 (CoT 프롬프트 전용, 직접 구현)**: 응답에서 `Answer:\s*\(?\s*([A-Za-z])(?![A-Za-z])`의 **마지막 매치**를 답으로
+  씁니다(도중에 "Answer: A일까?"라고 언급해도 마지막 줄이 이김). 태그가 없거나 선택지 범위 밖이면 아래 공식 파서로 폴백합니다.
+  주관식은 `Answer:` 뒤 텍스트를 공식 `parse_open_response`에 넘깁니다.
+- **객관식 폴백 순서** (앞 단계에서 후보가 나오면 멈춤): ① 양끝 구두점 제거 → ② `(A)` 형태 괄호 글자 → ③ 공백으로 둘러싸인
+  단독 글자 → ④ 응답이 5단어 초과면 선택지 본문 텍스트 등장 여부 → ⑤ 끝내 없으면 `random.choice` (**무작위 추측**).
+  후보가 여럿이면 응답에서 가장 뒤에 나온 것을 택합니다.
+- **주관식**: 문장/줄 단위로 나눈 뒤 `is `, `therefore `, `answer `, `=` 등 단서 뒤의 가장 짧은 조각과 거기서 뽑은 숫자를
+  후보로 삼고, 소문자화·숫자 반올림(소수 2자리) 정규화 후 정답(복수 허용)과 부분 문자열 일치하면 정답.
+- **파서 버그 수정 (2026-09-22)**: 초기 정규식 `Answer:\s*\(?\s*([A-Za-z])\s*\)?`는 `\s*`가 줄바꿈을 넘어
+  `Final Answer:⏎Answer: C`에서 둘째 줄 "Answer"의 **A**를 답으로 읽었습니다(seed 0에서 16건, 그중 정답을 쓰고도 오답
+  처리된 문항 12건). `(?![A-Za-z])` 조건 하나로 수정했고, 900개 응답을 독립 기준("줄 첫머리의 마지막 `Answer: X`")으로
+  재추출해 불일치 0건을 확인했습니다. 수정 전 ablation은 저장된 응답을 수정된 파서로 재채점해 표기했습니다.
+- **무작위 fallback 주의**: `random.seed(seed)`로 재현 가능하게 만들고 `fallback_guess`로 세어 `scores.json`과
+  `predictions.jsonl`에 남깁니다. 실측상 발동은 **전부 잘린 응답**에서만 일어나므로(5 seed 합계 67건, 1.5%) 파서가 아니라
+  생성 예산의 지표입니다.
+- **알려진 한계**: 선택지 내용이 알파벳 한 글자이면서 기호와 어긋나는 문항 2개(`Basic_Medical_Science_17`, `Music_15`)에서
+  모델이 이미지 라벨 글자를 답으로 쓰면 오독될 수 있습니다. 규칙 기반 채점의 결정성을 지키기 위해 고치지 않았습니다.
 
 ## 5. 결과
 
-| No. | Subject | Data Num | Acc |
-|---|---|---|---|
-| 1 | Accounting | 30 | 63.33 (19/30) |
-| 2 | Agriculture | 30 | 56.67 (17/30) |
-| 3 | Architecture_and_Engineering | 30 | 40.00 (12/30) |
-| 4 | Art | 30 | 60.00 (18/30) |
-| 5 | Art_Theory | 30 | 80.00 (24/30) |
-| 6 | Basic_Medical_Science | 30 | 70.00 (21/30) |
-| 7 | Biology | 30 | 56.67 (17/30) |
-| 8 | Chemistry | 30 | 30.00 (9/30) |
-| 9 | Clinical_Medicine | 30 | 66.67 (20/30) |
-| 10 | Computer_Science | 30 | 56.67 (17/30) |
-| 11 | Design | 30 | 73.33 (22/30) |
-| 12 | Diagnostics_and_Laboratory_Medicine | 30 | 40.00 (12/30) |
-| 13 | Economics | 30 | 66.67 (20/30) |
-| 14 | Electronics | 30 | 43.33 (13/30) |
-| 15 | Energy_and_Power | 30 | 60.00 (18/30) |
-| 16 | Finance | 30 | 53.33 (16/30) |
-| 17 | Geography | 30 | 53.33 (16/30) |
-| 18 | History | 30 | 70.00 (21/30) |
-| 19 | Literature | 30 | 80.00 (24/30) |
-| 20 | Manage | 30 | 46.67 (14/30) |
-| 21 | Marketing | 30 | 83.33 (25/30) |
-| 22 | Materials | 30 | 43.33 (13/30) |
-| 23 | Math | 30 | 53.33 (16/30) |
-| 24 | Mechanical_Engineering | 30 | 33.33 (10/30) |
-| 25 | Music | 30 | 36.67 (11/30) |
-| 26 | Pharmacy | 30 | 56.67 (17/30) |
-| 27 | Physics | 30 | 56.67 (17/30) |
-| 28 | Psychology | 30 | 73.33 (22/30) |
-| 29 | Public_Health | 30 | 86.67 (26/30) |
-| 30 | Sociology | 30 | 63.33 (19/30) |
-| | **Overall (macro avg)** | **900** | **58.44** |
+최종 설정으로 seed 0~4를 돌린 결과입니다(`results/table.md`, `results/scores.json`). Acc는 5 seed 평균, sd는 seed 간 표본 표준편차.
 
-계산식: `Overall = mean(30개 과목 accuracy)` = 58.44. 과목당 30문항으로 균등하므로 전체 정답 비율(526/900 = 58.44%)과 같다. 문항 유형별로는 객관식 61.39% (520/847), 단답형 11.32% (6/53)다.
+| No. | Subject | Data Num | Acc (mean of 5 seeds) | sd |
+|---|---|---|---|---|
+| 1 | Accounting | 30 | 78.0 | 6.5 |
+| 2 | Agriculture | 30 | 57.3 | 1.5 |
+| 3 | Architecture_and_Engineering | 30 | 52.7 | 9.2 |
+| 4 | Art | 30 | 61.3 | 3.8 |
+| 5 | Art_Theory | 30 | 80.7 | 2.8 |
+| 6 | Basic_Medical_Science | 30 | 71.3 | 4.5 |
+| 7 | Biology | 30 | 47.3 | 10.6 |
+| 8 | Chemistry | 30 | 45.3 | 8.7 |
+| 9 | Clinical_Medicine | 30 | 70.7 | 2.8 |
+| 10 | Computer_Science | 30 | 66.7 | 5.3 |
+| 11 | Design | 30 | 74.0 | 6.4 |
+| 12 | Diagnostics_and_Laboratory_Medicine | 30 | 34.0 | 7.2 |
+| 13 | Economics | 30 | 80.0 | 7.8 |
+| 14 | Electronics | 30 | 46.0 | 4.9 |
+| 15 | Energy_and_Power | 30 | 58.7 | 4.5 |
+| 16 | Finance | 30 | 73.3 | 5.3 |
+| 17 | Geography | 30 | 58.0 | 5.1 |
+| 18 | History | 30 | 71.3 | 7.7 |
+| 19 | Literature | 30 | 82.0 | 1.8 |
+| 20 | Manage | 30 | 57.3 | 6.4 |
+| 21 | Marketing | 30 | 85.3 | 3.8 |
+| 22 | Materials | 30 | 58.7 | 5.6 |
+| 23 | Math | 30 | 63.3 | 5.3 |
+| 24 | Mechanical_Engineering | 30 | 44.7 | 3.8 |
+| 25 | Music | 30 | 36.0 | 7.2 |
+| 26 | Pharmacy | 30 | 82.0 | 1.8 |
+| 27 | Physics | 30 | 80.7 | 5.5 |
+| 28 | Psychology | 30 | 77.3 | 2.8 |
+| 29 | Public_Health | 30 | 89.3 | 5.5 |
+| 30 | Sociology | 30 | 64.7 | 3.0 |
+| | **Overall (macro avg)** | **900** | **64.93** | 0.94 |
+
+**계산식**: 과목 Acc = seed별 30문항 정답 비율의 5 seed 평균. `Overall = mean(30개 과목 Acc)` (macro average).
+과목당 30문항으로 균등하므로 micro average(4,500개 응답 중 정답 비율)와 수학적으로 같습니다.
+
+**실행 완전성 / 산술 정합**: 5 seed 모두 `scores.json`의 `n_questions = 900`, 과목별 `num = 30`입니다(`--limit`, `--ids-file`은
+ablation 전용이며 공식 실행에서는 기본값 0/빈값). `run_eval.py`는 seed마다 macro와 micro를 **독립적으로** 계산해 기록하는데
+5 seed 모두 두 값이 일치합니다. 한 과목이라도 덜 로드되면 두 값이 갈라지므로, 30과목 × 30문항이 빠짐없이 들어갔다는 증거입니다.
+seed별 종합: **64.33 / 66.56 / 64.78 / 64.22 / 64.78** → 평균 64.93, sd 0.94.
+문항 단위로는 5 seed 중 0회 정답 166문항 / 1~4회 304문항 / 5회 430문항이며, pass@5는 81.56%입니다.
 
 ## 6. 공식 수치와의 비교
 
 | | Overall (MMMU val) |
 |---|---|
-| 공식 (Qwen3-VL Technical Report) | 67.4 |
-| 우리 재현 결과 | 58.44 |
-| 차이 (Δ) | −8.96 |
+| 공식 (Qwen3-VL Technical Report, arXiv 2511.21631, Table 4) | 67.4 |
+| 우리 재현 결과 (5 seed 평균 ± 표준편차) | **64.93 ± 0.94** (seed별 64.22 ~ 66.56) |
+| 차이 (Δ) | **−2.47** (5 seed 최고값 66.56도 67.4 미달) |
 
 ## 7. 격차 분석
 
-58.44점으로 공식 67.4보다 8.96점 낮다. 아래 수치는 모두 v5 문항별 로그(`results/v5_maxtok8192`)에서 계산했다.
+Δ = −2.47은 샘플링 노이즈가 아닙니다(seed 간 sd 0.94, 5 seed 최고값 66.56도 미달). §2~§4의 선택을 후보로 두고 하나씩 실측했습니다.
 
-1. **생성 잘림.** 73건(8.1%)이 8,192토큰에서 끊겼고 정확도는 19.2%로 무작위 수준이다. MMMU 공식 파서는 보기 문자를 못 찾으면 무작위로 고른다. 잘린 응답을 열어보니 35건(48%)이 같은 계산을 되풀이하는 루프였고(끝부분 8-gram 반복률 50% 초과), 나머지도 결론 없이 끊겼다. 2,048토큰 예비 실행(잘림 14.3%, 56.56점)보다 나아졌지만 예산만으로는 풀리지 않는 유형이다.
-2. **추론 억제.** 정상 종료한 객관식은 65.4%로 공식과 2.0점 차이다. 그중 16토큰 이하 직답 551건은 60.8%, 128토큰 이상 추론 후 답한 172건은 80.2%였다. 프롬프트의 "directly" 지시가 추론을 막았을 가능성이 크다.
-3. **평가 프로토콜 차이.** Qwen 공식 MMMU 스크립트(QwenLM/Qwen3-VL `evaluation/mmmu`)는 지시문이 다르고, 작은 이미지를 약 1M px로 키우며(우리 프롬프트 토큰 중앙값 338), 규칙 추출 실패 시 GPT judge로 답을 뽑는다. 우리는 세 항목 모두 MMMU 공식 구현을 따랐다.
-4. **표본 분산.** temperature 0.7 단일 샘플이며 900문항 표준오차는 약 ±1.6점이다.
+1. **생성 예산 — 격차의 약 1/3.** 응답의 15.3%가 8,192 토큰에서 잘리고, 잘린 응답의 정확도는 35%(완주 70%)입니다.
+잘린 응답을 직접 열어보니 31%가 같은 문장을 반복하는 루프였습니다. 잘린 224문항을 16,384로 이어 쓰게 해도 70%는
+여전히 잘렸고 종합은 두 seed 모두 +0.78점이었습니다(3.2).
+2. **이미지 해상도 — 원인 아님.** 캡을 2,048 token으로 풀어도 모든 픽셀 구간의 변화가 노이즈 범위였습니다(3.2).
+3. **sampling — 원인 아님.** 공식 recipe를 그대로 썼고, 5 seed 평균이라 sampling 운은 sd 0.94 안에 있습니다.
+4. **파서 — 원인 아님.** 우리 버그 12건은 수정했고 독립 기준과 불일치 0건입니다(§4). 무작위 추측 1.5%는 전부 잘린 응답입니다.
+5. **문항 결함.** 오답 표본 48건 중 6건(13%)이 정답표 오류·정보 누락·선택지 중복이었습니다(val의 약 3%). 공식 평가도
+같은 문항을 풀므로 격차 원인은 아니지만 상한을 만듭니다(`failure_diagnosis/`).
+6. **프롬프트 — 남는 약 1.7점의 가장 유력한 후보.** 공식 평가의 프롬프트·파서·예산은 비공개라 검증할 수 없습니다.
+다만 우리 실험에서 지시문 한 문장만으로 5.2점이 움직였으므로(2), 비공개 프롬프트 차이만으로 이 크기는 충분히 생깁니다.
 
-## 8. 기타 특이사항 / 한계 (Optional)
+## 8. 기타 특이사항 / 한계
 
-- **Colab 환경 문제.** (1) `pip install -U pillow`가 결함 릴리스 Pillow 12.3.0을 설치해 `ImportError: cannot import name '_Ink' from 'PIL._typing'`이 났다. 12.2.0으로 고정했다. (2) vLLM이 설치한 torch 2.13.0은 CUDA 13.0 빌드인데, Colab에 미리 깔린 torchaudio 2.11.0은 버전 문자열이 같은 CUDA 12.8 빌드라 pip가 교체하지 않았다. torch 스택을 먼저 지우고 재설치해 해결했다(`scripts/setup_colab.sh`).
-- **기록 누락.** peak VRAM은 측정하지 못했고, 마지막 추론 배치 로그는 Colab 연결 끊김으로 유실돼 소요 시간 일부를 추정했다. 제출 스크립트는 두 값을 `summary.json`에 자동 기록한다.
-- **단답형 53문항(11.32%).** 잘림은 0건이고 생성 토큰 중앙값은 5로, 예산이 아니라 실제 오답이 대부분이다. 오답 47건 중 4건은 정답과 상대오차 2% 이내였지만 공식 채점 규칙(소수 둘째 자리 반올림 후 완전 일치)에 따라 오답 처리됐다(예: 정답 24.32, 예측 24.3).
-- **다음에 시도할 것.** Qwen 공식 MMMU 평가 스크립트의 프로토콜(프롬프트, 이미지 해상도 1280×28×28~5120×28×28 px, 규칙 추출 + judge)로 맞춰 7번의 원인별 기여를 분리 측정한다. 이때도 파인튜닝 전후 비교를 위해 같은 스크립트와 같은 설정을 유지한다.
+- **남은 잘림**: 응답의 15.3%(seed당 127~146건)가 8,192 토큰에서 잘리고, 그중 31%는 같은 문장을 반복하는 루프입니다.
+  예산을 두 배로 늘려도 +0.78점이라 유지했습니다.
+- **과목 점수의 분산**: 종합 sd는 0.94이지만 과목 sd는 최대 10.6(Biology, 5 seed 범위 26.7점)입니다. 과목 간 차이와
+  fine-tuning 전후 차이는 반드시 같은 seed끼리 짝지어 해석해야 합니다(`analyze.py compare`).
+- **재현성에 대한 초기 오판**: 처음에는 요청 단위 seed만으로 결정적이라고 판단했으나 실측(32/900 일치)으로 틀렸음을
+  확인하고 배치 불변 모드를 도입했습니다. 결정성은 `max_model_len` 등 엔진 설정까지 같을 때만 성립합니다.
+
+- **fine-tuning 재평가 시 주의**: `max_new_tokens`가 점수를 가장 크게 좌우하므로(1회 기준 53.33~65.44) 체크포인트 비교 시
+  **반드시 고정**해야 합니다. 더 장황해진 모델이 잘림이 늘어 점수가 떨어지는 착시가 생깁니다. 같은 5 seed·배치 불변 모드로
+  평가하며, `analyze.py`는 모델 경로 외 설정이 다르면 비교를 거부합니다. 망각 측정 시 "base가 맞힌 문항"은 비교에 쓰지 않는
+  seed로 골라야 합니다(같은 실행으로 고르면 평균 회귀로 약 10점의 가짜 망각 발생, [`pilot_forgetting/`](../pilot_forgetting/README.md)).
+- **실패 진단(후속 과제용)**: 두 실행에서 모두 틀린 문항 무작위 48건을 태깅한 결과 지각 오류 44%, 생성 실패 21%,
+  지식 17%, 문항 결함 13%였습니다. 사례집은 [`failure_diagnosis/`](../failure_diagnosis/README.md).

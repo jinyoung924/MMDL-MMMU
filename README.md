@@ -1,133 +1,74 @@
-# Qwen3-VL-4B-Instruct MMMU-val 베이스라인 평가
+# Qwen3-VL-4B × MMMU-val — 평가 파이프라인, 실패 진단, 개선 계획
 
-`Qwen/Qwen3-VL-4B-Instruct`를 MMMU validation 900문항으로 평가하는 파이프라인이다. 파인튜닝 전후를 같은 방식으로 비교하려고 만들었으며, 체크포인트 경로만 바꿔 같은 설정으로 다시 평가할 수 있다.
+Qwen3-VL-4B-Instruct를 MMMU validation 900문항으로 평가하는 **재현 가능한 파이프라인**과, 그 위에서 한 실패 진단·개선 계획입니다.
+fine-tuning한 모델도 체크포인트 경로만 바꿔 같은 조건으로 다시 평가합니다.
 
-| | Overall (MMMU val, macro) |
+| | MMMU val |
 |---|---|
-| 이 파이프라인 (v5) | **58.44** (526/900) |
-| 공식 (Qwen3-VL Technical Report) | 67.4 |
-
-설정, 과목별 결과, 공식 수치와의 격차 분석은 [`reports/mmmu_baseline.md`](reports/mmmu_baseline.md)에 있다.
+| 이 파이프라인 (5 seed 평균 ± 표준편차) | **64.93 ± 0.94** (seed 0–4: 64.33 / 66.56 / 64.78 / 64.22 / 64.78) |
+| Qwen 공식 | 67.4 |
 
 ## 빠른 시작
 
 ```bash
-# 1) 의존성 설치 (새 venv 기준)
-pip install -r requirements.txt
-
-# 2) 평가 실행: 추론 → 채점 → 집계
-bash scripts/run_mmmu_eval.sh \
-  --model_path Qwen/Qwen3-VL-4B-Instruct \
-  --data_root ./data/hf_datasets
+pip install -r requirements.txt                                    # vLLM 0.24.0, RTX 4090 24GB에서 검증
+bash eval.sh                                                       # 5 seed × 900문항 → results/ (seed당 약 76분)
+bash eval.sh /abs/path/to/checkpoint results_ft                    # fine-tuned 모델 (LoRA는 먼저 병합)
+python analyze.py compare results/seed* vs results_ft/seed*        # 같은 seed·같은 문항끼리 전후 비교 (망각 포함)
+python analyze.py failures results/seed*                           # 늘 틀림 / 가끔 맞힘 / 늘 맞힘, 잘림·루프 분해
 ```
 
-결과는 `results/baseline/`에 저장된다. `--data_root`가 비어 있으면 MMMU를 고정 revision으로 내려받고, 이미 있으면 재사용한다.
+같은 명령이면 같은 결과가 나옵니다(같은 seed 재실행 899/900 일치). 설정이 다른 실행은 `analyze.py`가 평균·비교를 거부합니다.
 
-**파인튜닝 체크포인트 재평가**는 경로와 결과 폴더 이름만 바꾼다. 나머지 설정은 그대로 두어야 베이스라인과 비교할 수 있다.
+## 폴더
+
+| 경로 | 내용 |
+|---|---|
+| `run_eval.py` | 평가 1회: 프롬프트 구성 → vLLM 생성 → 채점 → `predictions.jsonl`, `scores.json` |
+| `eval.sh` | 한 줄 실행: 5 seed 평가 + 집계 |
+| `analyze.py` | 집계(`aggregate`), 실패 분석(`failures`), 사례 추출(`export`), 전후 비교(`compare`) |
+| `results/` | 공식 베이스라인 5 seed. 문항별 응답 전문 포함 |
+| `ablation/` | 프롬프트·생성 예산·해상도·재현성 실험 |
+| `reports/` | 보고서와 문서 (아래 읽는 순서) |
+| `failure_diagnosis/` | 실패 유형별 사례집 (이미지·문제·5 seed 응답) |
+| `pilot_forgetting/` | 망각 파일럿: PathVQA LoRA-SFT 코드와 평가 결과 |
+| `encoder_probe/` | 비전 인코더 탐침 코드와 결과 |
+| `cloud/` | RunPod 실행: 환경 설치, 결과 브랜치 push, pod 자동 종료 |
+| `runs/` | 클라우드 실행 결과 (`runs/<RUN_NAME>/`, `results/<RUN_NAME>` 브랜치에서 병합됨) |
+
+## 읽는 순서
+
+1. [reports/mmmu_baseline.md](reports/mmmu_baseline.md): 1차 과제 보고서. 파이프라인의 모든 선택과 근거, 공식 수치와의 격차 분석
+2. [reports/improvement_strategy.md](reports/improvement_strategy.md): 종합. 시도한 것, 실패 유형과 원인, 학습 방향, 망각 측정 계획. 부록 A에 모든 실행 목록
+3. [failure_diagnosis/README.md](failure_diagnosis/README.md): 실패 사례. 판정 절차는 [reports/failure_tagging_protocol.md](reports/failure_tagging_protocol.md)
+4. [reports/literature_notes.md](reports/literature_notes.md): 전략에 쓴 문헌
+5. [pilot_forgetting/README.md](pilot_forgetting/README.md), [encoder_probe/results.md](encoder_probe/results.md)
+
+## 결과 파일 형식 (팀원 결과와 비교할 때)
+
+- `<run>/predictions.jsonl`: 한 줄 = 한 문항. `id`, `subject`, `img_type`, `topic_difficulty`, `prompt`, `response`(응답 전문),
+  `parsed`, `gold`, `correct`, `truncated`(8,192토큰에서 잘림), `fallback_guess`(답을 못 찾아 무작위), `answer_tag_found`.
+  서술형 문항의 `parsed`는 `null`입니다(점수에는 영향 없음. 투표 등 후처리 시 `response`에서 다시 파싱).
+- `<run>/scores.json`: 과목별 정확도, 30과목 평균, 실행 설정 전체(`config`).
+- 문항 `id`가 MMMU와 같으므로 다른 파이프라인 결과와 문항 단위로 맞대어 볼 수 있습니다.
+
+## 레포에 없는 것
+
+- 모델 가중치 (`pilot_forgetting/runs/*/step*`): `pilot_forgetting/train_sft.py`로 다시 만듭니다.
+- 탐침 입력 데이터 (`encoder_probe/data/`, 831MB): `python encoder_probe/probe.py data`로 다시 만듭니다.
+- 실행 로그, 초기 임시 분석, 수업 과제 안내문.
+- 학습·탐침 환경은 평가 환경에 `peft`, `accelerate`(탐침은 `verovio`, `cairosvg`, `scikit-learn`도)를 더한 것입니다.
+
+## 클라우드(RunPod) 실행
+
+실험 한 번의 루프는 네 명령입니다. 자세한 절차와 규칙은 [cloud/README.md](cloud/README.md) §0을 **먼저** 읽으세요.
 
 ```bash
-bash scripts/run_mmmu_eval.sh \
-  --model_path /path/to/finetuned_checkpoint \
-  --data_root ./data/hf_datasets \
-  --run_tag ft_v1
+bash cloud/local.sh push-code "실험 X"          # ① 로컬 main: 코드 커밋 + push
+RUN_NAME=exp_x bash cloud/runpod.sh            # ② pod: 설치 → smoke → 평가 → results/exp_x 브랜치로 자동 push → 종료
+bash cloud/local.sh fetch exp_x                # ③ 로컬: runs/exp_x/ 를 받아 analyze.py 로 분석
+bash cloud/local.sh merge exp_x                # ④ 로컬: 남길 결과만 main에 병합 (버리면 drop)
 ```
 
-체크포인트 디렉터리에는 가중치와 함께 토크나이저·프로세서 설정 파일(`preprocessor_config.json`, `chat_template.json` 등)이 있어야 한다. LoRA는 병합한 체크포인트를 넘긴다.
-
-### Colab에서 실행
-
-Colab에 미리 설치된 torch 스택은 vLLM이 요구하는 것과 CUDA 빌드가 달라 충돌한다. `setup_colab.sh`가 이를 정리한 뒤 설치한다. 평가는 별도 파이썬 프로세스로 돌기 때문에 설치 후 런타임을 재시작할 필요는 없다.
-
-```bash
-!git clone -b <브랜치명> <저장소 URL> repo && cd repo && bash scripts/setup_colab.sh
-!cd repo && bash scripts/run_mmmu_eval.sh --model_path Qwen/Qwen3-VL-4B-Instruct --data_root ./data/hf_datasets
-```
-
-## 요구 사항
-
-| 항목 | 값 |
-|---|---|
-| GPU | 24GB급 (검증: NVIDIA L4 22.0 GiB. 실습실 RTX 4090 24GB 기준으로 설계) |
-| NVIDIA 드라이버 | 580 이상 (torch 2.13.0이 CUDA 13.0 빌드) |
-| Python | 3.10 이상 3.15 미만 (검증: 3.13.15) |
-| 주요 패키지 | vllm 0.29.0, torch 2.13.0, transformers 5.16.1, datasets 4.8.5, pillow 12.2.0 |
-| 소요 시간 | L4 기준 약 2시간 50분 (모델 로드 약 5분 + 추론 약 2시간 47분) |
-
-## 실행 모드
-
-| 모드 | 명령 | GPU | 용도 |
-|---|---|---|---|
-| 전체 평가 | `bash scripts/run_mmmu_eval.sh --model_path ... --data_root ...` | 필요 | 900문항 추론, 채점, 집계 |
-| 스모크 테스트 | 위 명령 + `--limit_per_subject 1` | 필요 | 과목당 1문항(30문항)으로 전 경로 점검. `results/<run_tag>_smoke/`에 저장되며 보고용 아님 |
-| 재채점 | `bash scripts/run_mmmu_eval.sh --grade_only --run_tag v5_maxtok8192` | 불필요 | 기존 `raw_generations.jsonl`을 다시 채점. 원본을 덮지 않고 `*_regrade` 파일로 저장 |
-| 프롬프트 재현 검증 | `bash scripts/run_mmmu_eval.sh --data_root ... --verify_prompts_against results/v5_maxtok8192/raw_generations.jsonl` | 불필요 | 데이터셋에서 900문항 프롬프트를 다시 만들어 기준 파일과 문항 단위로 대조 |
-
-## 주요 옵션
-
-| 옵션 | 기본값 | 설명 |
-|---|---|---|
-| `--model_path` | `Qwen/Qwen3-VL-4B-Instruct` | HF repo id 또는 로컬 체크포인트 디렉터리 |
-| `--model_revision` | `ebb281ec70b05090aa6165b016eac8ec08e71b17` | HF repo id일 때 고정할 commit. 로컬 디렉터리면 무시 |
-| `--data_root` | (필수) | MMMU 데이터셋 캐시 디렉터리 |
-| `--dataset_revision` | `98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68` | MMMU dataset commit |
-| `--run_tag` | `baseline` | 결과 폴더 이름 (`results/<run_tag>/`) |
-| `--max_new_tokens` | 8192 | 생성 예산 (공식 32768, 축소 이유는 보고서 3.2) |
-| `--max_model_len` | 12288 | 생성 8,192 + 프롬프트 4,096 |
-| `--image_max_pixels` | 1048576 | 이 면적을 넘는 이미지만 종횡비 유지 축소 |
-| `--max_num_seqs` | 8 | vLLM 동시 시퀀스 수 |
-| `--gpu_memory_utilization` | 0.90 | vLLM이 미리 확보할 GPU 메모리 비율 |
-| `--enforce_eager` | 꺼짐 | CUDA graph를 끈다. 초기화 중 메모리가 부족할 때 사용 |
-| `--model_cache_dir` | HF 기본 캐시 | 모델 가중치 저장 위치 |
-
-전체 목록은 `python3 scripts/mmmu_eval.py --help`로 볼 수 있다.
-
-## 고정 설정
-
-| 항목 | 값 | 출처 |
-|---|---|---|
-| 모델 | `Qwen/Qwen3-VL-4B-Instruct` @ ebb281ec, bf16 | 과제 지정 |
-| 데이터 | `MMMU/MMMU` @ 98e6ac0c, validation, 30과목 × 30문항 | 과제 지정 |
-| Sampling | temperature 0.7, top_p 0.8, top_k 20, repetition_penalty 1.0, presence_penalty 1.5, seed 3407 | [Qwen3-VL README "Evaluation Reproduction"](https://github.com/QwenLM/Qwen3-VL) |
-| 프롬프트 | MMMU 공식 템플릿 (`Answer with the option's letter from the given choices directly.` 등) | [MMMU-Benchmark/MMMU](https://github.com/MMMU-Benchmark/MMMU) `configs/llava1.5.yaml`, `utils/data_utils.py` |
-| 채점 | MMMU 공식 파서, 답을 못 찾으면 무작위 선택 (시드 42) | MMMU-Benchmark/MMMU `utils/eval_utils.py` |
-
-프롬프트 전문과 각 값을 고른 이유는 보고서 2~4번에 있다.
-
-## 산출물
-
-`results/<run_tag>/`에 다음 파일이 생긴다.
-
-| 파일 | 내용 |
-|---|---|
-| `raw_generations.jsonl` | 문항별 프롬프트 정보, 모델 응답, 프롬프트·생성 토큰 수, 종료 사유 |
-| `graded_results.csv` | 문항별 예측, 정답, 정오, 토큰 수 |
-| `summary.json` | 과목별·전체 정확도, 소요 시간, peak VRAM, 설정 |
-| `results_table.md` | 보고서 5번 표를 그대로 붙여넣을 수 있는 형태 |
-| `run_config.json` | 실행 조건 지문 |
-| `environment.json` | 패키지 버전, GPU, 드라이버 |
-
-## 재현성 장치
-
-- **실행 조건 지문.** 같은 `run_tag` 폴더에 다른 설정으로 이어 쓰려 하면 `run_config.json`과 대조해 실행을 거부한다.
-- **중단 후 재개.** 25문항마다 결과를 파일에 기록하고, 다시 실행하면 완료된 문항 id는 건너뛴다.
-- **완료된 결과 보호.** 900문항이 끝난 폴더에는 전체 실행이 쓰지 않는다. 제출 결과(`results/v5_maxtok8192/`)가 덮이지 않는다.
-- **채점 재현.** 무작위 선택은 시드 42로 응답 파일 순서대로 이루어진다. v5 원본 응답 900건을 스크립트로 재채점한 결과 문항 단위 불일치는 0건이었다.
-
-## 저장소 구성
-
-```
-colab/mmmu_eval_v5.ipynb     제출 결과를 만든 Colab(L4) 노트북, 실행 출력 포함
-results/v5_maxtok8192/       제출 결과 (58.44)
-scripts/mmmu_eval.py         평가 스크립트. 노트북의 프롬프트·이미지·채점 코드를 그대로 옮김
-scripts/run_mmmu_eval.sh     한 커맨드 실행 진입점
-scripts/setup_colab.sh       Colab 전용 설치
-requirements.txt             버전 고정 의존성
-reports/mmmu_baseline.md     제출 보고서
-```
-
-## 알려진 문제
-
-- **Pillow 12.3.0**: `ImportError: cannot import name '_Ink' from 'PIL._typing'`이 나는 결함 릴리스다. `requirements.txt`에서 12.2.0으로 고정했다.
-- **Colab의 torch/torchaudio 불일치**: `PyTorch and TorchAudio were compiled with different CUDA versions` 오류가 나면 `scripts/setup_colab.sh`로 다시 설치한다.
-- **`max_model_len`을 지정하지 않으면** 모델 기본값 262,144 때문에 KV 캐시에 36 GiB가 필요해 24GB GPU에서 초기화가 실패한다. 기본값 12,288을 유지한다.
-- **초기화 중 메모리 부족**: `--enforce_eager`를 켜고, 그래도 부족하면 `--max_num_seqs 4`로 낮춘다.
+pod 배포 시 환경변수 `GITHUB_TOKEN`, `RUNPOD_USER_API_KEY`, `PUBLIC_KEY`가 필요합니다. 코드 커밋은 main에만, 결과 커밋은
+`results/<RUN_NAME>` 브랜치에만 쌓이며 결과 브랜치는 `runs/<RUN_NAME>/` 아래 파일만 추가하므로 병합 충돌이 나지 않습니다.
