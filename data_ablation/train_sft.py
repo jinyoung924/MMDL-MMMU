@@ -42,8 +42,16 @@ def load_records(paths, max_images):
     return rows
 
 
+class SkipBatch(Exception):
+    """Every example in the batch is longer than --max-len (nothing to train on)."""
+
+
 def encode(proc, rows, max_len):
-    """Batch -> input_ids/pixel values/labels. Loss only on the assistant tokens (prompt tokens are -100)."""
+    """Batch -> input_ids/pixel values/labels. Loss only on the assistant tokens (prompt tokens are -100).
+
+    No tokenizer truncation: cutting a sequence can slice through image tokens and the processor refuses it
+    (ValueError "Mismatch in image token count"). Examples longer than max_len are dropped from the batch instead
+    and counted by the caller (returned as the second value)."""
     from PIL import Image
     prompts, imgs, full = [], [], []
     for r in rows:
@@ -53,15 +61,22 @@ def encode(proc, rows, max_len):
         imgs.append([Image.open(q).convert("RGB") for q in r["_images"]])
         full.append(p + r["response"].strip() + "<|im_end|>")
     proc.tokenizer.padding_side = "right"
-    enc = proc(text=full, images=[im for group in imgs for im in group] or None, return_tensors="pt",
-               padding=True, truncation=True, max_length=max_len)
+    enc = proc(text=full, images=[im for group in imgs for im in group] or None, return_tensors="pt", padding=True)
+    lengths = enc["attention_mask"].sum(1).tolist()
+    keep = [i for i, n in enumerate(lengths) if n <= max_len]
+    dropped = len(rows) - len(keep)
+    if not keep:
+        raise SkipBatch(f"all {len(rows)} examples exceed max_len={max_len} (lengths {lengths})")
+    if dropped:
+        prompts, imgs, full = [prompts[i] for i in keep], [imgs[i] for i in keep], [full[i] for i in keep]
+        enc = proc(text=full, images=[im for group in imgs for im in group] or None, return_tensors="pt", padding=True)
     labels = enc["input_ids"].clone()
     for i, (p, group) in enumerate(zip(prompts, imgs)):
         n_prompt = proc(text=[p], images=group or None, return_tensors="pt")["input_ids"].shape[1]
         labels[i, :n_prompt] = -100
     labels[enc["attention_mask"] == 0] = -100
     enc["labels"] = labels
-    return enc
+    return enc, dropped
 
 
 def save_ckpt(model, opt, sched, state, out, tag):
@@ -111,7 +126,7 @@ def train(a):
 
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_mult)
     rng = random.Random(a.seed)
-    order, pos, step0, log, skipped_oom, elapsed0 = list(range(len(rows))), len(rows), 0, [], 0, 0.0
+    order, pos, step0, log, skipped_oom, skipped_long, elapsed0 = list(range(len(rows))), len(rows), 0, [], 0, 0, 0.0
     if resume:
         st = torch.load(latest / "state.pt", map_location="cpu", weights_only=False)
         opt.load_state_dict(st["opt"])
@@ -121,16 +136,17 @@ def train(a):
             torch.cuda.set_rng_state_all(st["cuda_rng"])
         rng.setstate(st["py_rng"])
         order, pos, step0, log, skipped_oom, elapsed0 = st["order"], st["pos"], st["step"], st["log"], st["skipped_oom"], st["elapsed_s"]
+        skipped_long = st.get("skipped_long", 0)
         assert st["n_records"] == len(rows), f"resume: data changed ({st['n_records']} -> {len(rows)} records)"
         print(f"[train] resumed from step {step0} ({latest})", flush=True)
     t0 = time.time() - elapsed0
 
     def state():
-        return {"step": step, "py_rng": rng.getstate(), "order": order, "pos": pos, "log": log, "skipped_oom": skipped_oom,
+        return {"step": step, "py_rng": rng.getstate(), "order": order, "pos": pos, "log": log, "skipped_oom": skipped_oom, "skipped_long": skipped_long,
                 "elapsed_s": time.time() - t0, "n_records": len(rows), "config": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(a).items()}}
 
     def write_log():
-        (out / "log.json").write_text(json.dumps({"config": state()["config"], "n_records": len(rows), "skipped_oom": skipped_oom,
+        (out / "log.json").write_text(json.dumps({"config": state()["config"], "n_records": len(rows), "skipped_oom": skipped_oom, "skipped_long": skipped_long,
                                                   "code_commit": git_commit(), "log": log}, indent=2))
 
     model.train()
@@ -144,14 +160,32 @@ def train(a):
             batch = [rows[i] for i in order[pos:pos + a.bs]]
             pos += a.bs
             try:
-                loss = model(**encode(proc, batch, a.max_len).to(a.device)).loss
+                enc, dropped = encode(proc, batch, a.max_len)
+                skipped_long += dropped
+            except SkipBatch as e:
+                skipped_long += len(batch)
+                print(f"[train] step {step}: {e} -> micro-batch skipped", flush=True)
+                continue
+            try:
+                loss = model(**enc.to(a.device)).loss
                 (loss / a.accum).backward()
                 losses.append(loss.item())
             except torch.cuda.OutOfMemoryError:
-                skipped_oom += 1
-                opt.zero_grad(set_to_none=True)
+                # Long sequences on a 24 GB card: retry the same examples one at a time (same data, same update).
+                del enc
                 torch.cuda.empty_cache()
-                print(f"[train] OOM at step {step}, batch skipped (total {skipped_oom})", flush=True)
+                n_ok = 0
+                for r in batch:
+                    try:
+                        enc1, _ = encode(proc, [r], a.max_len)
+                        loss = model(**enc1.to(a.device)).loss
+                        (loss / (a.accum * len(batch))).backward()
+                        losses.append(loss.item())
+                        n_ok += 1
+                    except (torch.cuda.OutOfMemoryError, SkipBatch):
+                        torch.cuda.empty_cache()
+                        skipped_oom += 1
+                print(f"[train] OOM at step {step}: retried one by one, {n_ok}/{len(batch)} ok (skipped so far {skipped_oom})", flush=True)
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         sched.step()
