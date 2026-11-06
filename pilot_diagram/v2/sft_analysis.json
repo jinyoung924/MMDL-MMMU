@@ -1,0 +1,442 @@
+{
+  "scope": "Exploratory original-train-source pilot, not official MMMU; no confirmation opened.",
+  "decision": "stop_no_checkpoint_passed",
+  "train_comparisons": [
+    {
+      "name": "prose_low",
+      "style": "prose",
+      "lr": 1e-05,
+      "step": 5,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/prose_low/checkpoint-5",
+      "condition": "prose_low_step5",
+      "correct": 35,
+      "base_correct": 35,
+      "difference_pp": 0.0,
+      "passed": false,
+      "rescued": 1,
+      "newly_wrong": 1,
+      "paired_bootstrap_95_percentile_pp": [
+        -7.5,
+        7.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 1,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 601.5
+    },
+    {
+      "name": "prose_low",
+      "style": "prose",
+      "lr": 1e-05,
+      "step": 10,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/prose_low/checkpoint-10",
+      "condition": "prose_low_step10",
+      "correct": 34,
+      "base_correct": 35,
+      "difference_pp": -2.5,
+      "passed": false,
+      "rescued": 2,
+      "newly_wrong": 3,
+      "paired_bootstrap_95_percentile_pp": [
+        -12.5,
+        7.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 2,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 534.0
+    },
+    {
+      "name": "prose_low",
+      "style": "prose",
+      "lr": 1e-05,
+      "step": 20,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/prose_low/checkpoint-20",
+      "condition": "prose_low_step20",
+      "correct": 32,
+      "base_correct": 35,
+      "difference_pp": -7.5,
+      "passed": false,
+      "rescued": 2,
+      "newly_wrong": 5,
+      "paired_bootstrap_95_percentile_pp": [
+        -20.0,
+        5.0
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 3,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 509.5
+    },
+    {
+      "name": "structured_low",
+      "style": "structured",
+      "lr": 1e-05,
+      "step": 5,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/structured_low/checkpoint-5",
+      "condition": "structured_low_step5",
+      "correct": 35,
+      "base_correct": 35,
+      "difference_pp": 0.0,
+      "passed": false,
+      "rescued": 3,
+      "newly_wrong": 3,
+      "paired_bootstrap_95_percentile_pp": [
+        -12.5,
+        12.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 3,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 538.5
+    },
+    {
+      "name": "structured_low",
+      "style": "structured",
+      "lr": 1e-05,
+      "step": 10,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/structured_low/checkpoint-10",
+      "condition": "structured_low_step10",
+      "correct": 31,
+      "base_correct": 35,
+      "difference_pp": -10.0,
+      "passed": false,
+      "rescued": 0,
+      "newly_wrong": 4,
+      "paired_bootstrap_95_percentile_pp": [
+        -20.0,
+        -2.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 3,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 517.5
+    },
+    {
+      "name": "structured_low",
+      "style": "structured",
+      "lr": 1e-05,
+      "step": 20,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/structured_low/checkpoint-20",
+      "condition": "structured_low_step20",
+      "correct": 29,
+      "base_correct": 35,
+      "difference_pp": -15.0,
+      "passed": false,
+      "rescued": 2,
+      "newly_wrong": 8,
+      "paired_bootstrap_95_percentile_pp": [
+        -30.0,
+        0.0
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 5,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 463.5
+    },
+    {
+      "name": "prose_high",
+      "style": "prose",
+      "lr": 5e-05,
+      "step": 5,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/prose_high/checkpoint-5",
+      "condition": "prose_high_step5",
+      "correct": 32,
+      "base_correct": 35,
+      "difference_pp": -7.5,
+      "passed": false,
+      "rescued": 1,
+      "newly_wrong": 4,
+      "paired_bootstrap_95_percentile_pp": [
+        -17.5,
+        2.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 4,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 456.0
+    },
+    {
+      "name": "prose_high",
+      "style": "prose",
+      "lr": 5e-05,
+      "step": 10,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/prose_high/checkpoint-10",
+      "condition": "prose_high_step10",
+      "correct": 32,
+      "base_correct": 35,
+      "difference_pp": -7.5,
+      "passed": false,
+      "rescued": 1,
+      "newly_wrong": 4,
+      "paired_bootstrap_95_percentile_pp": [
+        -17.5,
+        2.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 2,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 283.0
+    },
+    {
+      "name": "prose_high",
+      "style": "prose",
+      "lr": 5e-05,
+      "step": 20,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/prose_high/checkpoint-20",
+      "condition": "prose_high_step20",
+      "correct": 27,
+      "base_correct": 35,
+      "difference_pp": -20.0,
+      "passed": false,
+      "rescued": 2,
+      "newly_wrong": 10,
+      "paired_bootstrap_95_percentile_pp": [
+        -35.0,
+        -5.0
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 1,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 75.5
+    },
+    {
+      "name": "structured_high",
+      "style": "structured",
+      "lr": 5e-05,
+      "step": 5,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/structured_high/checkpoint-5",
+      "condition": "structured_high_step5",
+      "correct": 33,
+      "base_correct": 35,
+      "difference_pp": -5.0,
+      "passed": false,
+      "rescued": 2,
+      "newly_wrong": 4,
+      "paired_bootstrap_95_percentile_pp": [
+        -17.5,
+        7.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 3,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 425.5
+    },
+    {
+      "name": "structured_high",
+      "style": "structured",
+      "lr": 5e-05,
+      "step": 10,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/structured_high/checkpoint-10",
+      "condition": "structured_high_step10",
+      "correct": 28,
+      "base_correct": 35,
+      "difference_pp": -17.5,
+      "passed": false,
+      "rescued": 0,
+      "newly_wrong": 7,
+      "paired_bootstrap_95_percentile_pp": [
+        -30.0,
+        -7.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 6,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 309.5
+    },
+    {
+      "name": "structured_high",
+      "style": "structured",
+      "lr": 5e-05,
+      "step": 20,
+      "path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/v2/runs/structured_high/checkpoint-20",
+      "condition": "structured_high_step20",
+      "correct": 26,
+      "base_correct": 35,
+      "difference_pp": -22.5,
+      "passed": false,
+      "rescued": 1,
+      "newly_wrong": 10,
+      "paired_bootstrap_95_percentile_pp": [
+        -37.5,
+        -7.5
+      ],
+      "base_truncated": 3,
+      "adapter_truncated": 0,
+      "base_median_tokens": 532.5,
+      "adapter_median_tokens": 100.0
+    }
+  ],
+  "training": [
+    {
+      "name": "prose_low",
+      "style": "prose",
+      "lr": 1e-05,
+      "steps": 20,
+      "exposures": 80,
+      "first_five_mean_loss": 3.3696027755737306,
+      "last_five_mean_loss": 2.318355470895767,
+      "median_target_tokens": 84.5,
+      "total_target_tokens": 6943
+    },
+    {
+      "name": "structured_low",
+      "style": "structured",
+      "lr": 1e-05,
+      "steps": 20,
+      "exposures": 80,
+      "first_five_mean_loss": 3.510273587703705,
+      "last_five_mean_loss": 2.4578571140766146,
+      "median_target_tokens": 93.5,
+      "total_target_tokens": 7668
+    },
+    {
+      "name": "prose_high",
+      "style": "prose",
+      "lr": 5e-05,
+      "steps": 20,
+      "exposures": 80,
+      "first_five_mean_loss": 3.0265591382980346,
+      "last_five_mean_loss": 1.3772670477628708,
+      "median_target_tokens": 84.5,
+      "total_target_tokens": 6943
+    },
+    {
+      "name": "structured_high",
+      "style": "structured",
+      "lr": 5e-05,
+      "steps": 20,
+      "exposures": 80,
+      "first_five_mean_loss": 3.158735382556915,
+      "last_five_mean_loss": 1.293980237841606,
+      "median_target_tokens": 93.5,
+      "total_target_tokens": 7668
+    }
+  ],
+  "zero_adapter_preflight": {
+    "n": 8,
+    "identical_token_sequences": 8,
+    "interpretation": "Short greedy training-only engineering probe; not an accuracy estimate or full-path equivalence proof."
+  },
+  "development_gates": [],
+  "limitations": [
+    "Training accuracy is not generalization.",
+    "Checkpoint selection across twelve candidates is exploratory; intervals unadjusted.",
+    "Single training seed unless confirmation stage subsequently executed.",
+    "Annotations are assistant-authored, not independently validated gold.",
+    "Small diagram convenience sample does not represent the MMMU subject/error distribution.",
+    "A selected trained example flips from correct PEFT FP32-adapter output to wrong BF16-adapter output, matching native tokens. Whole-score contribution is unmeasured; native results do not isolate training from deployment precision."
+  ],
+  "source_summary_sha256": "639489a7636a6c81358415e25f6aae30bfb0498262dc584ede3326bc057d64b3",
+  "trained_backend_preflight": {
+    "status": "complete",
+    "n": 8,
+    "identical_input_manifests": true,
+    "pairs": [
+      {
+        "id": "110464072",
+        "same_tokens": true,
+        "same_text": true,
+        "peft_answer": "B",
+        "native_answer": "B",
+        "peft_tokens": 28,
+        "native_tokens": 28,
+        "either_truncated": false
+      },
+      {
+        "id": "91729478",
+        "same_tokens": false,
+        "same_text": false,
+        "peft_answer": "C",
+        "native_answer": "C",
+        "peft_tokens": 18,
+        "native_tokens": 17,
+        "either_truncated": false
+      },
+      {
+        "id": "132254027",
+        "same_tokens": false,
+        "same_text": false,
+        "peft_answer": "D",
+        "native_answer": "D",
+        "peft_tokens": 38,
+        "native_tokens": 46,
+        "either_truncated": false
+      },
+      {
+        "id": "98817248",
+        "same_tokens": true,
+        "same_text": true,
+        "peft_answer": "A",
+        "native_answer": "A",
+        "peft_tokens": 19,
+        "native_tokens": 19,
+        "either_truncated": false
+      },
+      {
+        "id": "117252906",
+        "same_tokens": false,
+        "same_text": false,
+        "peft_answer": "D",
+        "native_answer": "C",
+        "peft_tokens": 122,
+        "native_tokens": 15,
+        "either_truncated": false
+      },
+      {
+        "id": "115216686",
+        "same_tokens": true,
+        "same_text": true,
+        "peft_answer": "D",
+        "native_answer": "D",
+        "peft_tokens": 129,
+        "native_tokens": 129,
+        "either_truncated": false
+      },
+      {
+        "id": "226554116",
+        "same_tokens": true,
+        "same_text": true,
+        "peft_answer": "B",
+        "native_answer": "B",
+        "peft_tokens": 86,
+        "native_tokens": 86,
+        "either_truncated": false
+      },
+      {
+        "id": "109955979",
+        "same_tokens": false,
+        "same_text": false,
+        "peft_answer": "A",
+        "native_answer": "A",
+        "peft_tokens": 27,
+        "native_tokens": 26,
+        "either_truncated": false
+      }
+    ],
+    "same_token_sequences": 4,
+    "same_answers": 7,
+    "limitations": "Eight selected engineering examples, greedy256. Not equivalence over all inputs or sampled decoding. PEFT and vLLM may differ in dtype/kernel arithmetic."
+  },
+  "precision_followup": {
+    "id": "117252906",
+    "gold": "D",
+    "native_answer": "C",
+    "bf16_peft_matches_native_tokens": true,
+    "default_peft_reproduced": true,
+    "scope": "Changes adapter parameter dtype and associated PEFT adapter arithmetic; base weights remain BF16. No training or held-out evaluation.",
+    "limitation": "Single selected case. Does not estimate the contribution of backend arithmetic to 40-question or MMMU accuracy.",
+    "variants": [
+      {
+        "variant": "peft_float32_adapter",
+        "answer": "D",
+        "tokens": 122
+      },
+      {
+        "variant": "peft_bfloat16_adapter",
+        "answer": "C",
+        "tokens": 15
+      }
+    ]
+  }
+}

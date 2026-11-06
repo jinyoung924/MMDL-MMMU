@@ -1,0 +1,190 @@
+{
+  "schema_version": "geometry3k_audit_summary_v1",
+  "source_revision": "99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb",
+  "source_archives_verified": [
+    {
+      "archive": "/tmp/geometry3k_audit/train.zip",
+      "path": "train.zip",
+      "url": "https://raw.githubusercontent.com/lupantech/InterGPS/99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb/data/geometry3k/train.zip",
+      "bytes": 89114132,
+      "git_blob_sha1": "13cd1f121923595efb04ab160185ab8255e8bd25",
+      "sha256": "e12ee4d2ad85117a4d4279ce46917ac5f2a3aaa2266d4413118b6087a151a95b",
+      "purpose": "candidate_source",
+      "sha256_verified": true,
+      "git_blob_verified": true
+    },
+    {
+      "archive": "/tmp/geometry3k_audit/val.zip",
+      "path": "val.zip",
+      "url": "https://raw.githubusercontent.com/lupantech/InterGPS/99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb/data/geometry3k/val.zip",
+      "bytes": 12486000,
+      "git_blob_sha1": "ba4b957be793c5356591de55f6d7d710f94d9d7b",
+      "sha256": "67b1b0a9b424cb5e6634d20a6494a554c529156a6cfd0492c636e047e13f314a",
+      "purpose": "protection_only",
+      "sha256_verified": true,
+      "git_blob_verified": true
+    },
+    {
+      "archive": "/tmp/geometry3k_audit/test.zip",
+      "path": "test.zip",
+      "url": "https://raw.githubusercontent.com/lupantech/InterGPS/99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb/data/geometry3k/test.zip",
+      "bytes": 25524601,
+      "git_blob_sha1": "cdf74f8d16e3450839553c70ef345f43e42ef7c5",
+      "sha256": "a0d5dece634686303eb6cabca0a7306136ca8ade5f562a4af4c6561ecaf6c9b3",
+      "purpose": "protection_only",
+      "sha256_verified": true,
+      "git_blob_verified": true
+    }
+  ],
+  "thresholds": {
+    "image_protection_dhash_hamming_le": 4,
+    "within_train_group_dhash_hamming_le": 8,
+    "text_shingle_words": 5,
+    "text_min_shared_distinct_shingles": 8,
+    "text_containment_ge": 0.6,
+    "exact_normalized_text_requires_min_distinct_shingles_per_variant": 8,
+    "choices_excluded_from_text_matching": true,
+    "protection_propagates_through_transitive_train_groups": true
+  },
+  "native_split_rows_verified": {
+    "val": 300,
+    "test": 601,
+    "train": 2101
+  },
+  "candidate_rows": 2101,
+  "candidate_source_split": "train",
+  "native_four_way_mc_rows": 2101,
+  "internal_roles_assigned": 0,
+  "all_old_657_images_verified": true,
+  "old_fingerprints_reused_after_actual_bytes_sha256_verification": true,
+  "protected_unique_images": 34910,
+  "protected_question_records": 54024,
+  "minimum_protected_dhash_distance_histogram": {
+    "0": 627,
+    "1": 1,
+    "3": 6,
+    "4": 14,
+    "5": 17,
+    "6": 35,
+    "7": 62,
+    "8": 75,
+    "9": 122,
+    "10": 175,
+    "11": 257,
+    "12": 243,
+    "13": 223,
+    "14": 151,
+    "15": 74,
+    "16": 14,
+    "17": 5
+  },
+  "direct_image_protection_rows": 648,
+  "direct_text_protection_rows": 531,
+  "direct_any_protection_rows": 913,
+  "transitive_additional_hold_rows": 78,
+  "held_rows_after_group_propagation": 991,
+  "eligible_manual_review_rows": 1110,
+  "within_train_components": 1109,
+  "eligible_components": 791,
+  "within_train_edges": 3245,
+  "component_size_histogram": {
+    "1": 719,
+    "2": 219,
+    "3": 74,
+    "4": 39,
+    "5": 14,
+    "6": 13,
+    "7": 8,
+    "8": 1,
+    "9": 5,
+    "10": 1,
+    "11": 2,
+    "12": 3,
+    "13": 1,
+    "15": 2,
+    "17": 1,
+    "18": 2,
+    "23": 2,
+    "28": 1,
+    "32": 1,
+    "39": 1
+  },
+  "eligible_component_size_histogram": {
+    "1": 579,
+    "2": 145,
+    "3": 41,
+    "4": 18,
+    "5": 3,
+    "6": 4,
+    "7": 1
+  },
+  "max_one_per_eligible_component": 791,
+  "sampling_goal_counts_all": {
+    "Angle": 824,
+    "Length": 1034,
+    "Area": 201,
+    "Ratio": 51,
+    "Other": 10
+  },
+  "sampling_goal_counts_eligible": {
+    "Angle": 437,
+    "Length": 591,
+    "Area": 69,
+    "Ratio": 14,
+    "Other": 1
+  },
+  "sampling_tag_counts_eligible": {
+    "Triangle": 571,
+    "Quadrilateral": 202,
+    "Circle": 234,
+    "Line": 143
+  },
+  "eligible_priority_goal_rows": 1042,
+  "eligible_priority_goal_components": 731,
+  "image_overlap_match_counts_by_protection_category": {
+    "Geometry3K_test_image": 962,
+    "Geometry3K_val_image": 499,
+    "existing_MMMU_any_split_or_BMMR_eval": 6
+  },
+  "image_cache": "/tmp/geometry3k_audit/train_images",
+  "image_path_pattern": "/tmp/geometry3k_audit/train_images/{source_id}/img_diagram.png",
+  "gold_policy": "Official original train gold preserved for later verification; not independently verified. No evaluation answers/solutions exported. No source gold used for selecting, grouping, or sampling priority.",
+  "ready_for_training": false,
+  "manual_review_required": true,
+  "thresholds_relaxed_for_quantity": false,
+  "old_source_locks_and_roles_modified": false,
+  "input_sha256": {
+    "/home/leesg17/UNI/multi-modal/MMMU-val/data/geometry_stability/source_lock.json": "63d65a674f965c8c305c231c536b11f52b0ab5cb912b0099aee623c8701bafc4",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/data/diagram_v2/protected_image_index.json": "2a609bc4ebd7deda455b9de1a38ea7bb6d45b7d6dda8348ed06241cff772c0f5",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/data/diagram_v2/pool_image_screen.jsonl": "89d7440194806b7c669e2f492913a3c54be6959e2419fafa4da66883b65b3790",
+    "/tmp/bmmr_audit/BMMR.tsv": "8a1f80ea519ab1bd83739791ff0307c83ca438705cfe3f85ca978a34dd2859f5"
+  },
+  "limitations": [
+    "dHash and text overlap are conservative review heuristics, not proof of semantic equivalence or non-overlap.",
+    "Transitive grouping may hold many distinct problems because simple diagram shapes can have similar dHash values.",
+    "No image answer-leakage screen or independent gold verification has been performed; every surviving row needs manual review.",
+    "Protected question text is used only in memory to produce protection matches; protected answers, solutions, and pixels are never exported.",
+    "Train image cache is under /tmp; pinned archive/member paths and hashes support reconstruction."
+  ],
+  "output_sha256": {
+    "review_pool.jsonl": "007e705d3b1d3ac86c46a636fb9b35fe0c38fef4c2093ea2f8e2fd21896387c9",
+    "protected_image_index.json": "2892d014a00bc0c3d4aa86a755e54ff9d592c7f144d67d2515d0fccf74dcb310",
+    "group_audit.json": "7dde27767fd02d7f0e317a22061ec6e2370cca14cd5f33598c8ca81ff20062d7"
+  },
+  "direct_image_hold_rows_by_method": {
+    "bytes_sha256": 416,
+    "dhash64_hamming_le_4": 648,
+    "pixels_sha256": 627
+  },
+  "direct_image_near_only_rows": 21,
+  "direct_image_hold_rows_by_category": {
+    "Geometry3K_test_image": 498,
+    "Geometry3K_val_image": 279,
+    "existing_MMMU_any_split_or_BMMR_eval": 5
+  },
+  "direct_text_hold_rows_by_category": {
+    "BMMR_eval_text": 29,
+    "Geometry3K_test_text": 451,
+    "Geometry3K_val_text": 329
+  }
+}

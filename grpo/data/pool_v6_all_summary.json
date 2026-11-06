@@ -1,0 +1,23 @@
+{
+ "excluded": {
+  "off_domain": 87079,
+  "not_single_number": 3946,
+  "not_single_image": 2427,
+  "multiple_choice_question": 10,
+  "difficulty_1": 24,
+  "mmmu_image_overlap": 12,
+  "non_english": 2
+ },
+ "pool": 3795,
+ "domain": {
+  "tech_eng": 2178,
+  "business": 1617
+ },
+ "difficulty": {
+  "3": 2081,
+  "2": 976,
+  "4": 737,
+  "5": 1
+ },
+ "source_revision": "0e54d1161f62daabb2a13346949b02bb8df5b836"
+}

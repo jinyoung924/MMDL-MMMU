@@ -1,0 +1,80 @@
+{
+  "results": {
+    "base": {
+      "accuracy_mean_percent": 64.93333333333334,
+      "accuracy_seed_std_pp": 0.94149867396955,
+      "seed_accuracy_percent": [
+        64.33333333333333,
+        66.55555555555556,
+        64.77777777777777,
+        64.22222222222223,
+        64.77777777777777
+      ],
+      "diagram_group_n": 351,
+      "diagram_group_mean_percent": 62.22222222222222
+    },
+    "answer": {
+      "accuracy_mean_percent": 50.75555555555556,
+      "accuracy_seed_std_pp": 0.552212161768407,
+      "seed_accuracy_percent": [
+        51.11111111111111,
+        50.77777777777778,
+        51.33333333333333,
+        50.66666666666667,
+        49.888888888888886
+      ],
+      "diagram_group_n": 351,
+      "diagram_group_mean_percent": 49.8005698005698
+    },
+    "rationale": {
+      "accuracy_mean_percent": 55.44444444444444,
+      "accuracy_seed_std_pp": 0.5270462766947287,
+      "seed_accuracy_percent": [
+        55.77777777777778,
+        55.888888888888886,
+        55.55555555555556,
+        55.44444444444444,
+        54.55555555555556
+      ],
+      "diagram_group_n": 351,
+      "diagram_group_mean_percent": 52.25071225071225
+    }
+  },
+  "comparisons": {
+    "answer_vs_base": {
+      "delta_percentage_points": -14.177777777777777,
+      "question_bootstrap_95ci_pp": [
+        -17.17777777777778,
+        -11.221666666666675
+      ],
+      "mean_corrected_per_seed": 76.0,
+      "mean_new_errors_per_seed": 203.6,
+      "ci_scope": "Question resampling conditional on these five generation seeds and this one training seed; not training-run uncertainty."
+    },
+    "rationale_vs_base": {
+      "delta_percentage_points": -9.488888888888889,
+      "question_bootstrap_95ci_pp": [
+        -11.511666666666667,
+        -7.466666666666668
+      ],
+      "mean_corrected_per_seed": 77.8,
+      "mean_new_errors_per_seed": 163.2,
+      "ci_scope": "Question resampling conditional on these five generation seeds and this one training seed; not training-run uncertainty."
+    },
+    "rationale_vs_answer": {
+      "delta_percentage_points": 4.688888888888889,
+      "question_bootstrap_95ci_pp": [
+        1.9994444444444446,
+        7.3999999999999995
+      ],
+      "mean_corrected_per_seed": 149.0,
+      "mean_new_errors_per_seed": 106.8,
+      "ci_scope": "Question resampling conditional on these five generation seeds and this one training seed; not training-run uncertainty."
+    }
+  },
+  "training_counts": {
+    "train": 19,
+    "held_out_diagnostic": 5
+  },
+  "interpretation": "19-item feasibility pilot, one training seed per arm. Rationale vs answer changes supervised content and token count; it does not isolate an encoder mechanism."
+}

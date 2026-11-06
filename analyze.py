@@ -4,6 +4,7 @@
 python analyze.py aggregate results/seed*                   # -> results/table.md + results/scores.json (mean ± sd)
 python analyze.py failures  results/seed* [--tags T.jsonl]  # stability classes, truncation/loop breakdown, axes table
 python analyze.py compare   results/seed* vs tuned/seed0 tuned/seed1 --target "Subj1,Subj2"   # paired Δ + forgetting
+python analyze.py compare   results/seed* vs dev/seed0 --base-mean 1        # single-seed dev run vs the 5-seed base mean
 python analyze.py export    results/seed* --out DIR --sample 48            # first 48 of a seeded shuffle -> DIR/untagged/<id>/
 python analyze.py export    results/seed* --out DIR --tags T.jsonl --per-type 5   # first 5 per tag, same order -> DIR/<type>/<id>/
 (`export` needs `datasets`; tags follow reports/failure_tagging_protocol.md, one JSON object per line)
@@ -113,12 +114,15 @@ def failures(dirs, tags=None):
         print(f"\n== tags over stable-wrong ({sum(t.values())}/{len(stable_wrong)} tagged): {dict(t.most_common())}")
 
 
-def compare(base_dirs, tuned_dirs, target_subjects=(), reps=2000):
+def compare(base_dirs, tuned_dirs, target_subjects=(), reps=2000, base_mean=False):
     """Base vs fine-tuned, paired by seed and question. Primary: Δacc on all non-target questions (no selection).
     Descriptive: of what the base model reliably solved, what the tuned model no longer solves, split into
     format vs content losses. "Reliably solved" is picked ONLY from base runs whose seed is not in the paired
     comparison — selecting and measuring on the same runs makes an unchanged model look ~10 pts worse
-    (regression to the mean; measured with a base-vs-base null test)."""
+    (regression to the mean; measured with a base-vs-base null test).
+    base_mean: Δacc of the unselected groups is taken against the per-question mean of ALL base seeds (single-seed
+    dev runs: a fine-tuned model's trajectories diverge anyway, so one base draw only adds noise and its luck —
+    base seed 0 sits 0.6 below the 5-seed mean). The stable-correct group still uses the paired seeds only."""
     cfg = lambda d: json.load(open(Path(d) / "scores.json"))["config"]
     skip = {"seed", "out", "model", "model_revision", "ids_file"}
     b0 = cfg(base_dirs[0])
@@ -132,24 +136,27 @@ def compare(base_dirs, tuned_dirs, target_subjects=(), reps=2000):
     if not seeds:
         sys.exit("no seed in common between base and tuned runs")
     ids = sorted(set.intersection(*(set(R) for R in [*base.values(), *tuned.values()])))
-    mean = lambda runs, i: st.mean(runs[s][i]["correct"] for s in seeds)
-    delta = {i: mean(tuned, i) - mean(base, i) for i in ids}
+    mean = lambda runs, i, ss=seeds: st.mean(runs[s][i]["correct"] for s in ss)
+    paired = {i: mean(tuned, i) - mean(base, i) for i in ids}
+    delta = {i: mean(tuned, i) - mean(base, i, sorted(base)) for i in ids} if base_mean else paired
     rng = random.Random(0)
 
-    def ci(qs):
+    def ci(qs, d):
         if not qs:
             return float("nan"), float("nan"), float("nan")
-        boots = sorted(st.mean(delta[rng.choice(qs)] for _ in qs) for _ in range(reps))
-        return 100 * st.mean(delta[i] for i in qs), 100 * boots[int(0.025 * reps)], 100 * boots[int(0.975 * reps)]
+        boots = sorted(st.mean(d[rng.choice(qs)] for _ in qs) for _ in range(reps))
+        return 100 * st.mean(d[i] for i in qs), 100 * boots[int(0.025 * reps)], 100 * boots[int(0.975 * reps)]
 
     held = [s for s in base if s not in seeds]  # selection runs, disjoint from the measured ones
     print(f"== paired on seeds {seeds}, {len(ids)} questions; 'base stable-correct' selected on held-out base seeds {held}")
+    if base_mean:
+        print(f"   Δacc vs per-question mean of base seeds {sorted(base)} (stable-correct group: paired seeds only)")
     groups = {"all": ids, "target subjects": [i for i in ids if base[seeds[0]][i]["subject"] in target_subjects],
               "non-target subjects": [i for i in ids if base[seeds[0]][i]["subject"] not in target_subjects]}
     strong = [i for i in groups["non-target subjects"] if held and all(base[s][i]["correct"] for s in held)]
     groups["non-target, base stable-correct"] = strong
     for name, qs in groups.items():
-        m, lo, hi = ci(qs)
+        m, lo, hi = ci(qs, paired if qs is strong else delta)  # never average the selection seeds into the strong group
         print(f"   Δacc {name:32s} n={len(qs):3d}  {m:+6.2f} pts  95% CI [{lo:+.2f}, {hi:+.2f}]")
     lost = lambda runs: [i for i in strong if not any(runs[s][i]["correct"] for s in seeds)]
     fmt = [i for i in lost(tuned) if all(tuned[s][i]["truncated"] or not tuned[s][i]["answer_tag_found"] for s in seeds)]
@@ -244,9 +251,10 @@ if __name__ == "__main__":
         aggregate(dirs)
     elif cmd == "failures":
         failures(dirs, tags)
-    elif cmd == "compare":  # analyze.py compare BASE_DIR... vs TUNED_DIR... [--target "Subj1,Subj2"]
+    elif cmd == "compare":  # analyze.py compare BASE_DIR... vs TUNED_DIR... [--target "Subj1,Subj2"] [--base-mean 1]
         k = dirs.index("vs")
-        compare(dirs[:k], dirs[k + 1:], tuple(opts.get("--target", "").split(",")) if "--target" in opts else ())
+        compare(dirs[:k], dirs[k + 1:], tuple(opts.get("--target", "").split(",")) if "--target" in opts else (),
+                base_mean=opts.get("--base-mean") == "1")
     elif cmd == "export":
         export(dirs, opts["--out"], tags, int(opts.get("--per-type", 0)), int(opts.get("--sample", 0)),
                int(opts.get("--seed", 0)))

@@ -1,0 +1,19 @@
+{
+  "repository": "guanyu615/BMMR",
+  "revision": "e07b24f9758b6421c8b92cc5cfb0de26dd722b5a",
+  "files": {
+    "trainset/bmmr-train-80k.jsonl": {
+      "size": 205899775,
+      "sha256": "9ba5b51c37a800a6e523e46071b38c0821cb5ef74fa1f06bc22e3fc9ee8a5b4a"
+    },
+    "testset/BMMR.tsv": {
+      "size": 2733381458,
+      "sha256": "8a1f80ea519ab1bd83739791ff0307c83ca438705cfe3f85ca978a34dd2859f5"
+    }
+  },
+  "image_archive": {
+    "path": "trainset/imgs.zip",
+    "size": 10529403922,
+    "download_mode": "central_directory_only"
+  }
+}

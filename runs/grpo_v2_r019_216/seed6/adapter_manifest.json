@@ -1,0 +1,9 @@
+{
+  "path": "/home/leesg17/UNI/multi-modal/MMMU-val/grpo/runs/v2/ckpt/r019",
+  "base_model": "Qwen/Qwen3-VL-4B-Instruct",
+  "rank": 16,
+  "files": {
+    "adapter_config.json": "4771c57d3bb853913795bdf9c9414f47214d87837795f25110f906e1259c7e1d",
+    "adapter_model.safetensors": "93831ba7a0366eb33d900691037136b6eef62c76390617eb58f06140d3e1036b"
+  }
+}

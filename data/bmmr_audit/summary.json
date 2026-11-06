@@ -1,0 +1,64 @@
+{
+  "source_repository": "guanyu615/BMMR",
+  "source_revision": "e07b24f9758b6421c8b92cc5cfb0de26dd722b5a",
+  "train_source_path": "trainset/bmmr-train-80k.jsonl",
+  "train_sha256": "9ba5b51c37a800a6e523e46071b38c0821cb5ef74fa1f06bc22e3fc9ee8a5b4a",
+  "eval_source_path": "testset/BMMR.tsv",
+  "eval_sha256": "8a1f80ea519ab1bd83739791ff0307c83ca438705cfe3f85ca978a34dd2859f5",
+  "train": {
+    "rows": 88991,
+    "question_cjk=True,answer_cjk=True": 71285,
+    "nonempty_assistant_response": 88991,
+    "reasoning_heading": 88924,
+    "final_answer_heading": 76915,
+    "single_image": 85960,
+    "question_solution_cue_heuristic": 699,
+    "question_cjk=False,answer_cjk=True": 11532,
+    "text_or_id_flagged_rows": 1424,
+    "question_cjk=False,answer_cjk=False": 6163,
+    "question_cjk=True,answer_cjk=False": 11
+  },
+  "eval": {
+    "rows": 40916,
+    "language:zh": 24504,
+    "task_type:mc": 19546,
+    "cot:True": 20458,
+    "task_type:open_end": 21370,
+    "language:en": 16412,
+    "cot:False": 20458
+  },
+  "eval_unique_ids": 20458,
+  "protected_mmmu_rows": 900,
+  "protected_unique_image_bytes": 23173,
+  "train_unique_ids": 88991,
+  "train_image_references": 93000,
+  "train_unique_image_paths": 79820,
+  "train_unique_normalized_questions": 52274,
+  "assistant_character_quantiles": {
+    "0": 59.0,
+    "50": 790.0,
+    "90": 1873.0,
+    "95": 2469.0,
+    "99": 3966.0,
+    "100": 149009.0
+  },
+  "assistant_token_quantiles": {
+    "0": 35.0,
+    "50": 449.0,
+    "90": 920.0,
+    "95": 1163.0,
+    "99": 1725.0,
+    "100": 30260.0
+  },
+  "tokenizer_file": "/home/leesg17/.cache/huggingface/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17/tokenizer.json",
+  "review_candidates_before_internal_dedup": 346,
+  "review_candidates_after_internal_dedup": 344,
+  "ready_for_training": false,
+  "limitations": [
+    "Train images have NOT all been checked against protected images.",
+    "Text checks do not rule out translations, paraphrases, crops or semantic duplicates.",
+    "Language, MC format and solution-in-question checks are heuristics.",
+    "Train has no separate gold, language, discipline or question_type fields.",
+    "Every candidate requires image screening, question review and verified annotation."
+  ]
+}

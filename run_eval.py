@@ -172,6 +172,30 @@ def eval_open(gold_i, pred_i):
 
 
 # --- Main --------------------------------------------------------------------
+def native_lora_config(adapter="", enabled=False, max_rank=16, base_model="Qwen/Qwen3-VL-4B-Instruct"):
+    """Optional native adapter path; defaults preserve the original engine call."""
+    if not adapter and not enabled:
+        return {}, None, None
+    kwargs = {"enable_lora": True, "max_lora_rank": max_rank, "max_loras": 1}
+    if not adapter:
+        return kwargs, None, None
+    import hashlib
+    from vllm.lora.request import LoRARequest
+    path = Path(adapter).resolve()
+    config = json.loads((path / "adapter_config.json").read_text())
+    if config.get("peft_type") != "LORA" or config.get("r", max_rank + 1) > max_rank:
+        raise ValueError("Unsupported adapter type/rank")
+    if config.get("base_model_name_or_path") != base_model:
+        raise ValueError("Adapter/base model mismatch")
+    weights = path / "adapter_model.safetensors"
+    if not weights.is_file():
+        raise ValueError("Missing safe adapter weights")
+    manifest = {"path": str(path), "base_model": base_model, "rank": config["r"],
+                "files": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+                          for p in (path / "adapter_config.json", weights)}}
+    return kwargs, LoRARequest("evaluation_adapter", 1, str(path)), manifest
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="Qwen/Qwen3-VL-4B-Instruct", help="HF repo id or local checkpoint dir")
@@ -199,6 +223,9 @@ def main():
     ap.add_argument("--batch-invariant", type=int, default=1,
                     help="1 = VLLM_BATCH_INVARIANT: same seed -> identical output regardless of batching (~1.7x slower)")
     ap.add_argument("--ids-file", default="", help="only these question ids (one per line); ablations only")
+    ap.add_argument("--enable-lora", action="store_true", help="enable native LoRA kernels, also for paired adapter-free controls")
+    ap.add_argument("--lora-adapter", default="", help="local native LoRA adapter; base --model remains unchanged")
+    ap.add_argument("--max-lora-rank", type=int, default=16)
     args = ap.parse_args()
 
     # Must be set before vLLM spawns its engine process. Without it, the same seed gives different
@@ -241,17 +268,22 @@ def main():
                        else {"prompt": chat})
         meta.append((r, text, index2ans, all_choices))
 
+    lora_kwargs, lora_request, adapter_manifest = native_lora_config(
+        args.lora_adapter, args.enable_lora, args.max_lora_rank, args.model)
+    if adapter_manifest:
+        (out / "adapter_manifest.json").write_text(json.dumps(adapter_manifest, indent=2))
     llm = LLM(model=args.model, revision=rev, dtype="auto", trust_remote_code=True,
               max_model_len=args.max_model_len, gpu_memory_utilization=args.gpu_mem_util,
               limit_mm_per_prompt={"image": 7}, seed=args.seed,
-              mm_processor_kwargs={"min_pixels": args.min_pixels, "max_pixels": args.max_pixels})
+              mm_processor_kwargs={"min_pixels": args.min_pixels, "max_pixels": args.max_pixels},
+              **lora_kwargs)
     sp = SamplingParams(temperature=args.temperature, top_p=args.top_p, top_k=args.top_k,
                         repetition_penalty=args.repetition_penalty,
                         presence_penalty=args.presence_penalty,
                         max_tokens=args.max_new_tokens, seed=args.seed)
 
     t0 = time.time()
-    outs = llm.generate(prompts, sp)
+    outs = llm.generate(prompts, sp, lora_request=lora_request) if lora_request else llm.generate(prompts, sp)
     elapsed = time.time() - t0
 
     per_subject = defaultdict(lambda: [0, 0])

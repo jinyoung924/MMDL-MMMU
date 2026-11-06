@@ -1,0 +1,33 @@
+{
+  "repository": "https://github.com/lupantech/InterGPS",
+  "revision": "99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb",
+  "source": "Official Geometry3K original split archives",
+  "files": [
+    {
+      "path": "train.zip",
+      "url": "https://raw.githubusercontent.com/lupantech/InterGPS/99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb/data/geometry3k/train.zip",
+      "bytes": 89114132,
+      "git_blob_sha1": "13cd1f121923595efb04ab160185ab8255e8bd25",
+      "sha256": "e12ee4d2ad85117a4d4279ce46917ac5f2a3aaa2266d4413118b6087a151a95b",
+      "purpose": "candidate_source"
+    },
+    {
+      "path": "val.zip",
+      "url": "https://raw.githubusercontent.com/lupantech/InterGPS/99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb/data/geometry3k/val.zip",
+      "bytes": 12486000,
+      "git_blob_sha1": "ba4b957be793c5356591de55f6d7d710f94d9d7b",
+      "sha256": "67b1b0a9b424cb5e6634d20a6494a554c529156a6cfd0492c636e047e13f314a",
+      "purpose": "protection_only"
+    },
+    {
+      "path": "test.zip",
+      "url": "https://raw.githubusercontent.com/lupantech/InterGPS/99e6b5293c7bb4a5eaf2a370e6b213c79ab33ebb/data/geometry3k/test.zip",
+      "bytes": 25524601,
+      "git_blob_sha1": "cdf74f8d16e3450839553c70ef345f43e42ef7c5",
+      "sha256": "a0d5dece634686303eb6cabca0a7306136ca8ade5f562a4af4c6561ecaf6c9b3",
+      "purpose": "protection_only"
+    }
+  ],
+  "candidate_allowed_source_split": "train",
+  "ready_for_training": false
+}

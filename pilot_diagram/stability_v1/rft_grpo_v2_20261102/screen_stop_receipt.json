@@ -1,0 +1,19 @@
+{
+  "CONF_or_official_accessed": false,
+  "all24_weak_responses_manually_reviewed": true,
+  "input_sha256": {
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/rft_grpo_v2_20261102/host_process_exit_audit.json": "3a423e0ed0ed421592ef2a5fa3fa837f262c31d60e51ef308f91483bf24114fd",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/rft_grpo_v2_20261102/native_screen/complete.json": "8361ff61460b23ce45c779691df489735e780dbece4399c0f1939e9be902660b",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/rft_grpo_v2_20261102/native_screen/selection.json": "14ebbaf3b8e054488a441709a5733a73030876fc31f6e141e9dcb84e731de150",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/rft_grpo_v2_20261102/native_screen_independent_audit.json": "4ec0ff9cf29ad0fa6f4bc632b75be353d371008faa9f519ffd616e2992643577",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/rft_grpo_v2_20261102/screen_semantic_results.json": "776bdfec7d5b8a98f34b030c28948a425c8e2a533f9e87a29c9ad097740467eb",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/rft_grpo_v2_20261102/screen_semantic_summary.json": "e33c4c8bce314fdf5033230c0fe7be352f1c4b6c63bc61ca8373c5c74ffef530"
+  },
+  "no_new_seeds31_32": true,
+  "no_recheck_or_final_stage": true,
+  "no_screen_semantic_PASS_authority_created": true,
+  "numeric_gate_passed": false,
+  "schema_version": "rft_v2_registered_negative_pilot_stop_v1",
+  "status": "STOP_numeric_screen_failed_fixed32_endpoint",
+  "valid_correct_proof_count_increased": false
+}

@@ -1,0 +1,263 @@
+{
+  "annotation_version": "diagram-grounding-v1",
+  "author": "Codex assistant in this conversation; exact backend model identifier unavailable",
+  "method": "Direct inspection of each original training image and independent mathematical solution, followed by source-answer comparison. Not human-verified and not an independent second-model review.",
+  "items": [
+    {
+      "id": "208887531",
+      "split": "diagnostic",
+      "group": "circle_geometry",
+      "answer": "E",
+      "visual_evidence": "O is the center. The drawn triangles AOB and COD have central angles 60 degrees and 90 degrees respectively. Each has two radii as sides; there are no other closed triangles made from the drawn segments.",
+      "rule": "Two radii of the same circle have equal lengths. An isosceles triangle with a 60-degree vertex angle is equilateral.",
+      "solution": "AOB has three 60-degree angles, so it is both acute and equilateral. COD has equal radii OC and OD and a right angle at O, so it is an isosceles right triangle. None of the drawn triangles has three unequal sides. The absent type is scalene.",
+      "check": "Enumerated the closed triangles from drawn segments rather than assuming unshown chords."
+    },
+    {
+      "id": "122107569",
+      "split": "train",
+      "group": "right_triangles",
+      "answer": "A",
+      "visual_evidence": "The square angle marker is between the horizontal side a and the vertical side 8. The slanted side labeled 10 is opposite that right angle.",
+      "rule": "In a right triangle the hypotenuse, not either leg, is the side whose square equals the sum of the other two squares.",
+      "solution": "Here 10 is the hypotenuse. Thus a^2 + 8^2 = 10^2, so a^2 = 36. A length is positive, hence a = 6, which is option A.",
+      "check": "6^2 + 8^2 = 100 = 10^2."
+    },
+    {
+      "id": "116808654",
+      "split": "train",
+      "group": "conic_graph_matching",
+      "answer": "A",
+      "visual_evidence": "Graphs A and D open upward and downward, whereas B and C open left and right. In A the vertices are about (-1,4) and (-1,-2); D is visibly wider with a smaller vertical separation.",
+      "rule": "For (y-k)^2/a^2 - (x-h)^2/b^2 = 1, the center is (h,k), the branches open vertically, and the vertices are (h,k plus or minus a).",
+      "solution": "The given equation has center (-1,1), a = 3, and b = 2. Its vertices must be (-1,4) and (-1,-2), with asymptote slopes plus or minus 3/2. Graph A matches the orientation, center, and vertex spacing.",
+      "check": "Both vertices satisfy the equation; horizontal-opening alternatives fail the sign of the positive squared term."
+    },
+    {
+      "id": "53e0252f-9837-4357-bab7-2453cddcd0ab30",
+      "split": "train",
+      "group": "directed_graph_algorithms",
+      "answer": "A",
+      "visual_evidence": "The arrows include 1->6 (5), 1->2 (35), 6->7 (2), 6->3 (12), 6->5 (8), 7->5 (4), 7->4 (15), 3->2 (1), and 3->4 (3). The edge labeled 2 between 3 and 1 points toward 1, not toward 3.",
+      "rule": "Dijkstra's algorithm finalizes the unvisited vertex with the smallest tentative distance and relaxes outgoing edges only; all the depicted weights are positive.",
+      "solution": "After starting at 1, finalize 6 at distance 5, then 7 at 7. Vertex 7 improves 5 to 11 and gives 4 a tentative distance 22. Finalize 5 at 11, then 3 at 17. Vertex 3 improves 2 to 18 and 4 to 20. The order is 6,7,5,3,2,4, option A.",
+      "check": "Checked by an independent heap-based shortest-path calculation on the transcribed directed edges."
+    },
+    {
+      "id": "116511887",
+      "split": "train",
+      "group": "parallelogram_areas",
+      "answer": "A",
+      "visual_evidence": "E lies on CD; A, E, F are collinear; B, C, F are collinear. AD is parallel to BC, so B and F lie on a line parallel to AD.",
+      "rule": "Triangles with the same base and equal perpendicular heights have equal areas. A triangle's area scales linearly when its base is subdivided on one line.",
+      "solution": "Triangles ADF and ADC have base AD and the same height, so their areas are equal. Subtract their common triangle ADE: area(DEF) = area(AEC). Triangles AEC and BEC share base EC on line CD, and A and B lie on line AB parallel to CD, giving equal heights. Therefore area(DEF) = area(BCE) = 1.",
+      "check": "Also checked with affine coordinates for several interior positions of E."
+    },
+    {
+      "id": "98640723",
+      "split": "train",
+      "group": "right_triangles",
+      "answer": "C",
+      "visual_evidence": "The vertical and horizontal legs carry matching tick marks. A square marks their included angle as 90 degrees. One leg is labeled 4 sqrt(2), and x labels the opposite slanted side.",
+      "rule": "Matching ticks indicate equal lengths. The hypotenuse of an isosceles right triangle is sqrt(2) times either leg.",
+      "solution": "Both legs are 4 sqrt(2). Therefore x = 4 sqrt(2) times sqrt(2) = 8. Equivalently, x^2 = 32 + 32 = 64. Select C.",
+      "check": "The mark denotes equal legs, not equality of a leg and the hypotenuse."
+    },
+    {
+      "id": "122348057",
+      "split": "diagnostic",
+      "group": "circle_geometry",
+      "answer": "C",
+      "visual_evidence": "TA and TB are tangents from the external point T. The 60-degree mark is between OA and OT, not between OA and OB.",
+      "rule": "A radius is perpendicular to the tangent at its point of contact. The center-to-external-point segment bisects the angle between the two tangents.",
+      "solution": "Triangle OAT is right at A. Its angle at T is 180 - 90 - 60 = 30 degrees. Right triangles OAT and OBT are congruent by common hypotenuse OT and equal radii OA and OB, so angle OTB is also 30 degrees. The angle ATB is 60 degrees, option C.",
+      "check": "The 60-degree central mark is only half of AOB; treating it as the full angle gives the wrong result."
+    },
+    {
+      "id": "112771017",
+      "split": "train",
+      "group": "polar_coordinates",
+      "answer": "C",
+      "visual_evidence": "The plotted point in C is in quadrant II at approximately (-2.5,4.3). A is in quadrant III, B in quadrant I, and D in quadrant IV.",
+      "rule": "Convert polar coordinates using x = r cos(theta), y = r sin(theta); adding 2 pi to the angle leaves the point unchanged.",
+      "solution": "The angle -4 pi/3 is coterminal with 2 pi/3. With r = 5, x = -5/2 and y = 5 sqrt(3)/2. The quadrant-II point with these coordinates appears in graph C.",
+      "check": "x^2 + y^2 = 25; x is negative and y positive."
+    },
+    {
+      "id": "148705784",
+      "split": "train",
+      "group": "electrostatic_diagrams",
+      "answer": "B",
+      "visual_evidence": "The positive end of the dipole is above the negative end. The field arrows point upward along the dipole axis and fan outward, so the field lines are closer together near the lower, negative end.",
+      "rule": "A positive charge is pushed along the electric field and a negative charge against it. Greater field-line density indicates a stronger field.",
+      "solution": "The upper positive charge feels an upward force, while the lower negative charge feels a downward force. The lower end is in the stronger field, so its downward force is larger. The net force is downward, option B.",
+      "check": "Equal charge magnitudes do not imply canceling forces in a nonuniform field."
+    },
+    {
+      "id": "130200291",
+      "split": "diagnostic",
+      "group": "stacked_charts",
+      "answer": "D",
+      "visual_evidence": "At year 8, the black region ends near 2.2 thousand, the blue region ends near 6.0 thousand, and the top of the stacked chart is near 6.7 thousand.",
+      "rule": "In a stacked chart, a component's value is its vertical thickness, not the height of its top boundary.",
+      "solution": "The mutual-fund value is approximately 6.0 - 2.2 = 3.8 thousand. Its share of the total is about 3.8/6.7 = 0.57. Of the listed percentages, 55% is closest, so choose D.",
+      "check": "Using the blue upper boundary alone would incorrectly count the CD investment as part of the mutual funds."
+    },
+    {
+      "id": "148195922",
+      "split": "train",
+      "group": "electrostatic_diagrams",
+      "answer": "C",
+      "visual_evidence": "The fixed charges -Q and +Q are separated horizontally by d. A is a distance d directly above +Q, and B is a distance d directly below -Q. The distances to the opposite charges are each sqrt(2)d.",
+      "rule": "Electrostatic potential is the signed scalar sum kQ/r. The external work for a quasistatic move is the change in potential energy q(V_B - V_A), independent of the curved path.",
+      "solution": "V_A = (kQ/d)(1 - 1/sqrt(2)) and V_B = (kQ/d)(1/sqrt(2) - 1). Subtracting gives W = (kQq/d)(sqrt(2) - 2), which is option C. The sign is for work done by the external agent, not by the field.",
+      "check": "For positive q, moving from the positive-potential side to the negative-potential side gives negative external work."
+    },
+    {
+      "id": "74557804",
+      "split": "train",
+      "group": "similarity_scaling",
+      "answer": "B",
+      "visual_evidence": "The corresponding bases of the first and second triangles are labeled 20 and 35. The image is rotated, but the printed first-to-second order is unchanged.",
+      "rule": "For similar triangles, perimeter ratios equal corresponding side ratios and area ratios equal their squares.",
+      "solution": "The side ratio is 20:35 = 4:7. Thus the perimeter ratio is 4:7 and the area ratio is 16:49. This is option B.",
+      "check": "Use the printed side labels, since the question explicitly says the figures are not drawn to scale."
+    },
+    {
+      "id": "118693050",
+      "split": "diagnostic",
+      "group": "rigid_transformations",
+      "answer": "A",
+      "visual_evidence": "The solid vertices are (1,-4), (1,-6), (3,-3), and (3,-1). The dashed counterparts are (-5,-4), (-5,-6), (-7,-3), and (-7,-1), respectively.",
+      "rule": "Reflection in the vertical line x = c maps (x,y) to (2c-x,y), preserving height and reversing horizontal orientation.",
+      "solution": "Each matching pair has the same y coordinate and an x-coordinate midpoint of -2. Therefore reflection across x = -2 maps the solid figure to the dashed figure. Choose A.",
+      "check": "Verified the reflection formula for all four vertices."
+    },
+    {
+      "id": "98096888",
+      "split": "diagnostic",
+      "group": "rigid_transformations",
+      "answer": "B",
+      "visual_evidence": "Taking Q as origin and using grid spacings, A is (1,-1) and A' is (1,1); B is (3,0) and B' is (0,3); C is (2,1) and C' is (-1,2).",
+      "rule": "A 90-degree counterclockwise rotation about the origin maps (x,y) to (-y,x). A proposed center must work for every corresponding vertex.",
+      "solution": "All three pairs follow the 90-degree rotation rule when measured relative to Q. Thus Q is the center of rotation, corresponding to option B.",
+      "check": "Checked all three vertex pairs rather than only the visually nearest pair."
+    },
+    {
+      "id": "71916629",
+      "split": "train",
+      "group": "parallel_lines",
+      "answer": "B",
+      "visual_evidence": "Matching arrows mark AB and DC as parallel. The interior angle at D is 65 degrees; x is the interior angle at A on the same side of transversal AD.",
+      "rule": "Same-side interior angles formed by a transversal of parallel lines sum to 180 degrees.",
+      "solution": "AD crosses the two marked parallel lines, so x + 65 = 180. Therefore x = 115 degrees, which is option B.",
+      "check": "The marked pair is same-side interior, not alternate interior, so the two angles need not be equal."
+    },
+    {
+      "id": "75844299",
+      "split": "train",
+      "group": "parallel_lines",
+      "answer": "B",
+      "visual_evidence": "A and B are the upper vertices and D and C the lower vertices. The stated parallel pair is AB and DC; AD crosses those two lines.",
+      "rule": "A transversal across parallel lines makes supplementary same-side interior angles. The appearance of the other sides is not proof that they are parallel.",
+      "solution": "Along transversal AD, angles DAB and CDA are same-side interior angles. Hence m(angle DAB) + m(angle CDA) = 180 degrees, exactly option B. No second pair of parallel sides is needed.",
+      "check": "Only the stated AB parallel DC assumption was used."
+    },
+    {
+      "id": "69215345",
+      "split": "train",
+      "group": "overlapping_squares",
+      "answer": "C",
+      "visual_evidence": "WRSU is the upright square; T lies on its bottom side US. PRTY is the tilted square, and W lies on the rectangle side QX, parallel to RT. The requested ST is the horizontal gap from T to the lower-right corner S.",
+      "rule": "Coordinate geometry can express the area of the narrow rectangle as the product of a square side and its perpendicular strip width.",
+      "solution": "Let the upright square have side s and let ST = a. Use W=(0,s), R=(s,s), S=(s,0), T=(s-a,0). The tilted square has P=(0,s+a) and side length L=sqrt(s^2+a^2). The line through W parallel to RT is QX. Its perpendicular distance from the parallel line PY through P is a^2/L, found from the cross product of PW=(0,-a) and RT=(-a,-s). Therefore area(PQXY)=L(a^2/L)=a^2. Since the area is 30, ST=sqrt(30), about 5.477, closest to 5.5, option C.",
+      "check": "Checked the coordinate area identity algebraically and on numeric square configurations."
+    },
+    {
+      "id": "92536177",
+      "split": "train",
+      "group": "congruence_marks",
+      "answer": "D",
+      "visual_evidence": "Matching angle arcs mark angle F equal to angle K. Matching side ticks mark GH equal to HJ. Lines FK and GJ intersect at H, producing equal vertical angles FHG and KHJ.",
+      "rule": "Two equal angles plus a corresponding non-included side prove triangle congruence by AAS.",
+      "solution": "The two angle pairs are F with K and H with H. The included sides for these angles would be FH and KH, but the marked equal sides are GH and HJ instead. Thus the given information is AAS, option D, rather than ASA.",
+      "check": "Mapped F->K, G->J, H->H and checked which side lies between the known angles."
+    },
+    {
+      "id": "135829127",
+      "split": "train",
+      "group": "mechanical_systems",
+      "answer": "A",
+      "visual_evidence": "A moving mass is connected to the fixed wall by a spring and a damper in parallel. F is the applied horizontal force and y the mass displacement.",
+      "rule": "Newton's law gives m y'' + c y' + k y = F for a linear mass-spring-damper system. At static equilibrium the time derivatives vanish.",
+      "solution": "The nonzero mass creates a second-derivative term, so the dynamic equation is second order. Under a constant force, steady displacement obeys k y = F, making the static gain y/F = 1/k. It depends only on spring stiffness. Both statements are true, option A.",
+      "check": "Damping and inertia affect transients but not the static force balance."
+    },
+    {
+      "id": "150412692",
+      "split": "train",
+      "group": "electrostatic_diagrams",
+      "answer": "A",
+      "visual_evidence": "The positive source charge is at the center of the concentric dashed circles. A is on the innermost circle; B, C, D, and E are farther from the charge.",
+      "rule": "The magnitude of the electric field of a point charge is k|Q|/r^2, so it is strongest at the smallest radial distance.",
+      "solution": "A has the smallest distance from the source charge. Consequently the electric field magnitude is greatest at A, which is option A.",
+      "check": "Compared radial distance to the central charge rather than distance to a drawn field arrow."
+    },
+    {
+      "id": "130215501",
+      "split": "train",
+      "group": "motion_graphs",
+      "answer": "A",
+      "visual_evidence": "Graph A begins at s=2 when t=0 with a horizontal tangent and then curves upward. B starts at 2 but is straight; C and D start at s=0 at a later time; E remains at 2.",
+      "rule": "Starting from rest with constant positive acceleration a gives s(t)=s(0)+a t^2/2 when the particle moves away from the origin.",
+      "solution": "Here s(0)=2 and s'(0)=0, while s''(t)=a>0. The graph must begin at height 2, initially have zero slope, and be concave upward. Only A satisfies all three conditions.",
+      "check": "Checked the intercept, initial slope, and concavity separately."
+    },
+    {
+      "id": "146516885",
+      "split": "train",
+      "group": "motion_graphs",
+      "answer": "C",
+      "visual_evidence": "P is the leftmost point of the circle, on the negative x-axis. The center is the origin, directly to the right of P.",
+      "rule": "In uniform circular motion acceleration is centripetal: it points toward the center regardless of whether motion is clockwise or counterclockwise.",
+      "solution": "From P, the direction toward the origin is rightward along the positive x-axis. Therefore the acceleration direction is +i, option C. The direction of velocity is not needed.",
+      "check": "The radial position points left while centripetal acceleration points oppositely, to the right."
+    },
+    {
+      "id": "128875500",
+      "split": "train",
+      "group": "electrostatic_diagrams",
+      "answer": "C",
+      "visual_evidence": "The upper dimension runs from the source sphere to x and is D. The lower dimension runs from the source sphere all the way to y and is 2D; it is not the distance from x to y.",
+      "rule": "Outside a charged sphere, E(r)=kQ/r^2 and V(r)=kQ/r with zero potential at infinity.",
+      "solution": "At x, E=kQ/D^2, so kQ=E D^2. At y the radius is 2D, giving V_y=kQ/(2D)=ED/2. Choose C.",
+      "check": "Potential scales with 1/r, whereas field scales with 1/r^2; ED has units of potential."
+    },
+    {
+      "id": "138068443",
+      "split": "train",
+      "group": "motion_graphs",
+      "answer": "D",
+      "visual_evidence": "This is a position x versus time t graph. Near S the curve forms a sharp upward-opening minimum. Q is a downward-opening maximum, and the curve near P and R is less upward-curved than near S.",
+      "rule": "Acceleration is the second derivative of position with respect to time, so its sign and relative size are read from how rapidly the slope increases, not from the height of the curve.",
+      "solution": "At S the slope changes rapidly from negative to positive, giving the largest positive second derivative among the marked points. The lowest position does not imply negative acceleration. Select point S, option D.",
+      "check": "Distinguished position, slope (velocity), and change in slope (acceleration)."
+    }
+  ],
+  "excluded_after_image_review": {
+    "116194728": "Axis labels too unclear to certify the cycloid graph against the stated interval.",
+    "70769466": "A choice is visibly selected in the input screenshot.",
+    "115890826": "The text does not establish that the chord intersection is the circle center; the offered conclusion depends on extra assumptions.",
+    "151508145": "The image contains the original graph but not the answer graphs.",
+    "116966241": "The correct option is visibly selected in the screenshot.",
+    "114076959": "Two alternatives show the same point with different polar representations; not used in the single-answer pilot.",
+    "72354585": "A choice is visibly selected in the input screenshot.",
+    "120353249": "The answer choice is circled on the input image.",
+    "116310391": "Small axis labels make the required distinction between graph options uncertain.",
+    "63569035": "The descending plotted boundary appears inconsistent with its printed equation.",
+    "145074661": "Options appear to share the required wavelength with different amplitudes; the question does not constrain amplitude.",
+    "147220044": "The circuit image is cropped and omits the upper components.",
+    "95743765": "Multipart question and insufficiently legible graph details for a reliable single-answer label.",
+    "102578651": "Both drawing equal-radius arcs directly and first setting the compass width to DE can be valid construction procedures; source answer disagrees, so quarantine rather than force a label."
+  }
+}

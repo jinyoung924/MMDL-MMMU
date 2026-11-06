@@ -1,0 +1,261 @@
+{
+  "correct": 24,
+  "human_verified": false,
+  "items": [
+    {
+      "case_id": "T01",
+      "correct": true,
+      "gold": "D",
+      "parsed": "D",
+      "response_sha256": "4f5f5dc657d50be071c4ba1a11b4a7c4f9a23b4d2d8059771483f7e43e1ea508",
+      "source_id": "Geometry3K/train/242",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T02",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "6c9c8c68bb8c6a23df4c2340bbfb4e45482f36aa6fc28cbf39c30994412fa8aa",
+      "source_id": "Geometry3K/train/2100",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T03",
+      "correct": true,
+      "gold": "C",
+      "parsed": "C",
+      "response_sha256": "d3b290d8ccf41a25f8bb1e57c27f8924e830643d6fc6d95a9503b0c1548c6a96",
+      "source_id": "Geometry3K/train/1006",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T04",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "3db7801d4e8fea944bc55b598b7fabc1a4fe3ddef6cd230a455996e4e4f0bb42",
+      "source_id": "Geometry3K/train/434",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T05",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "efade83246d9589f4164316ad2cb3c485c0f25424cdbb18ef7adbf6f7c878e7c",
+      "source_id": "Geometry3K/train/31",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T06",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "4de9e1bfb472be35ac44839153ad61014d16f965c090d45d9ca7a5a02a6d471a",
+      "source_id": "Geometry3K/train/1326",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T07",
+      "correct": true,
+      "gold": "A",
+      "parsed": "A",
+      "response_sha256": "cb6b5334c19514cd564da6f2805b7ba270674d940af41fcecf1e860aea29b2c6",
+      "source_id": "Geometry3K/train/869",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T08",
+      "correct": true,
+      "gold": "C",
+      "parsed": "C",
+      "response_sha256": "f548f01e2cccffa2dd51bb77bfa7fa2a68cfd38ab2dfcb067dada1035726d06f",
+      "source_id": "Geometry3K/train/1085",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T09",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "29257e51ef6bf6223ada48cbb3a1f5cb3e0c1cca04c6bfb24ff72f91d9005f20",
+      "source_id": "Geometry3K/train/750",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T10",
+      "correct": true,
+      "gold": "A",
+      "parsed": "A",
+      "response_sha256": "7ecc69e2c1e17c1a61afdb00bc16527727050a60bb36c18a47deb25522b9a270",
+      "source_id": "Geometry3K/train/1445",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T11",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "6d8abedd7a1d4b9ce44323aec03fbb53ede1d4f58afc2fdf3f953ca5378f6486",
+      "source_id": "Geometry3K/train/175",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T12",
+      "correct": true,
+      "gold": "A",
+      "parsed": "A",
+      "response_sha256": "d839393175d43aebd077fa5e0456b48da232dd3e71ed43e84b573b81a2bb1013",
+      "source_id": "Geometry3K/train/794",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T13",
+      "correct": true,
+      "gold": "D",
+      "parsed": "D",
+      "response_sha256": "f4b94a13b364e5f5822d9a52965b66b75f19720c2ac4cabfd96cb9507445db20",
+      "source_id": "Geometry3K/train/1483",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T14",
+      "correct": true,
+      "gold": "D",
+      "parsed": "D",
+      "response_sha256": "9c196d7573937b0cc8b850327395255888e25847075ff5dccb64025cf46105f8",
+      "source_id": "Geometry3K/train/221",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T15",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "dd5105e4f5df55d15ea1ef97ddd6bb5a7dbbfa8e61eb18d49d57133e5d053921",
+      "source_id": "Geometry3K/train/1994",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T16",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "a504d75848342a8cf153b04ff8a7b08951a5a7d43d4771dfc61813206a237c8b",
+      "source_id": "Geometry3K/train/1716",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T17",
+      "correct": true,
+      "gold": "D",
+      "parsed": "D",
+      "response_sha256": "fb028d00eaf32f3029b0e90434fb674d583d0ea6314aa0708a5e4253289b596e",
+      "source_id": "Geometry3K/train/259",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T18",
+      "correct": true,
+      "gold": "C",
+      "parsed": "C",
+      "response_sha256": "289f2c5f1a53ec0a8f18878441f7af0bb2a9667cf01e057bac226419022dc9ce",
+      "source_id": "Geometry3K/train/48",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T19",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "d087b5a86bf867bbfa491cc89d7bddc0d051bc7d355fb6a4adfe6b590787d614",
+      "source_id": "Geometry3K/train/1691",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T20",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "2edbc0acf600ac5018701ad21ba22752746216845ad101362a2272620f29f1b8",
+      "source_id": "Geometry3K/train/1611",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T21",
+      "correct": true,
+      "gold": "A",
+      "parsed": "A",
+      "response_sha256": "5125002c58dd42b3767f6a5df12c6775e19bbc6e168d86f0aa51955f4725d906",
+      "source_id": "Geometry3K/train/1952",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T22",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "e044017e3f81c74805e41ec5ff48b5ec933db8d5a0cfedef09393b5f22a4f520",
+      "source_id": "Geometry3K/train/1300",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T23",
+      "correct": true,
+      "gold": "B",
+      "parsed": "B",
+      "response_sha256": "b42512ffef2ce87260ee94ef7926ad9dc91b9c5a01346868d08af53b52b6229c",
+      "source_id": "Geometry3K/train/1303",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    },
+    {
+      "case_id": "T24",
+      "correct": true,
+      "gold": "A",
+      "parsed": "A",
+      "response_sha256": "6b796a35407ad54a31721fa4ebcd1bba55b34ad01f3980e6c308869f593212ac",
+      "source_id": "Geometry3K/train/553",
+      "source_role": "train_candidate",
+      "uncertainty": null
+    }
+  ],
+  "missing_tags": 0,
+  "n": 24,
+  "one_pass_not_stability": true,
+  "output_sha256": {
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/batch_1_outputs.json": "112ad47ff121ca25aaf974c883b5032e2758948ef052810937a08d422c385bac",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/batch_2_outputs.json": "f7468013eebf11d7f47b59b689ad85ee668f9b04785e5750a1472693cb04504c",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/batch_3_outputs.json": "fea569a4824855d9f41103336adabd0f524d222c6881e617d769569fe4eb724b"
+  },
+  "prekey_seal_sha256": "16dcb76e0f23e695766b99be518c5b277f45d665f4a63661d3ae35c02f24617a",
+  "private_key_sha256": "59c1205ba8894f37f5fe86ebd10cd4730992885c7564408998e153109b484b54",
+  "proof_validity_reported_separately": true,
+  "protocol_sha256": "74fd9960724243878d6ae7352a0a9216f24f12940998aa23cb200088cccaa1ef",
+  "ready_for_training": false,
+  "schema_version": "terra61max_teacher_answer_scores_v1",
+  "scored_utc": "2026-10-31T20:38:55.722759+00:00"
+}

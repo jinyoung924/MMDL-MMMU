@@ -1,0 +1,32 @@
+{
+  "training_status": "both_complete",
+  "performance_status": "evaluation_complete",
+  "same_training_controls_verified": true,
+  "arms": {
+    "answer": {
+      "status": "complete",
+      "elapsed_sec": 141.4,
+      "peak_gpu_bytes": 12343981056,
+      "optimizer_steps": 38,
+      "n_train": 19,
+      "target": "answer",
+      "dataset_lock_sha256": "198c3f242509b60df80e30c8f988b7fd59ae40d8e8a2365fdb500e0449f819e6",
+      "supervised_target_tokens": 608,
+      "first_step_loss": 6.7033727169036865,
+      "last_step_loss": 9.007686685436056e-06
+    },
+    "rationale": {
+      "status": "complete",
+      "elapsed_sec": 144.0,
+      "peak_gpu_bytes": 12551445504,
+      "optimizer_steps": 38,
+      "n_train": 19,
+      "target": "rationale",
+      "dataset_lock_sha256": "198c3f242509b60df80e30c8f988b7fd59ae40d8e8a2365fdb500e0449f819e6",
+      "supervised_target_tokens": 20144,
+      "first_step_loss": 2.8582950830459595,
+      "last_step_loss": 0.7249883711338043
+    }
+  },
+  "note": "Official full-900 five-seed comparison has finished; see comparison.json and reports/diagram_pilot_results.md. Training loss is not a performance metric."
+}

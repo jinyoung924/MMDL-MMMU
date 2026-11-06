@@ -1,0 +1,80 @@
+{
+  "status": "preregistered_before_full_length_performance_evaluation",
+  "date_kst": "2026-10-29",
+  "branch": "solgyu-lee",
+  "counts": {
+    "train": 80,
+    "development": 40,
+    "confirmation": 40
+  },
+  "dataset_lock_sha256": "c0c0f21fc2d5a0906e6799ba143b94edc9c81ea380e8ff460042a13b352ac696",
+  "scope": "Small feasibility pilot after quality/protection screening; original target 160/80/80 not achieved.",
+  "selection": "No correct/wrong quota; random role assignment before base predictions.",
+  "arms": [
+    {
+      "name": "prose_low",
+      "style": "prose",
+      "lr": 1e-05
+    },
+    {
+      "name": "structured_low",
+      "style": "structured",
+      "lr": 1e-05
+    },
+    {
+      "name": "prose_high",
+      "style": "prose",
+      "lr": 5e-05
+    },
+    {
+      "name": "structured_high",
+      "style": "structured",
+      "lr": 5e-05
+    }
+  ],
+  "target_control": "Identical visual facts, rule and application sentences. Structured targets only add section labels. This tests formatting, NOT baseline-length preservation or longer reasoning.",
+  "training": {
+    "seed": 0,
+    "epochs": 1,
+    "n_exposures": 80,
+    "microbatch": 1,
+    "accum": 4,
+    "steps": 20,
+    "checkpoints": [
+      5,
+      10,
+      20
+    ],
+    "warmup": 2,
+    "rank": 16,
+    "alpha": 32,
+    "vision_frozen": true,
+    "native_adapter_only": true
+  },
+  "generation": {
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "max_tokens": 8192,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "presence_penalty": 1.5,
+    "batch_invariant": true,
+    "native_lora_enabled_for_base_and_adapters": true,
+    "paired_control": "Exactly zero A/B adapter, same native adapter request path as trained weights. Adapter-free native baseline is descriptive only."
+  },
+  "gates": {
+    "train": "Fixed first 40 training IDs in dataset lock; generation seed 0; at least +10 percentage points vs paired base. Evaluate all checkpoints, no development scores for failing checkpoints.",
+    "development": "For train-passing checkpoints, 40 development examples, seeds 0/1/2: mean at least +5 percentage points, each seed >= paired base. Manually check evidence/answer consistency.",
+    "selection": "Among passing checkpoints, highest development mean; ties earlier step, lower learning rate, then prose before structured.",
+    "stop": "If no checkpoint passes, record failure and do not evaluate confirmation or official MMMU.",
+    "confirmation": "Chosen recipe repeated with training seeds 1,2; fixed checkpoint step. Confirmation40 with generation seeds0/1/2: overall mean +5pp and each training seed mean>=base; no reselection.",
+    "official": "Only after confirmation passes, fixed training seed0 model, MMMU validation900 x5 generation seeds. Zero-delta native adapter controls must use the same engine configuration; old64.93 is historical context only if complete parity is not established."
+  },
+  "uncertainty": "Paired question bootstrap; exploratory model selection; no guaranteed statistical power; original development40 already informed annotation strategy.",
+  "preflight_timing_note": "An eight-training-example, 256-token greedy engine-parity probe was already running. Its accuracies were not used to choose roles, recipes or gates.",
+  "control_amendment": "Before any SFT training and before inspecting full-length baseline results: use zero-delta native adapter as primary paired control to isolate adapter dispatch from learned weights. Greedy eight-example comparison is only an engineering check."
+}

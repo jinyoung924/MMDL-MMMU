@@ -1,0 +1,334 @@
+{
+  "cohort_lock_sha256": "f39ed64eb8133f53e6c93959e9cbb8d58f3c80ea65b3e677e081557dca93c825",
+  "items": [
+    {
+      "approved_answer": "D",
+      "group": "weak",
+      "id": "Geometry3K/train/242",
+      "image_path": "/tmp/geometry3k_audit/train_images/242/img_diagram.png",
+      "image_sha256": "488dd4cb90980428d23238d156064bbde1cf989d2911ab58a334d5bf9b991b6e",
+      "original_native_group": "Geometry3K/train/group_0218",
+      "question": "Find $m \\angle SRT$.\nA. 50\nB. 55\nC. 60\nD. 65",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/2100",
+      "image_path": "/tmp/geometry3k_audit/train_images/2100/img_diagram.png",
+      "image_sha256": "3b1667454000c9f847650612fd9bd1a8d836c2b5667cd0ba0c442d1bbbb737a0",
+      "original_native_group": "Geometry3K/train/group_2100",
+      "question": "Find $x$.\nA. 24\nB. 27\nC. 72\nD. 112",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "C",
+      "group": "weak",
+      "id": "Geometry3K/train/1006",
+      "image_path": "/tmp/geometry3k_audit/train_images/1006/img_diagram.png",
+      "image_sha256": "1dad5f7ff136287d45c4555b972068e09dbd5642e1c369d5037d6e703040dfc1",
+      "original_native_group": "Geometry3K/train/group_1006",
+      "question": "Find $x$.\nA. 5\nB. 6\nC. 7\nD. 8",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/434",
+      "image_path": "/tmp/geometry3k_audit/train_images/434/img_diagram.png",
+      "image_sha256": "00b2d1f114404d29c2b2f2090b05d17f3e3f8f7cdf3acda144d776cfe7d83a5b",
+      "original_native_group": "Geometry3K/train/group_0434",
+      "question": "Find $x$ in the figure.\nA. 27.7\nB. 34\nC. 41.3\nD. 68",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/31",
+      "image_path": "/tmp/geometry3k_audit/train_images/31/img_diagram.png",
+      "image_sha256": "d5a5613201bdc7ea6932805d813da42e9f32c49f9c9c13f99efa099860ee17e6",
+      "original_native_group": "Geometry3K/train/group_0031",
+      "question": "Find $x$.\nA. 30\nB. 45\nC. 60\nD. 75",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1326",
+      "image_path": "/tmp/geometry3k_audit/train_images/1326/img_diagram.png",
+      "image_sha256": "8a3894d48ea9c82fece958bd221a83a5e43239c2bf89082a939ebd01bdfdfdf8",
+      "original_native_group": "Geometry3K/train/group_1018",
+      "question": "Find $y$.\nA. 12\nB. 13\nC. 14\nD. 15",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "A",
+      "group": "weak",
+      "id": "Geometry3K/train/869",
+      "image_path": "/tmp/geometry3k_audit/train_images/869/img_diagram.png",
+      "image_sha256": "faaa6cd1f154950fe064fd4897425861966ea226ab5aea24e23f40b4b2d51002",
+      "original_native_group": "Geometry3K/train/group_0869",
+      "question": "If $\\overline{TU} \\perp \\overline{UV}$ and $\\overline{UV} \\perp \\overline{VW}$, find $m \\angle 1$.\nA. 45\nB. 47\nC. 52\nD. 55",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "C",
+      "group": "weak",
+      "id": "Geometry3K/train/1085",
+      "image_path": "/tmp/geometry3k_audit/train_images/1085/img_diagram.png",
+      "image_sha256": "353fbc79a26af5f0aeb1c8e52ee3ca34b4927a06318eab3d0d9f2b8c9b093777",
+      "original_native_group": "Geometry3K/train/group_0916",
+      "question": "Find y.\nA. 5\nB. 5 \\sqrt { 2 }\nC. 10\nD. 10 \\sqrt { 2 }",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/750",
+      "image_path": "/tmp/geometry3k_audit/train_images/750/img_diagram.png",
+      "image_sha256": "ecf1196d9b930dbf6fdd7446a6bf72bcc6ba99bb21627c4475e1da1b14a1a83d",
+      "original_native_group": "Geometry3K/train/group_0750",
+      "question": "Find $m \\angle 3$.\nA. 15\nB. 16\nC. 18\nD. 20",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "A",
+      "group": "weak",
+      "id": "Geometry3K/train/1445",
+      "image_path": "/tmp/geometry3k_audit/train_images/1445/img_diagram.png",
+      "image_sha256": "6898f79360813ab3ad2fbeb5c81bf737360d40039dfc0226639106b6cea7efd5",
+      "original_native_group": "Geometry3K/train/group_1445",
+      "question": "Find $XY$.\nA. 21\nB. 24\nC. 33\nD. 42",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/175",
+      "image_path": "/tmp/geometry3k_audit/train_images/175/img_diagram.png",
+      "image_sha256": "e0f2d4ec496816279032b8439523d413861af36cb89ee876a3f9e470328662b2",
+      "original_native_group": "Geometry3K/train/group_0175",
+      "question": "If $QR=2$, $XW=12$, $QW=15$, and $ST=5$, find $WV$.\nA. 5\nB. 7.5\nC. 8\nD. 12",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "A",
+      "group": "weak",
+      "id": "Geometry3K/train/794",
+      "image_path": "/tmp/geometry3k_audit/train_images/794/img_diagram.png",
+      "image_sha256": "ad8324dd8feb405b415be6e00d4e628e6edc6e01181ce1baa49878a6e3c1e794",
+      "original_native_group": "Geometry3K/train/group_0794",
+      "question": "Find the value of the variable $x$ in the figure.\nA. 42\nB. 47\nC. 48\nD. 96",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "D",
+      "group": "weak",
+      "id": "Geometry3K/train/1483",
+      "image_path": "/tmp/geometry3k_audit/train_images/1483/img_diagram.png",
+      "image_sha256": "1422453b6bfe7e889d224c9669e522381456d054145535770f0bd6c701699962",
+      "original_native_group": "Geometry3K/train/group_1483",
+      "question": "Rhombus $RSTU$ has an area of 675 square meters. Find $SU$.\nA. 22.5\nB. 25.98\nC. 30\nD. 45",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "D",
+      "group": "weak",
+      "id": "Geometry3K/train/221",
+      "image_path": "/tmp/geometry3k_audit/train_images/221/img_diagram.png",
+      "image_sha256": "8ce4d349fcc02ea043ac840a8f9a3b269bd1ab8886d03a833e5520ec09db86fb",
+      "original_native_group": "Geometry3K/train/group_0221",
+      "question": "Find the perimeter of $\\triangle C P D$ if the perimeter of $\\triangle B P A$ is 12 $, B M=\\sqrt{13},$ and $C N=3 \\sqrt{13}$\nA. 6\nB. 12\nC. 24\nD. 36",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1994",
+      "image_path": "/tmp/geometry3k_audit/train_images/1994/img_diagram.png",
+      "image_sha256": "6fe5d28341ec8a1e102083c92add732918b57013557a5eb9e010450aa61f9644",
+      "original_native_group": "Geometry3K/train/group_0241",
+      "question": "$RP=3.5$ and $JP=9$. Find $PS$.\nA. 3.5\nB. 4.5\nC. 7\nD. 9",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1716",
+      "image_path": "/tmp/geometry3k_audit/train_images/1716/img_diagram.png",
+      "image_sha256": "8c9fee5314a138a16e4581201740471f0419012db484922bbb994d0779be66a7",
+      "original_native_group": "Geometry3K/train/group_1716",
+      "question": "Find $F B$ if $\\overline{S A}$ and $\\overline{F B}$ are altitudes and $\\triangle R S T \\sim \\triangle E F G$\nA. 1\nB. 2\nC. 3\nD. 4",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "D",
+      "group": "weak",
+      "id": "Geometry3K/train/259",
+      "image_path": "/tmp/geometry3k_audit/train_images/259/img_diagram.png",
+      "image_sha256": "a9ad767c47370c80afb7c2788412f3b5e1b83685c16c7a9a49da36e10743eb52",
+      "original_native_group": "Geometry3K/train/group_0259",
+      "question": "Find y. Round to the nearest tenth.\nA. 5.5\nB. 8.6\nC. 10.9\nD. 11.7",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "C",
+      "group": "weak",
+      "id": "Geometry3K/train/48",
+      "image_path": "/tmp/geometry3k_audit/train_images/48/img_diagram.png",
+      "image_sha256": "8ff1861778f14d2aba6f6ee333691ef5b2c80ab899909bafb3d14115d7cffcf5",
+      "original_native_group": "Geometry3K/train/group_0048",
+      "question": "Find y in the figure.\nA. 20\nB. 30\nC. 40\nD. 50",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1691",
+      "image_path": "/tmp/geometry3k_audit/train_images/1691/img_diagram.png",
+      "image_sha256": "d803304ed7fbfac5d386cc7f41d092b03c8fe093bb7b8df683e16c1796163adf",
+      "original_native_group": "Geometry3K/train/group_1691",
+      "question": "Find x.\nA. \\frac { 39 \\sqrt { 2 } } { 4 }\nB. \\frac { 39 \\sqrt { 2 } } { 2 }\nC. \\frac { 39 \\sqrt { 3 } } { 2 }\nD. 39",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1611",
+      "image_path": "/tmp/geometry3k_audit/train_images/1611/img_diagram.png",
+      "image_sha256": "85e4506a7c8749b3434850242920f5b59b0aa5f1e9b3b1b3b8a52f03f0cb8532",
+      "original_native_group": "Geometry3K/train/group_1611",
+      "question": "Find x.\nA. 7\nB. 7 \\sqrt { 2 }\nC. 7 \\sqrt { 3 }\nD. 14",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "A",
+      "group": "weak",
+      "id": "Geometry3K/train/1952",
+      "image_path": "/tmp/geometry3k_audit/train_images/1952/img_diagram.png",
+      "image_sha256": "8d04c7b951118ad7829cc0798d18fb25b9b21c4211eb7ef637b5f6d96a373b04",
+      "original_native_group": "Geometry3K/train/group_0193",
+      "question": "Find x\nA. 6\nB. 8\nC. 10\nD. 12",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1300",
+      "image_path": "/tmp/geometry3k_audit/train_images/1300/img_diagram.png",
+      "image_sha256": "f2336eef8aafd113234fb26396ec20ceec40f567922db833c1f767ad8c6c7323",
+      "original_native_group": "Geometry3K/train/group_1300",
+      "question": "Find y.\nA. \\frac { 2 } { 3 } \\sqrt { 2 }\nB. \\frac { 2 } { 3 } \\sqrt { 5 }\nC. 2 \\sqrt { 2 }\nD. 2 \\sqrt { 5 }",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "weak",
+      "id": "Geometry3K/train/1303",
+      "image_path": "/tmp/geometry3k_audit/train_images/1303/img_diagram.png",
+      "image_sha256": "1b32b0fca9a8b682c364f181f8093b7b8c08d635f02063eadb17b80e53ba808d",
+      "original_native_group": "Geometry3K/train/group_0296",
+      "question": "Find y.\nA. 30\nB. 45\nC. 60\nD. 90",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "A",
+      "group": "weak",
+      "id": "Geometry3K/train/553",
+      "image_path": "/tmp/geometry3k_audit/train_images/553/img_diagram.png",
+      "image_sha256": "d35cfd3162ff1d4171add1f0f0f15fdbdc04945ff3907760ea131e0f1fbb4186",
+      "original_native_group": "Geometry3K/train/group_0553",
+      "question": "Find x.\nA. 10\nB. 10 \\sqrt { 2 }\nC. 10 \\sqrt { 3 }\nD. 20",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "D",
+      "group": "stable",
+      "id": "Geometry3K/train/876",
+      "image_path": "/tmp/geometry3k_audit/train_images/876/img_diagram.png",
+      "image_sha256": "2a5b4575a3f1b0a7055b5cffbf01d2a4057a9171edf811ba330ae14df6311589",
+      "original_native_group": "Geometry3K/train/group_0876",
+      "question": "Find $h$ in each triangle.\nA. 3 \\sqrt 3\nB. 6\nC. 6 \\sqrt 2\nD. 6 \\sqrt 3",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "A",
+      "group": "stable",
+      "id": "Geometry3K/train/1391",
+      "image_path": "/tmp/geometry3k_audit/train_images/1391/img_diagram.png",
+      "image_sha256": "36c50c530c1dcca2c96f25630541e89c0a322703ac9a888945583f6227607a19",
+      "original_native_group": "Geometry3K/train/group_0704",
+      "question": "Find the value of $d$ in the parallelogram\nA. 42\nB. 56\nC. 84\nD. 92",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "C",
+      "group": "stable",
+      "id": "Geometry3K/train/703",
+      "image_path": "/tmp/geometry3k_audit/train_images/703/img_diagram.png",
+      "image_sha256": "38b168676fc78838beb5aa278a7a99aa9ccc786b05c6026342fd39e271461969",
+      "original_native_group": "Geometry3K/train/group_0703",
+      "question": "In quadrilateral $A B C D, A C=188, B D=214$, $m \\angle B P C=70,$ and $P$ is the midpoint of $A C$ and BD. Find the perimeter of quadrilateral $A B C D .$\nA. 343.1\nB. 423.1\nC. 561.2\nD. 671.2",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "stable",
+      "id": "Geometry3K/train/939",
+      "image_path": "/tmp/geometry3k_audit/train_images/939/img_diagram.png",
+      "image_sha256": "bff1f8b3d02191e2964957ebba1e6d04b1f723b4fbbf7391b9ac60bdd717de4f",
+      "original_native_group": "Geometry3K/train/group_0939",
+      "question": "Find $x$.\nA. 40\nB. 60\nC. 80\nD. 100",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "C",
+      "group": "stable",
+      "id": "Geometry3K/train/1399",
+      "image_path": "/tmp/geometry3k_audit/train_images/1399/img_diagram.png",
+      "image_sha256": "bdb85c242da2e7ae88256619c8c21f3539fd23d8fd316ffc7487e77c0d28c58e",
+      "original_native_group": "Geometry3K/train/group_1399",
+      "question": "Find x. Round to the nearest degree.\nA. 102\nB. 112\nC. 122\nD. 132",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "C",
+      "group": "stable",
+      "id": "Geometry3K/train/1090",
+      "image_path": "/tmp/geometry3k_audit/train_images/1090/img_diagram.png",
+      "image_sha256": "f92602369c9d4932eb66e5aca60ff673d27fb9e8c60380f79811d2fbd907ea23",
+      "original_native_group": "Geometry3K/train/group_1090",
+      "question": "Find x.\nA. \\frac { 4 } { 9 }\nB. \\frac { 4 } { 9 } \\sqrt { 2 }\nC. \\frac { 4 } { 9 } \\sqrt { 3 }\nD. \\frac { 4 } { 9 } \\sqrt { 5 }",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "stable",
+      "id": "Geometry3K/train/638",
+      "image_path": "/tmp/geometry3k_audit/train_images/638/img_diagram.png",
+      "image_sha256": "f21e08a0f8ec4792fab3482eae3d98d9f4d34c63d064a32c2dce4b34520c1741",
+      "original_native_group": "Geometry3K/train/group_0638",
+      "question": "Find x\nA. 7\nB. 7 \\sqrt { 3 }\nC. 14\nD. 7 \\sqrt { 5 }",
+      "source_role": "train_candidate"
+    },
+    {
+      "approved_answer": "B",
+      "group": "stable",
+      "id": "Geometry3K/train/222",
+      "image_path": "/tmp/geometry3k_audit/train_images/222/img_diagram.png",
+      "image_sha256": "03a8f21381504ca78a0147e14936efcfefea2b9d0dccc59eb8c3aabe7f1fe7ff",
+      "original_native_group": "Geometry3K/train/group_0106",
+      "question": "In $\\triangle ACE$, $P$ is the centroid. $PF=6$ and $AD=15$. Find $AP$.\nA. 6\nB. 10\nC. 12\nD. 15",
+      "source_role": "train_candidate"
+    }
+  ],
+  "no_teacher_solutions_or_evaluation_derived_targets": true,
+  "original_TRAIN24_sha256": "1c17bbe2f55b98c6961c9b0727bb31c0fdf06430669faf5a82968efef647230f",
+  "readiness_scope": "Approved TRAIN data only. Backend, resource, loss, native replay and runtime execution gates still required.",
+  "ready_for_training": true,
+  "schema": "rft_R0_TRAIN32_corpus_v1",
+  "source_role": "train_candidate",
+  "stable_count": 8,
+  "stable_qc_sha256": "41f8e23db7f0f70785d616d1861f46d9611b5961022e97d47251f98e14794f3d",
+  "weak_count": 24
+}

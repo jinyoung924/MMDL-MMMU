@@ -1,0 +1,676 @@
+{
+  "approval_authority": "independent_assistant_native_math_cross_review",
+  "dataset_lock_sha256": "f39ed64eb8133f53e6c93959e9cbb8d58f3c80ea65b3e677e081557dca93c825",
+  "development_and_confirmation_used_for_targets": false,
+  "eligible_count": 27,
+  "eligible_excluded_by_fixed_multiple_of_four_rule": [
+    "Geometry3K/train/1670",
+    "Geometry3K/train/1499",
+    "Geometry3K/train/960"
+  ],
+  "excluded_hold_ids": [
+    "Geometry3K/train/1341"
+  ],
+  "human_verified": false,
+  "input_sha256": {
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/cohort/dataset_lock.json": "f39ed64eb8133f53e6c93959e9cbb8d58f3c80ea65b3e677e081557dca93c825",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/cohort/train_weak.jsonl": "30c823741c1bfe84d7d1ef775479c23ce3cc7caeaffce3be1aea184f5fe625fb",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/cross_review_first14.json": "eea9652fc0180a401bc2a265d037b1cad06fbcd0293c9322ee58b0f313368d6b",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/cross_review_last14.json": "113f7dd55c318dfa53fc61d9e33b2baa863c4d5bcf21a26848930379ae211c9c",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/cross_review_last14_v2.json": "a5f990565069198612146d9d813524636b3d0c6fee933bfe441e65db5ad08c0c",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json": "439911bc857e6eb1a8dd1051026c7d7db9ed501317eb40ab8882b82bfc361f47",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14.json": "64f4dca16aa57377091933ad01c48f75bee42a8f04fc77bf126c6063b699cd24",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json": "529edce9b377bd78f5edb6224ff85bb653d4acd8b971368615cd90ea869a8a89",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/freeze_corpus.py": "df14815727766c6697dd444fc1b2dfb0d9dfebf1d12b23084f7be3531bbeee97",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/native_first14.json": "8fd461f9cc12de9d4aed6f6126b7d25e91b1806bd9598ec399c7e39ee2f67d8b",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/native_last14.json": "21e5d7cf1f0fcfcb7bf563a787effbde002b7ec3f154cfc1779b5cbd2cde3bc6",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json": "265e4bcff2b317d46d36c89522ed1e929e8c9b5802877f06c43e2b454fec5a9e",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14.json": "d58f1d6af2daf5492193cff6f7fe106c4875f216e83686478a363083ae2d9457",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json": "848a1cb7d5b5fe3f9ed118300d68ac1da870633152e172dc41e6657784fd3d11",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/runs/development_aggregate.json": "edd02a26135bb81da7dbc4c4552107ed1a12b24b016548451f752770f27e4b6f",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/reports/stability_mechanism_v2_20261031.md": "9b14b09469ddaf41d157767574ac96e11f39b5c64174e86778e6e6cc4314f2ac",
+    "/tmp/geometry3k_audit/train_images/1006/img_diagram.png": "1dad5f7ff136287d45c4555b972068e09dbd5642e1c369d5037d6e703040dfc1",
+    "/tmp/geometry3k_audit/train_images/1085/img_diagram.png": "353fbc79a26af5f0aeb1c8e52ee3ca34b4927a06318eab3d0d9f2b8c9b093777",
+    "/tmp/geometry3k_audit/train_images/1300/img_diagram.png": "f2336eef8aafd113234fb26396ec20ceec40f567922db833c1f767ad8c6c7323",
+    "/tmp/geometry3k_audit/train_images/1303/img_diagram.png": "1b32b0fca9a8b682c364f181f8093b7b8c08d635f02063eadb17b80e53ba808d",
+    "/tmp/geometry3k_audit/train_images/1326/img_diagram.png": "8a3894d48ea9c82fece958bd221a83a5e43239c2bf89082a939ebd01bdfdfdf8",
+    "/tmp/geometry3k_audit/train_images/1341/img_diagram.png": "000f63371e93088215ee9e69306823e5c13cbe7a76a1a7f0fa44acab913f5ac0",
+    "/tmp/geometry3k_audit/train_images/1445/img_diagram.png": "6898f79360813ab3ad2fbeb5c81bf737360d40039dfc0226639106b6cea7efd5",
+    "/tmp/geometry3k_audit/train_images/1483/img_diagram.png": "1422453b6bfe7e889d224c9669e522381456d054145535770f0bd6c701699962",
+    "/tmp/geometry3k_audit/train_images/1499/img_diagram.png": "cbe2805794de333b89b25569f411df21cd65710cfdfeec66fc6f9bb6464d3e30",
+    "/tmp/geometry3k_audit/train_images/1611/img_diagram.png": "85e4506a7c8749b3434850242920f5b59b0aa5f1e9b3b1b3b8a52f03f0cb8532",
+    "/tmp/geometry3k_audit/train_images/1670/img_diagram.png": "61af8d6da15b8e1f39a936e8a3f02da926dbf946c76043ec262b4264a17f9560",
+    "/tmp/geometry3k_audit/train_images/1691/img_diagram.png": "d803304ed7fbfac5d386cc7f41d092b03c8fe093bb7b8df683e16c1796163adf",
+    "/tmp/geometry3k_audit/train_images/1716/img_diagram.png": "8c9fee5314a138a16e4581201740471f0419012db484922bbb994d0779be66a7",
+    "/tmp/geometry3k_audit/train_images/175/img_diagram.png": "e0f2d4ec496816279032b8439523d413861af36cb89ee876a3f9e470328662b2",
+    "/tmp/geometry3k_audit/train_images/1952/img_diagram.png": "8d04c7b951118ad7829cc0798d18fb25b9b21c4211eb7ef637b5f6d96a373b04",
+    "/tmp/geometry3k_audit/train_images/1994/img_diagram.png": "6fe5d28341ec8a1e102083c92add732918b57013557a5eb9e010450aa61f9644",
+    "/tmp/geometry3k_audit/train_images/2100/img_diagram.png": "3b1667454000c9f847650612fd9bd1a8d836c2b5667cd0ba0c442d1bbbb737a0",
+    "/tmp/geometry3k_audit/train_images/221/img_diagram.png": "8ce4d349fcc02ea043ac840a8f9a3b269bd1ab8886d03a833e5520ec09db86fb",
+    "/tmp/geometry3k_audit/train_images/242/img_diagram.png": "488dd4cb90980428d23238d156064bbde1cf989d2911ab58a334d5bf9b991b6e",
+    "/tmp/geometry3k_audit/train_images/259/img_diagram.png": "a9ad767c47370c80afb7c2788412f3b5e1b83685c16c7a9a49da36e10743eb52",
+    "/tmp/geometry3k_audit/train_images/31/img_diagram.png": "d5a5613201bdc7ea6932805d813da42e9f32c49f9c9c13f99efa099860ee17e6",
+    "/tmp/geometry3k_audit/train_images/434/img_diagram.png": "00b2d1f114404d29c2b2f2090b05d17f3e3f8f7cdf3acda144d776cfe7d83a5b",
+    "/tmp/geometry3k_audit/train_images/48/img_diagram.png": "8ff1861778f14d2aba6f6ee333691ef5b2c80ab899909bafb3d14115d7cffcf5",
+    "/tmp/geometry3k_audit/train_images/553/img_diagram.png": "d35cfd3162ff1d4171add1f0f0f15fdbdc04945ff3907760ea131e0f1fbb4186",
+    "/tmp/geometry3k_audit/train_images/750/img_diagram.png": "ecf1196d9b930dbf6fdd7446a6bf72bcc6ba99bb21627c4475e1da1b14a1a83d",
+    "/tmp/geometry3k_audit/train_images/794/img_diagram.png": "ad8324dd8feb405b415be6e00d4e628e6edc6e01181ce1baa49878a6e3c1e794",
+    "/tmp/geometry3k_audit/train_images/869/img_diagram.png": "faaa6cd1f154950fe064fd4897425861966ea226ab5aea24e23f40b4b2d51002",
+    "/tmp/geometry3k_audit/train_images/960/img_diagram.png": "2ee0604ecf73ada86cca765dc0c28b1b723b3b52ac12ada5f16e1a7568476cd4"
+  },
+  "items": [
+    {
+      "answer": "D",
+      "compact_response": "The matching ticks show RT = ST, so the base angles at R and S are equal. The angle at T is 50 degrees. Thus angle SRT = (180 - 50)/2 = 65 degrees.\nAnswer: D",
+      "compact_sha256": "5f81b8ed45c54de3b7c92e4b0f7696a9f6f0fb09709141587e4da10972b147dc",
+      "detailed_response": "First identify the marked equal sides. The single tick on ST matches the single tick on RT, so ST = RT. These sides meet at T; therefore the marked 50-degree angle is the vertex angle of an isosceles triangle. The remaining side, SR, is its base.\n\nIn an isosceles triangle, the angles opposite the equal sides are equal. Thus the angle at R equals the angle at S. The requested angle SRT has vertex R, because the middle letter names the vertex. Write each base angle as b.\n\nUse the triangle angle sum:\n\nb + b + 50 = 180.\n2b = 130, so b = 65 degrees.\n\nCheck the result against both diagram conditions: 65 + 65 + 50 = 180, and the two base angles are equal, as required by ST = RT. Hence m angle SRT = 65 degrees, which is choice D.\n\nAnswer: D",
+      "detailed_sha256": "985314ed56125349f9e4370bc37d1cc3b29263f8a44d6cf429e04650134bdb9a",
+      "id": "Geometry3K/train/242",
+      "image_sha256": "488dd4cb90980428d23238d156064bbde1cf989d2911ab58a334d5bf9b991b6e",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The arrow marks show that the top and bottom sides are parallel. Along the left slanted transversal, the interior angles 4x degrees and 72 degrees are supplementary. Hence 4x + 72 = 180, so x = 27. Only the marked pair of opposite sides is assumed parallel.\nAnswer: B",
+      "compact_sha256": "bbee3b9a5d8e12e969c24f7e8b496a4581503b25b3ca2c397e2d641aa6d12817",
+      "detailed_response": "The matching arrows show that the top and bottom sides are parallel. Focus on the left side of the quadrilateral: it crosses those two parallel lines, so it acts as a transversal. The angles labeled 72 degrees and (4x) degrees are both inside the parallel lines and on the same side of that transversal.\n\nSame-side interior angles are supplementary. Therefore their measures add to 180 degrees:\n\n4x + 72 = 180.\n4x = 180 - 72 = 108.\nx = 108 / 4 = 27.\n\nThe label 4x represents the angle measure; the question asks for x itself, so the answer is 27 rather than 108. To verify, substitute x = 27: the upper-left angle is 108 degrees, and 108 + 72 = 180. The right-hand angles concern y and are not required for this calculation. Thus x = 27, choice B.\n\nAnswer: B",
+      "detailed_sha256": "84337fa19ba13828b761b62c5a0563ba64b014e4f37ab78cf9a189bfa49fce77",
+      "id": "Geometry3K/train/2100",
+      "image_sha256": "3b1667454000c9f847650612fd9bd1a8d836c2b5667cd0ba0c442d1bbbb737a0",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "C",
+      "compact_response": "The two matching angle arcs show that the interior segment bisects the left vertex angle. By the angle-bisector theorem, the opposite segments 18 and 2x + 1 have the same ratio as the adjacent sides 24 and 3x - 1: 18/(2x + 1) = 24/(3x - 1). Thus 18(3x - 1) = 24(2x + 1), giving 54x - 18 = 48x + 24, so x = 7. Both ratios are 6/5.\nAnswer: C",
+      "compact_sha256": "12ecac0adfa396d05fe1898db9c6c907083b44b52a81ae73c7fb7198c21c2d9b",
+      "detailed_response": "The two matching arcs at the left vertex identify an angle bisector. The segment from that vertex divides the opposite side into lengths 18 and 2x + 1. Its adjacent triangle sides are 24 above the bisector and 3x - 1 below it. There is no right-angle mark, so a right-triangle formula is not justified.\n\nApply the angle-bisector theorem using the same upper-to-lower order on both sides of the proportion:\n\n18 / (2x + 1) = 24 / (3x - 1).\n\nCross-multiply and solve:\n\n18(3x - 1) = 24(2x + 1),\n54x - 18 = 48x + 24,\n6x = 42,\nx = 7.\n\nCheck with the actual segment roles. At x = 7, the lower triangle side is 3(7) - 1 = 20, and the lower opposite-side segment is 2(7) + 1 = 15. Both lengths are positive, and 18/15 = 24/20 = 6/5. The proportion therefore matches the marked angle bisector. The value 7 is choice C.\n\nAnswer: C",
+      "detailed_sha256": "274a2b6fabe0798c41cddfe74f18d55f23cc26c480ab48301462829791ac83b8",
+      "id": "Geometry3K/train/1006",
+      "image_sha256": "1dad5f7ff136287d45c4555b972068e09dbd5642e1c369d5037d6e703040dfc1",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The matching arrow marks show that the left side and the interior slanted segment are parallel. The bottom line is a transversal, so the corresponding angles marked 68 degrees and 2x degrees are equal. Thus 2x = 68 and x = 34.\nAnswer: B",
+      "compact_sha256": "997c31a2e7a11a01abc1b0f88237a6c934758e26b8ab5e0bb3b97841f757daf8",
+      "detailed_response": "Read the parallel marks before using the other angle labels. The arrow on the left side of the large triangle matches the arrow on the interior slanted segment. Those two segments are parallel. The horizontal base crosses both of them and is therefore a transversal.\n\nThe 68-degree angle is above the base and to the right of the left parallel segment. The angle labeled 2x is in the same corresponding position at the interior segment. Corresponding angles between parallel lines are equal, so\n\n2x = 68.\n\nDivide by 2 to obtain x = 34. Here 2x is the angle measure, while x is the variable being requested.\n\nCheck by substitution: 2(34) = 68 degrees, exactly matching the given corresponding angle. The labels 3x - 15 and y squared belong to other angles and are not needed for this direct parallel-line argument. Thus x = 34, which is choice B.\n\nAnswer: B",
+      "detailed_sha256": "166cfc66e6b1416767a27fcce018c063ced1db8c933c110213c19b77cec1bb1d",
+      "id": "Geometry3K/train/434",
+      "image_sha256": "00b2d1f114404d29c2b2f2090b05d17f3e3f8f7cdf3acda144d776cfe7d83a5b",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The three adjacent angles on the right of the vertical straight line are x, 2x, and x degrees. They sum to 180 degrees: x + 2x + x = 180. Therefore x = 45.\nAnswer: B",
+      "compact_sha256": "a240ad5c395b38148f22e0a6aca5796f5f816e96361c6f4745b8139f4e042bac",
+      "detailed_response": "The vertical upward and downward rays are opposite rays. Together they form a straight angle measuring 180 degrees. On their right side, the two slanted rays divide that straight angle into three adjacent parts. Their labels, in order, are x, 2x, and x.\n\nAdd all three parts of the straight angle:\n\nx + 2x + x = 180.\n4x = 180.\nx = 45 degrees.\n\nFor a check, the middle angle is then 2(45) = 90 degrees. The complete set of angles is 45, 90, and 45 degrees, whose sum is 180. The middle angle is determined from the equation; its appearance alone was not needed to assume a right angle. The requested value x is 45, choice B.\n\nAnswer: B",
+      "detailed_sha256": "245bb61d448b93bea04d599931d6d035b28587216508825f6ff93c88b1fbc68e",
+      "id": "Geometry3K/train/31",
+      "image_sha256": "d5a5613201bdc7ea6932805d813da42e9f32c49f9c9c13f99efa099860ee17e6",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The 135-degree exterior angle at the left gives an interior angle of180 - 135 =45 degrees. At the right, the exterior angle 9y - 2 equals the sum of the two remote interior angles: 9y - 2 =45 +(5y + 5). Solving gives4y =52 and y =13. The top angle is70 degrees and the right interior angle65 degrees, summing with45 to180.\nAnswer: B",
+      "compact_sha256": "f9b73aa933810a3a3e2fa6ebcac94a08c0495619391c1ddd655f34da827b974c",
+      "detailed_response": "The 135-degree label is outside the triangle at its left base vertex. It forms a straight angle with the left interior angle, so that interior angle is 180 - 135 = 45 degrees.\n\nNow use the exterior angle at the right vertex, labeled 9y - 2. An exterior angle of a triangle equals the sum of the two remote interior angles. Here those remote angles are 45 degrees and the top angle, 5y + 5 degrees. Therefore\n\n9y - 2 = 45 + (5y + 5),\n9y - 2 = 5y + 50,\n4y = 52,\ny = 13.\n\nVerify the angle values: the top angle becomes 5(13) + 5 = 70 degrees, and the right exterior angle becomes 9(13) - 2 = 115 degrees. Indeed, 45 + 70 = 115. Its adjacent interior angle is 65 degrees, giving the triangle sum 45 + 70 + 65 = 180. Thus y = 13, choice B.\n\nAnswer: B",
+      "detailed_sha256": "aa1bedfe232c5b173a1132654c88dfc63739b55f62590a54f648ed64d1ab2aa3",
+      "id": "Geometry3K/train/1326",
+      "image_sha256": "8a3894d48ea9c82fece958bd221a83a5e43239c2bf89082a939ebd01bdfdfdf8",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "A",
+      "compact_response": "Since UV is perpendicular to VW, angle UVW is90 degrees. The marked27-degree angle at V is between VU and VS, so angle SVW is90 -27 =63 degrees. In triangle VSW, the angle at W is72 degrees. Therefore angle1 at S is180 -63 -72 =45 degrees.\nAnswer: A",
+      "compact_sha256": "822b402c23b9a6cdfbcc8625330596a85ed0bf9e509d5b8df42358b9cc2ec909",
+      "detailed_response": "Use the perpendicular information in the question to establish the angle at V. Since UV is perpendicular to VW, angle UVW is 90 degrees. The ray VS, which continues toward T, splits this right angle into the given 27-degree angle and the angle between VS and VW.\n\nConsequently,\n\nm angle SVW = 90 - 27 = 63 degrees.\n\nThe requested angle 1 is the angle below S, between SV and SW. It belongs to triangle VSW. In that triangle, the angle at V is 63 degrees and the angle at W is the displayed 72 degrees. The triangle angle sum gives\n\nm angle VSW = 180 - 63 - 72 = 45 degrees.\n\nCheck both constraints: 27 + 63 = 90 at V, and 63 + 72 + 45 = 180 inside triangle VSW. The location of angle 1 matters: it is the lower angle at the crossing, not either adjacent exterior angle. Thus angle 1 measures 45 degrees, choice A.\n\nAnswer: A",
+      "detailed_sha256": "4b9335631de9bc68be493b4d9fe7c3ebe0b7dba00bda5f7a3bf5a00dda0d7730",
+      "id": "Geometry3K/train/869",
+      "image_sha256": "faaa6cd1f154950fe064fd4897425861966ea226ab5aea24e23f40b4b2d51002",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "C",
+      "compact_response": "The matching ticks make both sloping sides 5√2, and the square between them marks a right angle. Thus the top edge y is the hypotenuse of an isosceles right triangle. Therefore y=(5√2)√2=10.\n\nAnswer: C",
+      "compact_sha256": "fde235f4621fbf1f14b4abf5d31e62b3d5e07f9f773b005d423ba7992a390720",
+      "detailed_response": "Consider the triangle formed by the two upper corners and the point where the slanted segments meet the bottom edge. The matching tick marks show that its two slanted sides are equal. The small square at their meeting point marks a right angle. Thus this triangle is an isosceles right triangle.\n\nThe right slanted side is labeled 5 sqrt(2), so both legs have length 5 sqrt(2). The side labeled y is the top horizontal segment between the upper corners. It lies opposite the triangle's right angle and is therefore the hypotenuse.\n\nApply the Pythagorean theorem:\n\ny^2 = (5 sqrt(2))^2 + (5 sqrt(2))^2\n    = 50 + 50 = 100.\n\nA length is positive, so y = 10. As a second check, the hypotenuse of an isosceles right triangle is a leg multiplied by sqrt(2): 5 sqrt(2) times sqrt(2) equals 10. Therefore y = 10, choice C.\n\nAnswer: C",
+      "detailed_sha256": "6447d06022a64f26f9c69f4fb9a16f137c9be8e740298e07a5140f6608461167",
+      "id": "Geometry3K/train/1085",
+      "image_sha256": "353fbc79a26af5f0aeb1c8e52ee3ca34b4927a06318eab3d0d9f2b8c9b093777",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "Use the lower triangle bounded by the left vertical side, bottom horizontal side, and interior slanted segment. Its lower-left angle is 90 degrees and its other left angle is 74 degrees. Thus angle 3 = 180 - 90 - 74 = 16 degrees. The 15-degree label belongs to the upper triangle.\nAnswer: B",
+      "compact_sha256": "421682a1490f74ef2785bcdbd415f195fa071b00ced6f15c4032dc0e39a3b3a3",
+      "detailed_response": "Choose the lower of the two triangles in the figure. Its sides are the bottom horizontal segment, the lower part of the left vertical side, and the interior slanted segment. This triangle contains the requested angle 3 at the far-right vertex.\n\nThe square at its lower-left corner gives a 90-degree angle. The angle at its other left vertex is labeled 74 degrees. Therefore the triangle angle sum is\n\n90 + 74 + m angle 3 = 180.\n\nSolving gives m angle 3 = 180 - 164 = 16 degrees.\n\nCheck that 90 + 74 + 16 = 180. The 15-degree label belongs to the separate upper wedge at the right vertex, so it is not part of this lower triangle's angle sum. The requested angle is 16 degrees, which is choice B.\n\nAnswer: B",
+      "detailed_sha256": "cb58fb2bbc01a36661be43347b7c7801d4632a9a5b572b2f36ff72e18376b9fa",
+      "id": "Geometry3K/train/750",
+      "image_sha256": "ecf1196d9b930dbf6fdd7446a6bf72bcc6ba99bb21627c4475e1da1b14a1a83d",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "A",
+      "compact_response": "The two 33-degree angles show that WY bisects angle ZWX. The right-angle marks show that YZ and YX are perpendicular distances from Y to the two sides of that angle. A point on an angle bisector is equidistant from its sides, so 4x + 5 = 6x - 3. Thus x = 4 and XY = 6(4) - 3 = 21.\nAnswer: A",
+      "compact_sha256": "45a2844fd8672191b0e7276bbbaba8fb0b30bd4de35e68d01915f7861a195bc9",
+      "detailed_response": "The two angles at W are both labeled 33 degrees. Hence WY bisects angle ZWX, and Y lies on that angle bisector. The squares at Z and X show that YZ is perpendicular to the upper arm and YX is perpendicular to the lower arm.\n\nA point on an angle bisector is equidistant from the sides of the angle, where distance means perpendicular distance. The marked perpendicular segments therefore satisfy YZ = YX. Substitute their labels:\n\n4x + 5 = 6x - 3.\n8 = 2x,\nx = 4.\n\nThe question asks for XY, not for x. Use the expression attached to XY:\n\nXY = 6x - 3 = 6(4) - 3 = 21.\n\nCheck the other perpendicular segment as well: YZ = 4(4) + 5 = 21. Both distances are positive and equal, agreeing with Y's position on the bisector. Thus XY = 21, which is choice A.\n\nAnswer: A",
+      "detailed_sha256": "45ab240caf011e97b32a9eff63e0da5a5a35e85ce1a9cc345158a5202d2caf18",
+      "id": "Geometry3K/train/1445",
+      "image_sha256": "6898f79360813ab3ad2fbeb5c81bf737360d40039dfc0226639106b6cea7efd5",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The arrow marks give RX ∥ SW ∥ TV. First QX=QW−XW=15−12=3. Corresponding intercepts on the two transversals are proportional, so QR/QX=ST/WV: 2/3=5/WV, giving WV=7.5. Substitution gives 5/7.5=2/3.\nAnswer: B",
+      "compact_sha256": "d8ecf8527e2dc364a93aec44a12df7fc7fbcbf840cbf0cdfce9bdc0f88c2d4c5",
+      "detailed_response": "The matching arrows mark RX, SW, and TV as parallel. They cut the two rays from Q, so the triangles with vertex Q and these parallel cross-segments are similar. Keep distances measured from Q separate from the smaller intervals between intersections.\n\nFirst find the full lower distance QX:\n\nQX = QW - XW = 15 - 12 = 3.\n\nSimilarity of triangles QXR and QWS gives\n\nQR / QS = QX / QW = 3/15 = 1/5.\n\nSince QR = 2, QS = 10. Add the given next upper interval ST = 5 to obtain QT = 10 + 5 = 15.\n\nNow compare triangles QWS and QVT:\n\nQW / QV = QS / QT = 10/15 = 2/3.\n\nThus QV = 15 times 3/2 = 22.5. The requested WV is only the last lower interval, so WV = QV - QW = 22.5 - 15 = 7.5.\n\nCheck the interval scale: ST/WV = 5/7.5 = 2/3, matching QR/QX = 2/3. Therefore WV = 7.5, choice B.\n\nAnswer: B",
+      "detailed_sha256": "ea0c7472f3e692dc401ca026383b9f4a131cf7c34651c070a9124ae8329d7f1a",
+      "id": "Geometry3K/train/175",
+      "image_sha256": "e0f2d4ec496816279032b8439523d413861af36cb89ee876a3f9e470328662b2",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "A",
+      "compact_response": "The marked left and right sides are parallel. The top segment is a transversal, so its same-side interior angles satisfy 96+2x=180. Thus x=42, giving 96°+84°=180°.\nAnswer: A",
+      "compact_sha256": "8272c996cba2c8b82d659ad4298feaeab4aa4831dfa93651c5b93a9148e213e2",
+      "detailed_response": "Identify which pair of sides is marked parallel: the arrows appear on the left and right sides. The top side cuts across these parallel sides, so it is a transversal. The upper-left angle, 96 degrees, and the upper-right angle, 2x degrees, are interior angles on the same side of that transversal.\n\nSuch angles are supplementary. Set up the relation\n\n96 + 2x = 180.\n\nThen 2x = 84, giving x = 42. The angle at the upper-right corner is 84 degrees; x itself is half of that measure.\n\nSubstitution checks the native condition: 96 + 2(42) = 180. The lower angle labels could similarly determine y, but they are unnecessary for finding x. Only the left and right sides are marked parallel, so the argument does not assume that this quadrilateral is a parallelogram. The requested variable is 42, choice A.\n\nAnswer: A",
+      "detailed_sha256": "f2fb8715af9758080f067495dd2dedb75df0b2605ec7769a0d31890c737aba0c",
+      "id": "Geometry3K/train/794",
+      "image_sha256": "ad8324dd8feb405b415be6e00d4e628e6edc6e01181ce1baa49878a6e3c1e794",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "D",
+      "compact_response": "The marked 15 m lengths are the two halves of diagonal RT, so RT = 30 m. A rhombus has perpendicular diagonals, so its area is half the product of their lengths: 675 = (30 × SU)/2. Hence SU = 45 m. Check: 30 × 45/2 = 675 square meters.\nAnswer: D",
+      "compact_sha256": "63a24ca53e10bc11f814ce1afaf9c4f23cbbd9e1c619bd344ea0354aed17b1fb",
+      "detailed_response": "Read the length labels on the diagonals before using the area. The two 15 m labels are on the two pieces of diagonal RT, one on each side of its intersection with SU. Therefore the full diagonal RT is 15 + 15 = 30 m. The question asks for the other full diagonal, SU.\n\nFor a rhombus, the area equals one half of the product of its perpendicular diagonal lengths. Let d = SU. Using the given area of 675 square meters gives\n\n675 = (30 times d) / 2.\n675 = 15d,\nd = 45 m.\n\nVerify by substituting the two full diagonals: (30 times 45)/2 = 675 square meters, exactly the given area. The diagram's 15 m labels represent half-diagonal pieces, whereas the area formula uses complete diagonals. Similarly, 22.5 m would be only half of SU, not the requested segment from S to U. Thus SU = 45 m, which is choice D.\n\nAnswer: D",
+      "detailed_sha256": "ecb23e9edd4021da0b4bd78657cd9777606e73408f3e1a94608e79526893fc67",
+      "id": "Geometry3K/train/1483",
+      "image_sha256": "1422453b6bfe7e889d224c9669e522381456d054145535770f0bd6c701699962",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "D",
+      "compact_response": "The right angles at P and matching angles at A and D give △BPA∼△CPD. The tick marks make M and N the midpoints of AP and PD, so BM and CN are corresponding medians. Their ratio is CN/BM=(3√13)/√13=3. Perimeters scale by the same factor, giving 3·12=36.\n\nAnswer: D",
+      "compact_sha256": "d27bd2f86153fcde4abedac741a3d5ffcfccf6764adb125d00b03ef1c7e0d000",
+      "detailed_response": "The right-angle mark at P makes both triangle BPA and triangle CPD right triangles, since the two straight lines through P are perpendicular. The marked angles at A and D are also equal. Therefore the triangles are similar by AA, with B corresponding to C, P to P, and A to D.\n\nThe single ticks show AM = MP, so M is the midpoint of AP. The double ticks show PN = ND, so N is the midpoint of PD. Consequently BM and CN are corresponding medians: each joins a corresponding vertex to the midpoint of the opposite corresponding side. Similarity scales these medians by the same factor as the triangle sides.\n\nFrom the given lengths, the scale factor from BPA to CPD is CN/BM = 3sqrt(13)/sqrt(13) = 3. Perimeter is a sum of side lengths, so it scales linearly: perimeter(CPD) = 3(12) = 36.\n\nCheck that 36/12 = 3, matching the median ratio. BM and CN are not perimeter sides to be added separately, and the area factor9 is not the perimeter factor.\n\nAnswer: D",
+      "detailed_sha256": "408302a1f82080ac25639f9e92617782b8a489d76988138857289082e9897486",
+      "id": "Geometry3K/train/221",
+      "image_sha256": "8ce4d349fcc02ea043ac840a8f9a3b269bd1ab8886d03a833e5520ec09db86fb",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The tick marks show that R, S, and T are side midpoints, so JS, LR, and KT are medians and their intersection P is the centroid. A centroid divides each median 2:1 from the vertex, so JP:PS=2:1 and PS=9/2=4.5. The check 9:(4.5)=2:1 confirms the division.\nAnswer: B",
+      "compact_sha256": "6473ee68ce89fc5288b6d7745ff235e8ed5713692092df5112be6cd6515a2356",
+      "detailed_response": "First identify which segments the requested length belongs to. The matching marks show that R is the midpoint of JK, S is the midpoint of KL, and T is the midpoint of JL. Thus LR, JS, and KT are medians, and their common point P is the centroid.\n\nA centroid divides every median in the ratio2:1, measured from the vertex toward the midpoint of the opposite side. On median JS, J is the vertex and S is the midpoint. Therefore JP is twice PS; it is not equal to PS.\n\nUsing JP = 9 gives 9 = 2PS, so PS = 9/2 = 4.5.\n\nFor a direct check, the whole median JS would be 9 + 4.5 = 13.5. The vertex-to-centroid part9 is two thirds of13.5, and the centroid-to-midpoint part4.5 is one third, as required. The supplied RP = 3.5 lies on median LR. Different medians need not have equal lengths, so that number cannot replace PS.\n\nAnswer: B",
+      "detailed_sha256": "5af11914a7a5205292646b526ce6a890378d205110232ec23a01a20fbeb9ac45",
+      "id": "Geometry3K/train/1994",
+      "image_sha256": "6fe5d28341ec8a1e102083c92add732918b57013557a5eb9e010450aa61f9644",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The similarity RST ~ EFG matches ST = x to FG = 5, and the corresponding altitudes SA = 2 and FB = 7 - x have the same ratio. Thus x/5 = 2/(7 - x), giving x(7 - x) = 10 and (x - 2)(x - 5) = 0. The root x = 2 would make ST = SA, forcing the distinct foot A and vertex T to coincide in right triangle STA. Hence x = 5, so FB = 7 - 5 = 2.\nAnswer: B",
+      "compact_sha256": "b72684ab6e9da0639ad8ae48235d0343de321d244b59c5a78a410a15fb730132",
+      "detailed_response": "Use the order of the stated similarity before setting up a ratio: RST corresponds to EFG, so S corresponds to F and T to G. Therefore ST = x corresponds to FG = 5. The altitude from S to the line RT is SA = 2, and the corresponding altitude from F to the line EG is FB = 7 - x.\n\nCorresponding sides and altitudes have the same scale factor, giving x/5 = 2/(7 - x). Multiplying by the positive denominators produces x(7 - x) = 10, or x² - 7x + 10 = 0. Hence (x - 2)(x - 5) = 0, so the algebraic candidates are2 and5.\n\nThe diagram distinguishes T from the altitude foot A. In the nondegenerate right subtriangle STA, ST is the hypotenuse, so ST > SA: x > 2. The candidate x = 2 would force TA = 0, and similarly G = B, contrary to the distinct points shown. Thus x = 5 and the requested altitude is FB = 7 - 5 = 2.\n\nCheck: x/5 = 1 and SA/FB = 2/2 = 1. The answer is the altitude2, not the auxiliary side variable x = 5.\n\nAnswer: B",
+      "detailed_sha256": "37843146441fc43ec0d75de28a3f708d9031cef2f2a9d36da2edf28050eb04d5",
+      "id": "Geometry3K/train/1716",
+      "image_sha256": "8c9fee5314a138a16e4581201740471f0419012db484922bbb994d0779be66a7",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "D",
+      "compact_response": "The large triangle has a marked90-degree bottom angle and43 degrees at the upper-right vertex, so its upper-left angle is47 degrees. In the left small right triangle, the8-unit segment is adjacent to47 degrees and y is the hypotenuse. Thus cos(47 degrees)=8/y, giving y=8/cos(47 degrees)=11.7302..., or11.7 to the nearest tenth.\nAnswer: D",
+      "compact_sha256": "99591e4107f346a8f980153e0ff9c6ba27009a6f57ed798ca487d99e3ce1d1df",
+      "detailed_response": "The right-angle mark at the bottom belongs to the large triangle. Its upper-right angle is43 degrees, so the upper-left angle is 180 - 90 - 43 = 47 degrees.\n\nNow focus on the small triangle to the left of the perpendicular. Its angle at the upper-left vertex is still47 degrees, because the perpendicular does not change the two rays forming that angle. Its right angle is at the foot of the perpendicular. In this small triangle, the top segment8 is adjacent to47 degrees and the sloping side y is the hypotenuse.\n\nTherefore cos47° = 8/y. Solving for the length gives y = 8/cos47° = 8/sin43° ≈ 11.7302334851. Rounding once, at the end, to the nearest tenth gives11.7.\n\nCheck the substitution: 11.7302334851 cos47° is approximately8, and the hypotenuse is longer than the known leg8. The segment labeled x belongs to the other small triangle and is unnecessary for this calculation. Do not use8 as the hypotenuse of the large triangle.\n\nAnswer: D",
+      "detailed_sha256": "339f9d751ddff2486fe66c638d2351d80faf5f3d2b91b236a6822e984e34a6d1",
+      "id": "Geometry3K/train/259",
+      "image_sha256": "a9ad767c47370c80afb7c2788412f3b5e1b83685c16c7a9a49da36e10743eb52",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "C",
+      "compact_response": "The horizontal lines are parallel, so the corresponding right-side angles satisfy 4x−5=3x+11, giving x=16 and an angle of 59°. The sloping sides are also parallel, so the two angles above the middle horizontal line are supplementary: (3y+1)+59=180. Hence y=40; the angles are 121° and 59°.\nAnswer: C",
+      "compact_sha256": "f996cc69d06a8c9c91a755b96c90f3ceb2afe897b8ea16f7ee9e67af6af184e4",
+      "detailed_response": "Read the arrow markings as parallel-line information, not as angle measures. The three horizontal lines are parallel to one another, and the two sloping boundaries are also parallel to one another. The labels3y + 1,4x - 5, and3x + 11 each refer to a particular angular sector.\n\nOn the right sloping boundary, the angles labeled4x - 5 and3x + 11 occupy corresponding positions where it crosses two parallel horizontal lines. They are equal, so 4x - 5 = 3x + 11. This gives x = 16, and each of those two angles is59 degrees.\n\nNext use the middle horizontal line as a transversal of the two parallel sloping boundaries. The angles labeled3y + 1 and4x - 5 lie between the boundaries on the same side of that transversal. They are supplementary, not equal. Thus (3y + 1) + 59 = 180, giving3y = 120 and y = 40.\n\nCheck the original labels:4(16) - 5 = 3(16) + 11 = 59, while3(40) + 1 = 121. The required pair sums to121 + 59 = 180 degrees.\n\nAnswer: C",
+      "detailed_sha256": "4c1752fe4ec57223f4e796db506152878c7f41dbe92b1ef16054133655131ca2",
+      "id": "Geometry3K/train/48",
+      "image_sha256": "8ff1861778f14d2aba6f6ee333691ef5b2c80ab899909bafb3d14115d7cffcf5",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "This is a 45°−45°−90° triangle. The side 19.5 is a leg and x is the hypotenuse, so x=19.5√2=39√2/2. Its square is twice the square of either leg, as required.\nAnswer: B",
+      "compact_sha256": "0b0566a96c9f68a102e5e05dbf47d6708d57cf45882b1e667e1e3038061287e5",
+      "detailed_response": "Identify the side roles from the angle marks. The right angle is at the upper-right vertex, so the opposite side labeled x is the hypotenuse. The side labeled19.5 is one of the two legs, not the hypotenuse. The two remaining angles are both45 degrees, making this a45-45-90 triangle.\n\nEqual acute angles have equal opposite sides, so both legs have length19.5. By the Pythagorean theorem, x² = 19.5² + 19.5² = 2(19.5²). Taking the positive square root gives x = 19.5sqrt(2) = 39sqrt(2)/2.\n\nThis also agrees with the standard45-45-90 side ratio1:1:sqrt(2). As a check, the resulting hypotenuse is approximately27.577, which is longer than either leg, and its square is exactly twice19.5². Dividing19.5 by sqrt(2) would instead treat the known leg as a hypotenuse, contrary to the right-angle mark.\n\nAnswer: B",
+      "detailed_sha256": "8cf823dc78041d4cb7b174437c2d56c914695c290c5612264d70b7d8191e0906",
+      "id": "Geometry3K/train/1691",
+      "image_sha256": "d803304ed7fbfac5d386cc7f41d092b03c8fe093bb7b8df683e16c1796163adf",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The two sides labeled x are the legs, and 14 is the hypotenuse. In this 45°−45°−90° triangle, x√2=14, so x=7√2. Checking with the Pythagorean theorem gives 2(7√2)²=14².\nAnswer: B",
+      "compact_sha256": "f388ae7cd6ed3a26eabcd87b638321f7c04dd0a6b7bfe920dafd03a7b3ef411d",
+      "detailed_response": "The right-angle square is at the bottom vertex. Therefore the side across from it, labeled14, is the hypotenuse. Both sides meeting at the right angle are labeled x, so they are the two equal legs. The given45-degree angle is consistent with this being a45-45-90 triangle.\n\nApply the Pythagorean theorem using the actual side roles: x² + x² = 14². Combining the equal terms gives2x² = 196, so x² = 98. A geometric length must be positive, hence x = sqrt(98) = 7sqrt(2).\n\nCheck by substitution: each leg has square98, and98 + 98 = 196, exactly the square of the hypotenuse14. Also,7sqrt(2) is approximately9.899, less than14 as a leg should be. The same result follows from x sqrt(2) = 14; multiplying14 by sqrt(2) would make the unknown side longer than the hypotenuse and use the ratio in the wrong direction.\n\nAnswer: B",
+      "detailed_sha256": "3b39222f58e406a867375d959ba3a396e593c509710616030a2c2672c3d51ecd",
+      "id": "Geometry3K/train/1611",
+      "image_sha256": "85e4506a7c8749b3434850242920f5b59b0aa5f1e9b3b1b3b8a52f03f0cb8532",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "A",
+      "compact_response": "Since VZ ∥ YX, triangles VWZ and XWY are similar, with VW↔WX and ZW↔WY. Thus (3x−6)/(x+4)=6/5. Solving 15x−30=6x+24 gives x=6, and the lengths check as 12/10=6/5.\nAnswer: A",
+      "compact_sha256": "f1661c637f1cbb406db5d90a64784b2728ccf7b4a8294949c4893997d1765c6a",
+      "detailed_response": "Use the marked parallel outer sides to establish similarity before choosing a proportion. The lines VX and ZY intersect at W, so the angles at W in triangles WVZ and WXY are vertical angles and are equal. Because VZ is parallel to XY, the corresponding angles at V and X are also equal. Thus the triangles are similar by AA, with W corresponding to W, V to X, and Z to Y.\n\nConsequently WV corresponds to WX, and WZ corresponds to WY. Keeping the same triangle order in both ratios gives (3x - 6)/(x + 4) = 6/5. Cross-multiplying yields5(3x - 6) = 6(x + 4), so15x - 30 = 6x + 24. Therefore9x = 54 and x = 6.\n\nCheck against the native labels: WV = 3(6) - 6 = 12 and WX = 6 + 4 = 10. Their ratio12/10 equals6/5, the ratio of WZ to WY, and both lengths are positive. The requested variable x is6; it is not the full length WX, which is10.\n\nAnswer: A",
+      "detailed_sha256": "097433f7a95f12cdd56e13e093e9e21d693b658a8d32a64396b803c111877ede",
+      "id": "Geometry3K/train/1952",
+      "image_sha256": "8d04c7b951118ad7829cc0798d18fb25b9b21c4211eb7ef637b5f6d96a373b04",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The altitude theorem gives (√2)²=(3√2)z, so z=√2/3. In the smaller right triangle on the right, y is the hypotenuse. Thus y²=(√2)²+(√2/3)²=20/9, giving y=2√5/3.\n\nAnswer: B",
+      "compact_sha256": "23a93a3c7298709d936207d1da64b6441656753b4bb170b89658ac35cd565ef0",
+      "detailed_response": "There are two relevant right-angle marks: the large triangle is right-angled at its bottom vertex, and the segment of length sqrt(2) is perpendicular to its hypotenuse. Therefore that segment is an altitude to the hypotenuse, dividing it into lengths3sqrt(2) and z.\n\nFor a right triangle, the square of this altitude equals the product of the two hypotenuse segments. Hence (sqrt(2))² = (3sqrt(2))z. Solving gives z = 2/(3sqrt(2)) = sqrt(2)/3.\n\nNow use the small right triangle on the right. Its perpendicular legs are sqrt(2) and z, and its hypotenuse is the requested side y. Thus y² = 2 + (sqrt(2)/3)² = 2 + 2/9 = 20/9. Taking the positive square root yields y = 2sqrt(5)/3.\n\nCheck both conditions: the hypotenuse-segment product is (3sqrt(2))(sqrt(2)/3) = 2, and y² - z² = 20/9 - 2/9 = 2, exactly the altitude square. The label x belongs to the other sloping leg, so its length is not the requested y. No45-degree or equal-leg assumption is given or needed.\n\nAnswer: B",
+      "detailed_sha256": "975a7d185ad7771df62512cd822061aa198535f5e617efd73a46cce5648a714c",
+      "id": "Geometry3K/train/1300",
+      "image_sha256": "f2336eef8aafd113234fb26396ec20ceec40f567922db833c1f767ad8c6c7323",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "B",
+      "compact_response": "The matching leg marks make this an isosceles right triangle. Its two equal acute angles sum to 90°, so 2y=90° and y=45°. The full angle sum is 45°+45°+90°=180°.\nAnswer: B",
+      "compact_sha256": "9dd27d2a93418edcd6962813057fecc6d0084d228ae0c27af10af81e0c57a469",
+      "detailed_response": "The matching tick marks are on the vertical leg and the horizontal leg, so those two sides have equal length. The small square at their meeting point marks a right angle. This makes the triangle an isosceles right triangle.\n\nThe two remaining angles are the acute angles labeled y. They are equal, both by their shared label and by the equal-leg marking. Using the triangle angle sum gives y + y + 90 = 180. Therefore2y = 90 and y = 45 degrees.\n\nCheck that45 + 45 + 90 = 180 degrees and that the two equal angles face the two equal legs, as the ticks require. The number8 is a side length on the hypotenuse, while y is placed in angular sectors. Thus finding a leg from8/sqrt(2) would answer a different question. No side-length calculation is needed to determine this angle.\n\nAnswer: B",
+      "detailed_sha256": "7389b3b017f1f4f91059ce30c9c56f2f90176e6718c534ff5186b47cec9d6ede",
+      "id": "Geometry3K/train/1303",
+      "image_sha256": "1b32b0fca9a8b682c364f181f8093b7b8c08d635f02063eadb17b80e53ba808d",
+      "source_role": "train_candidate"
+    },
+    {
+      "answer": "A",
+      "compact_response": "The side x is adjacent to 60°, and the hypotenuse is 20. Thus cos60°=x/20, giving x=20(1/2)=10. The other leg is 10√3, so the squared side lengths check as 100+300=400.\nAnswer: A",
+      "compact_sha256": "af0be7832f8f989b60752a6573cce675ca7f49137700a2ab6ff287409c59c619",
+      "detailed_response": "The right-angle mark identifies the sloping side20 as the hypotenuse. At the60-degree angle, the horizontal base x is the adjacent leg, whereas the vertical side y is the opposite leg. These roles determine which trigonometric ratio to use.\n\nCosine is adjacent leg divided by hypotenuse, so cos60° = x/20. Since cos60° = 1/2, multiplying by20 gives x = 20(1/2) = 10.\n\nThe angle-sum check gives the third angle as30 degrees. Therefore x, opposite30 degrees, is also the short leg in a30-60-90 triangle and should be half the hypotenuse, again giving10. For a numerical side check, the other leg would be20sin60° = 10sqrt(3), and10² + (10sqrt(3))² = 400 = 20². Using sine for x would instead compute the vertical opposite leg y, not the labeled base requested here.\n\nAnswer: A",
+      "detailed_sha256": "8d2a74799996ed13420585dd50245a8983481e78bc74ce2e221f27d1bb402265",
+      "id": "Geometry3K/train/553",
+      "image_sha256": "d35cfd3162ff1d4171add1f0f0f15fdbdc04945ff3907760ea131e0f1fbb4186",
+      "source_role": "train_candidate"
+    }
+  ],
+  "new_train_overlay_ready": true,
+  "ordered_ids": [
+    "Geometry3K/train/242",
+    "Geometry3K/train/2100",
+    "Geometry3K/train/1006",
+    "Geometry3K/train/434",
+    "Geometry3K/train/31",
+    "Geometry3K/train/1326",
+    "Geometry3K/train/869",
+    "Geometry3K/train/1085",
+    "Geometry3K/train/750",
+    "Geometry3K/train/1445",
+    "Geometry3K/train/175",
+    "Geometry3K/train/794",
+    "Geometry3K/train/1483",
+    "Geometry3K/train/221",
+    "Geometry3K/train/1994",
+    "Geometry3K/train/1716",
+    "Geometry3K/train/259",
+    "Geometry3K/train/48",
+    "Geometry3K/train/1691",
+    "Geometry3K/train/1611",
+    "Geometry3K/train/1952",
+    "Geometry3K/train/1300",
+    "Geometry3K/train/1303",
+    "Geometry3K/train/553"
+  ],
+  "original_cohort_or_teacher_modified": false,
+  "protocol_sha256": "9b14b09469ddaf41d157767574ac96e11f39b5c64174e86778e6e6cc4314f2ac",
+  "qc": [
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/242",
+      "reasons": [
+        "The equal ticks are on ST and RT, so the equal base angles are at S and R; the requested angle SRT is the angle at R.",
+        "Both targets use 2b + 50 = 180, giving 65 degrees and choice D. The 65 + 65 + 50 check is valid; no equal-side binding or target-vertex error was found."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/2100",
+      "reasons": [
+        "The marked top and bottom lines are parallel. The 72-degree lower-left interior angle and the upper-left 4x angle lie on the same side of the left transversal.",
+        "Both targets correctly use 4x + 72 = 180 and obtain x = 27, choice B. They do not need to assume that the unmarked side pair is parallel or use the unrelated right-side labels."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1006",
+      "reasons": [
+        "The arcs at the left vertex mark an angle bisector. The upper/lower adjacent sides are 24 and 3x - 1, corresponding to opposite pieces 18 and 2x + 1.",
+        "Both targets preserve that correspondence: 18/(2x + 1) = 24/(3x - 1). Solving gives x = 7, choice C; the positive lengths 18, 15, 24 and 20 give equal ratios 6/5. No right-angle premise is needed or introduced."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/434",
+      "reasons": [
+        "Matching arrows identify the left outer sloping side and the interior sloping segment as parallel. The base is a transversal and the marked 68-degree and 2x angles are corresponding angles.",
+        "Both targets correctly set 2x = 68 and obtain x = 34, choice B. The unused apex and right-side labels do not alter this inference."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "hold",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": false,
+      "id": "Geometry3K/train/1341",
+      "reasons": [
+        "The image marks AB parallel to DC, AD = BC, and angle C = 101 degrees. Its drawn shape invites an isosceles-trapezoid reading, under which angle D = 101 degrees and choice C is conditionally correct.",
+        "The native question does not state a trapezoid convention or exclude a parallelogram. The formal equal-leg/one-parallel-pair marks alone admit a nonrectangular parallelogram with angle C = 101 degrees and angle D = 79 degrees. Thus the unconditional answer cannot be certified from those formal premises alone.",
+        "The compact target asserts the intended classification without this qualification. The detailed draft correctly labels its calculation conditional and retains status hold, but its opening classification is not an unconditional proof of the missing premise. Preserve the source hold; do not rewrite the native question or promote either target."
+      ],
+      "review_decision": "hold",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/31",
+      "reasons": [
+        "The upward and downward vertical rays are opposite rays. The three adjacent sectors on the right are x, 2x and x, which together fill the straight angle.",
+        "Both targets use x + 2x + x = 180 and obtain x = 45, choice B. Their check 45 + 90 + 45 = 180 is valid. The 2x sector is derived to be 90 degrees rather than assumed from an unmarked right angle."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1326",
+      "reasons": [
+        "The 135-degree left angle is exterior, giving a 45-degree left interior angle. The 9y - 2 angle on the right is exterior to the same triangle; the top interior angle is 5y + 5.",
+        "Both targets correctly apply 9y - 2 = 45 + (5y + 5), giving y = 13, choice B. The resulting interior angles 45, 70 and 65 sum to 180, and the right exterior angle is 115 degrees."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/869",
+      "reasons": [
+        "The stated perpendicularities give a 90-degree angle at V between VU and VW. The 27-degree angle between VU and VS leaves 63 degrees for angle SVW.",
+        "Both targets use the 72-degree angle at W in triangle VSW and obtain its angle at S as 180 - 63 - 72 = 45 degrees, choice A. The requested lower angle 1 is distinguished from the other angle at S."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1085",
+      "reasons": [
+        "The two sloping segments have equal-leg ticks and meet at the marked right angle. Each has length 5 square-root 2, and the top width y is the hypotenuse of that internal right triangle.",
+        "Both targets correctly use y squared = 50 + 50 = 100, giving y = 10, choice C. The outer rectangle is not assumed to be a square, and the leg/hypotenuse roles are not exchanged."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/750",
+      "reasons": [
+        "Angle 3 belongs to the lower triangle, whose other two interior angles are the marked right angle and 74 degrees. The 15-degree label belongs to the separate upper wedge.",
+        "Both targets correctly compute angle 3 = 180 - 90 - 74 = 16 degrees, choice B, and verify 90 + 74 + 16 = 180. Neither imports the 15-degree label into the wrong triangle."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1445",
+      "reasons": [
+        "The matching 33-degree angle labels make WY an angle bisector, and the two right-angle marks make YZ and YX perpendicular distances from Y to the sides of that angle.",
+        "Both targets correctly equate 4x + 5 and 6x - 3, giving x = 4, then answer the requested segment XY rather than the variable: XY = 6(4) - 3 = 21, choice A. The other perpendicular also has length 21."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/175",
+      "reasons": [
+        "RX, SW and TV are marked parallel and cut the two rays in the stated point order. QX = QW - XW = 15 - 12 = 3, with QR = 2 and ST = 5.",
+        "The compact proportional-intercept calculation and the detailed nested-similarity calculation are both valid. The latter gives QS = 10, QT = 15, QV = 22.5 and WV = 7.5, choice B. Corresponding segment ratios 2/3 are consistent."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/794",
+      "reasons": [
+        "The left and right sides carry matching parallel arrows. The top side is a transversal, so the top interior angles 96 degrees and 2x are supplementary.",
+        "Both targets use 96 + 2x = 180 and obtain x = 42, choice A. The bottom labels concern y and are not needed; no second parallel pair is assumed."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_first14.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1483",
+      "reasons": [
+        "The native question supplies a rhombus of area 675. Its diagonal RT is split into two lengths of 15, so the full diagonal RT is 30; the requested SU is the full other diagonal.",
+        "Both targets correctly use 675 = (30 times SU)/2 and obtain SU = 45, choice D. The check (30 times 45)/2 = 675 is valid, and the half-diagonal length 22.5 is not substituted for the requested whole diagonal."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_first14.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/221",
+      "reasons": [
+        "The right angle at P and equal marked angles A/D establish AA similarity BPA~CPD.",
+        "M/N are marked midpoints, so medians BM/CN correspond; CN/BM=3 and the requested perimeter is12*3=36. Both targets use linear, not area, scaling."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1994",
+      "reasons": [
+        "Three marked side midpoints make P the centroid. JP is the vertex-side part of JS, hence JP=2PS and PS=4.5.",
+        "Both targets keep RP on its different median and use the correct2:1direction;9+4.5=13.5checks the division."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1716",
+      "reasons": [
+        "Ordered similarity pairs ST=x with FG=5 and altitude SA2with FB7-x; x/5=2/(7-x) gives roots2and5.",
+        "The external feet A/B are distinct from T/G. Root2would give ST=SA and FG=FB, forcing TA=GB=0; it is invalid for the native configuration. Both targets state this geometric rejection, then obtain FB2from x5.",
+        "The retained values give side ratio5/5=altitude ratio2/2=1and nonzero horizontal legs sqrt(21)."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/259",
+      "reasons": [
+        "The marked bottom right angle and upper-right43give upper-left47. The native8is the adjacent leg of the left small right triangle and yits hypotenuse.",
+        "Both targets use y=8/cos47=8/sin43≈11.7302334851, round only at the end to11.7, and preserve y>8."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/48",
+      "reasons": [
+        "All three horizontal lines are parallel; the slanted boundaries are also marked parallel. The two right labels occupy corresponding angular sectors.",
+        "4x-5=3x+11gives x16and59degrees. The middle same-side interior pair gives3y+1+59=180, hence y40;121+59checks supplementary angles."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1691",
+      "reasons": [
+        "The90-degree mark makes xthe hypotenuse;19.5is a leg, and the other angles are45degrees.",
+        "Both targets correctly multiply the leg by sqrt(2), obtaining39sqrt(2)/2(choiceB), and check x²=2*19.5²."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1611",
+      "reasons": [
+        "The side14is opposite the marked90-degree angle; both legs are labeledx.",
+        "Both targets use2x²=196, retain positive x=7sqrt(2), and reproduce14²from two98squares."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1952",
+      "reasons": [
+        "The parallel outer sides and vertical angles establish WVZ~WXY with WV↔WXand WZ↔WY.",
+        "(3x-6)/(x+4)=6/5gives x6; lengths12and10are positive and have the required6/5ratio. The native choices are A6/B8/C10/D12.",
+        "The v2amendment changes only solved_answer Cto Aand the terminal Answer:Cto Answer:A. Native choiceAis6; the unchanged derivation and12/10=6/5check are correct."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1300",
+      "reasons": [
+        "The large bottom right angle and perpendicular altitude establish h²=pq with h=sqrt(2),p=3sqrt(2),q=z.",
+        "Both targets obtain z=sqrt(2)/3then y²=2+2/9=20/9and y=2sqrt(5)/3; neither assumes an unmarked45-degree angle."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1303",
+      "reasons": [
+        "The marked equal legs and right angle give two equal acute angles y.",
+        "Both targets solve2y+90=180to get45degrees; hypotenuse8is a length, not the requested angle."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/553",
+      "reasons": [
+        "The right-angle mark makes20the hypotenuse, and xis the leg adjacent to the60-degree angle.",
+        "Both targets use cos60=x/20to get10; the complementary30-degree and Pythagorean checks are consistent."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1670",
+      "reasons": [
+        "The marked parallel AB/DEand vertical angle at C establish ACB~DCE with AC↔CDand BC↔CE.",
+        "Both targets keep correspondence1/6=(x+3)/(11x-2), solve x4and check7/42=1/6with positive lengths."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/1499",
+      "reasons": [
+        "The outside dimension10spans all of AD; ED4therefore gives AE6. The text and arrows supply EBparallelDC.",
+        "Both targets preserve whole/split lengths:6/10=(x-2)/(x+3), or6/4=(x-2)/5. They obtain x9.5and verify7.5/12.5=6/10."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    },
+    {
+      "author_status": "draft",
+      "draft_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/detailed_drafts_last14_v2.json",
+      "eligible": true,
+      "id": "Geometry3K/train/960",
+      "reasons": [
+        "The supplied midpoints make JM/KP/HLmedians, so Qis the centroid.",
+        "Both targets select median MJand use MQ4=2*QJ=2*(2z), obtaining z1. Whole median6has4and2in the required2:1ratio."
+      ],
+      "review_decision": "eligible",
+      "review_path": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/mechanism_v2/review_last14_v2.json"
+    }
+  ],
+  "schema_version": "mechanism_train_corpus_v2",
+  "selection_rule": "all28 if eligible28; otherwise first24 eligible in original order when24-27; stop below24",
+  "status": "frozen_assistant_cross_checked_train_only"
+}

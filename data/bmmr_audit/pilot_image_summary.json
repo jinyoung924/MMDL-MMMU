@@ -1,0 +1,17 @@
+{
+  "candidates_checked": 60,
+  "images_checked": 60,
+  "exact_image_overlap_rows": 0,
+  "near_image_review_rows": 7,
+  "no_detected_image_overlap_rows": 53,
+  "insufficient_question_text_rows": 1,
+  "ready_for_training": false,
+  "awaiting_question_and_annotation_review": 52,
+  "protected_image_index_sha256": "55d4149062e1eaf17ed3cde3a5c5bf4a5865069e19de85e1b71c8b537c9d408e",
+  "limitations": [
+    "Only this pilot pool's train images were checked.",
+    "dHash is a review heuristic, not proof of equivalence or non-overlap.",
+    "Crops, diagrams redrawn from the same source, translations and answer-in-image leakage need review.",
+    "Partial ZIP entries checked by CRC; full ZIP SHA256 was not downloaded or verified."
+  ]
+}

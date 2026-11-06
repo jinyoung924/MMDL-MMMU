@@ -1,0 +1,55 @@
+{
+  "scores": {
+    "n": 19,
+    "correct": 14,
+    "accuracy": 0.7368421052631579,
+    "truncated": 1,
+    "elapsed_sec": 335.7035126686096,
+    "model": "Qwen/Qwen3-VL-4B-Instruct",
+    "seed": 0,
+    "split": "train",
+    "dataset_lock_sha256": "198c3f242509b60df80e30c8f988b7fd59ae40d8e8a2365fdb500e0449f819e6",
+    "scope": "External train-derived pilot diagnostic; not MMMU and not official score.",
+    "parsing": "Existing Answer-tag regex only; absent tag is incorrect, no random fallback."
+  },
+  "wrong": [
+    {
+      "id": "116808654",
+      "parsed": "D",
+      "gold": "A",
+      "truncated": false
+    },
+    {
+      "id": "53e0252f-9837-4357-bab7-2453cddcd0ab30",
+      "parsed": null,
+      "gold": "A",
+      "truncated": true
+    },
+    {
+      "id": "148705784",
+      "parsed": "A",
+      "gold": "B",
+      "truncated": false
+    },
+    {
+      "id": "74557804",
+      "parsed": "A",
+      "gold": "B",
+      "truncated": false
+    },
+    {
+      "id": "92536177",
+      "parsed": "B",
+      "gold": "D",
+      "truncated": false
+    }
+  ],
+  "observed_errors": {
+    "116808654": "Knows vertical-hyperbola parameters but misreads the center, vertices, and relative width of candidate graphs.",
+    "53e0252f-9837-4357-bab7-2453cddcd0ab30": "Reads the arrow 3->1 as 1->3, then loops over inconsistent answer orders until truncation.",
+    "148705784": "Places the field origin at the dipole center and invents a downward field at the lower charge.",
+    "74557804": "Reads the triangle labels as 5 and 8 (answer-option values) rather than the printed 20 and 35.",
+    "92536177": "Reassigns angle marks from F/K to G/J and invents a second equal-side pair to justify SAS."
+  },
+  "interpretation": "Observed response errors in this selected train pool, one generation seed. Not a causal localization of the encoder and not a population error estimate."
+}

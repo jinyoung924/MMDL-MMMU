@@ -1,0 +1,24 @@
+{
+  "source_revision": "e07b24f9758b6421c8b92cc5cfb0de26dd722b5a",
+  "train_sha256": "9ba5b51c37a800a6e523e46071b38c0821cb5ef74fa1f06bc22e3fc9ee8a5b4a",
+  "protected_mmmu_counts": {
+    "dev": 150,
+    "test": 10500,
+    "validation": 900
+  },
+  "protected_unique_image_bytes": 32628,
+  "counts": {
+    "format_candidates": 663
+  },
+  "unique_candidates": 657,
+  "held_text_or_internal_duplicates": 6,
+  "candidate_sha256": "0c716a73f42ae05c1e8f2909ef97542d8fcca4cd1fc74dfaab5fa8dd767f8162",
+  "protected_image_index_sha256": "2a609bc4ebd7deda455b9de1a38ea7bb6d45b7d6dda8348ed06241cff772c0f5",
+  "prior_audit_summary_sha256": "66b628077bf973074d8d1e65a20789b9be611ff7d4b112a4db26f38947adf97c",
+  "ready_for_training": false,
+  "limitations": [
+    "Candidate format is heuristic; manual question/image review required.",
+    "No assistant answer used in candidate selection or exported to reviewers.",
+    "Exact/shingle/hash checks cannot rule out semantic overlap."
+  ]
+}

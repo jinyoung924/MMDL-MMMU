@@ -15,6 +15,7 @@ pip install -r requirements.txt                                    # vLLM 0.24.0
 bash eval.sh                                                       # 5 seed × 900문항 → results/ (seed당 약 76분)
 bash eval.sh /abs/path/to/checkpoint results_ft                    # fine-tuned 모델 (LoRA는 먼저 병합)
 python analyze.py compare results/seed* vs results_ft/seed*        # 같은 seed·같은 문항끼리 전후 비교 (망각 포함)
+SEEDS=0 bash eval.sh <병합 모델> runs/X && python analyze.py compare results/seed* vs runs/X/seed0 --base-mean 1   # 개발 단계 단일 seed 판정 (전략 §5.5)
 python analyze.py failures results/seed*                           # 늘 틀림 / 가끔 맞힘 / 늘 맞힘, 잘림·루프 분해
 ```
 
@@ -33,14 +34,19 @@ python analyze.py failures results/seed*                           # 늘 틀림 
 | `failure_diagnosis/` | 실패 유형별 사례집 (이미지·문제·5 seed 응답) |
 | `pilot_forgetting/` | 망각 파일럿: PathVQA LoRA-SFT 코드와 평가 결과 |
 | `encoder_probe/` | 비전 인코더 탐침 코드와 결과 |
+| `grpo/` | 강화학습(GRPO) v1–v6 코드, 실행 스크립트, 실행 전에 등록한 프로토콜 |
+| `runs/` | 학습한 모델과 교사 후보의 MMMU 평가 결과 (`grpo_*`, `diag_*`) |
+| `pilot_diagram/` | 도표 SFT 파일럿 코드·결과, 안정성 SFT 실험의 설정과 요약 |
+| `scripts/`, `data/` | 학습 데이터 감사·준비 스크립트와 출처 고정 요약 |
 
 ## 읽는 순서
 
 1. [reports/mmmu_baseline.md](reports/mmmu_baseline.md): 1차 과제 보고서. 파이프라인의 모든 선택과 근거, 공식 수치와의 격차 분석
 2. [reports/improvement_strategy.md](reports/improvement_strategy.md): 종합. 시도한 것, 실패 유형과 원인, 학습 방향, 망각 측정 계획. 부록 A에 모든 실행 목록
-3. [failure_diagnosis/README.md](failure_diagnosis/README.md): 실패 사례. 판정 절차는 [reports/failure_tagging_protocol.md](reports/failure_tagging_protocol.md)
-4. [reports/literature_notes.md](reports/literature_notes.md): 전략에 쓴 문헌
-5. [pilot_forgetting/README.md](pilot_forgetting/README.md), [encoder_probe/results.md](encoder_probe/results.md)
+3. [reports/training_experiments.md](reports/training_experiments.md): **학습 실험 정리 (SFT 파일럿 → GRPO v1–v6)**. 실험별 설정·결과·교훈. 세부는 [reports/sft_pilots.md](reports/sft_pilots.md), [grpo/README.md](grpo/README.md)
+4. [failure_diagnosis/README.md](failure_diagnosis/README.md): 실패 사례. 판정 절차는 [reports/failure_tagging_protocol.md](reports/failure_tagging_protocol.md)
+5. [reports/literature_notes.md](reports/literature_notes.md): 전략에 쓴 문헌
+6. [pilot_forgetting/README.md](pilot_forgetting/README.md), [encoder_probe/results.md](encoder_probe/results.md)
 
 ## 결과 파일 형식 (팀원 결과와 비교할 때)
 
@@ -55,6 +61,9 @@ python analyze.py failures results/seed*                           # 늘 틀림 
 - 모델 가중치 (`pilot_forgetting/runs/*/step*`): `pilot_forgetting/train_sft.py`로 다시 만듭니다.
 - 탐침 입력 데이터 (`encoder_probe/data/`, 831MB): `python encoder_probe/probe.py data`로 다시 만듭니다.
 - 실행 로그, 초기 임시 분석, 수업 과제 안내문.
+- GRPO 라운드별 생성 결과·어댑터·병합 체크포인트(`grpo/runs/`, 48GB)와 SFT 파일럿 가중치. 다시 만드는 방법은 [grpo/README.md](grpo/README.md), [pilot_diagram/README.md](pilot_diagram/README.md).
+- 안정성 SFT 실험의 세부 기록(보고서 30여 개, `pilot_diagram/stability_v1/`의 코드와 실험 폴더). 요약은 [reports/sft_pilots.md](reports/sft_pilots.md).
+- 중복 검사용 보호 인덱스(`data/*/protected_image_index.json`): MMMU test의 ID·해시가 들어 있어 넣지 않았습니다. `scripts/`로 다시 만듭니다.
 - 학습·탐침 환경은 평가 환경에 `peft`, `accelerate`(탐침은 `verovio`, `cairosvg`, `scikit-learn`도)를 더한 것입니다.
 
 루트의 `mmmu_baseline.md`는 `main` 브랜치의 파일입니다. 이 브랜치의 보고서는 `reports/mmmu_baseline.md`입니다.

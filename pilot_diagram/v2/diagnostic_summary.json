@@ -1,0 +1,2581 @@
+{
+  "status": "complete",
+  "n_unique_questions": 40,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "total_responses": 600,
+  "dataset_lock_sha256": "c3d1aa6205cec53a80b0800b75389c98ac428c762ea12103b57e6b36ae33f7cf",
+  "conditions": {
+    "original": {
+      "correct_per_seed": [
+        32,
+        33,
+        35
+      ],
+      "accuracy_per_seed_percent": [
+        80.0,
+        82.5,
+        87.5
+      ],
+      "mean_accuracy_percent": 83.33333333333334,
+      "truncated": 9,
+      "missing_answer_tags": 9,
+      "median_generated_tokens": 1148.5
+    },
+    "visual": {
+      "correct_per_seed": [
+        39,
+        39,
+        35
+      ],
+      "accuracy_per_seed_percent": [
+        97.5,
+        97.5,
+        87.5
+      ],
+      "mean_accuracy_percent": 94.16666666666667,
+      "truncated": 3,
+      "missing_answer_tags": 3,
+      "median_generated_tokens": 796.0
+    },
+    "knowledge": {
+      "correct_per_seed": [
+        33,
+        35,
+        32
+      ],
+      "accuracy_per_seed_percent": [
+        82.5,
+        87.5,
+        80.0
+      ],
+      "mean_accuracy_percent": 83.33333333333334,
+      "truncated": 10,
+      "missing_answer_tags": 10,
+      "median_generated_tokens": 928.5
+    },
+    "both": {
+      "correct_per_seed": [
+        40,
+        37,
+        39
+      ],
+      "accuracy_per_seed_percent": [
+        100.0,
+        92.5,
+        97.5
+      ],
+      "mean_accuracy_percent": 96.66666666666667,
+      "truncated": 2,
+      "missing_answer_tags": 2,
+      "median_generated_tokens": 597.5
+    },
+    "neutral": {
+      "correct_per_seed": [
+        33,
+        34,
+        36
+      ],
+      "accuracy_per_seed_percent": [
+        82.5,
+        85.0,
+        90.0
+      ],
+      "mean_accuracy_percent": 85.83333333333333,
+      "truncated": 9,
+      "missing_answer_tags": 9,
+      "median_generated_tokens": 1060.5
+    }
+  },
+  "comparisons": {
+    "visual_minus_original": {
+      "mean_difference_pp": 10.833333333333332,
+      "paired_question_bootstrap_95_ci_pp": [
+        2.5,
+        20.0
+      ],
+      "rescued_question_seed_trials": 17,
+      "newly_wrong_question_seed_trials": 4,
+      "improved_unique_questions": 7,
+      "worsened_unique_questions": 1,
+      "rescued_original_truncated_trials": 9,
+      "rescued_original_completed_wrong_trials": 8
+    },
+    "knowledge_minus_original": {
+      "mean_difference_pp": 0.0,
+      "paired_question_bootstrap_95_ci_pp": [
+        -3.3333333333333335,
+        3.3333333333333335
+      ],
+      "rescued_question_seed_trials": 5,
+      "newly_wrong_question_seed_trials": 5,
+      "improved_unique_questions": 2,
+      "worsened_unique_questions": 2,
+      "rescued_original_truncated_trials": 2,
+      "rescued_original_completed_wrong_trials": 3
+    },
+    "both_minus_original": {
+      "mean_difference_pp": 13.333333333333334,
+      "paired_question_bootstrap_95_ci_pp": [
+        5.833333333333333,
+        21.666666666666664
+      ],
+      "rescued_question_seed_trials": 16,
+      "newly_wrong_question_seed_trials": 0,
+      "improved_unique_questions": 10,
+      "worsened_unique_questions": 0,
+      "rescued_original_truncated_trials": 7,
+      "rescued_original_completed_wrong_trials": 9
+    },
+    "neutral_minus_original": {
+      "mean_difference_pp": 2.5,
+      "paired_question_bootstrap_95_ci_pp": [
+        -0.8333333333333335,
+        7.499999999999998
+      ],
+      "rescued_question_seed_trials": 7,
+      "newly_wrong_question_seed_trials": 4,
+      "improved_unique_questions": 3,
+      "worsened_unique_questions": 1,
+      "rescued_original_truncated_trials": 3,
+      "rescued_original_completed_wrong_trials": 4
+    },
+    "visual_minus_knowledge": {
+      "mean_difference_pp": 10.833333333333332,
+      "paired_question_bootstrap_95_ci_pp": [
+        2.5,
+        19.166666666666668
+      ]
+    },
+    "visual_minus_neutral": {
+      "mean_difference_pp": 8.333333333333332,
+      "paired_question_bootstrap_95_ci_pp": [
+        -0.8333333333333334,
+        18.33333333333333
+      ]
+    },
+    "both_minus_neutral": {
+      "mean_difference_pp": 10.833333333333336,
+      "paired_question_bootstrap_95_ci_pp": [
+        3.3333333333333335,
+        19.166666666666664
+      ]
+    },
+    "factorial_interaction": {
+      "mean_difference_pp": 2.5,
+      "paired_question_bootstrap_95_ci_pp": [
+        -1.666666666666667,
+        7.5
+      ]
+    }
+  },
+  "per_question": [
+    {
+      "id": "169984964",
+      "skill": "right_triangle_ratios",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "117752060",
+      "skill": "right_triangle_ratios",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "118215116",
+      "skill": "circle_chords",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "129457498",
+      "skill": "polar_rotation",
+      "gold": "D",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "D",
+          "D",
+          "D"
+        ],
+        "visual": [
+          "D",
+          "D",
+          "D"
+        ],
+        "knowledge": [
+          "D",
+          "D",
+          "D"
+        ],
+        "both": [
+          "D",
+          "D",
+          "D"
+        ],
+        "neutral": [
+          "D",
+          "D",
+          "D"
+        ]
+      }
+    },
+    {
+      "id": "206725147",
+      "skill": "affine_area_relations",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "194301194",
+      "skill": "prism_surface_area",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "109597621",
+      "skill": "trigonometric_double_angle",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "107667609",
+      "skill": "prism_faces",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "91788078",
+      "skill": "linear_inequality_region",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "73118802",
+      "skill": "altitude_geometric_mean",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "136156153",
+      "skill": "histogram_skew",
+      "gold": "E",
+      "correct_by_condition": {
+        "original": [
+          0,
+          0,
+          0
+        ],
+        "visual": [
+          1,
+          1,
+          0
+        ],
+        "knowledge": [
+          0,
+          0,
+          0
+        ],
+        "both": [
+          1,
+          0,
+          1
+        ],
+        "neutral": [
+          0,
+          0,
+          0
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "F",
+          "F",
+          "F"
+        ],
+        "visual": [
+          "E",
+          "E",
+          "F"
+        ],
+        "knowledge": [
+          "F",
+          "F",
+          "F"
+        ],
+        "both": [
+          "E",
+          "F",
+          "E"
+        ],
+        "neutral": [
+          "F",
+          "F",
+          "F"
+        ]
+      }
+    },
+    {
+      "id": "69731501",
+      "skill": "inscribed_angles",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "113438715",
+      "skill": "planes_in_solid",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          0,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "A",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "115896322",
+      "skill": "arc_length",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "114689129",
+      "skill": "congruence_evidence",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "205845873",
+      "skill": "similar_side_correspondence",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "124020766",
+      "skill": "parallel_line_angles",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "222215600",
+      "skill": "polynomial_graph_features",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "98782792",
+      "skill": "scatterplot_linear_fit",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "69291744",
+      "skill": "piecewise_graph_endpoints",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          0,
+          0,
+          0
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          0,
+          1,
+          0
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          0,
+          0,
+          0
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "D",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "A",
+          "B",
+          "A"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "D"
+        ]
+      }
+    },
+    {
+      "id": "129897177",
+      "skill": "friction_and_tipping",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "71278262",
+      "skill": "prism_net",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "71874626",
+      "skill": "dilation_coordinates",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          0,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          0
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          0,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          null,
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          null
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          null,
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "70788140",
+      "skill": "complementary_angles",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "91248906",
+      "skill": "major_arc_selection",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          0,
+          0,
+          0
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          0,
+          0,
+          0
+        ],
+        "both": [
+          1,
+          0,
+          1
+        ],
+        "neutral": [
+          0,
+          0,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          null,
+          null,
+          null
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          null,
+          null,
+          null
+        ],
+        "both": [
+          "C",
+          null,
+          "C"
+        ],
+        "neutral": [
+          null,
+          null,
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "116555387",
+      "skill": "circle_secant_geometry",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          0,
+          0,
+          0
+        ],
+        "visual": [
+          1,
+          1,
+          0
+        ],
+        "knowledge": [
+          0,
+          0,
+          0
+        ],
+        "both": [
+          1,
+          0,
+          1
+        ],
+        "neutral": [
+          0,
+          0,
+          0
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          null,
+          null,
+          "B"
+        ],
+        "visual": [
+          "C",
+          "C",
+          null
+        ],
+        "knowledge": [
+          null,
+          null,
+          null
+        ],
+        "both": [
+          "C",
+          null,
+          "C"
+        ],
+        "neutral": [
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "117551514",
+      "skill": "rectangle_diagonal",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "C",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "C"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "121069413",
+      "skill": "nested_circle_area",
+      "gold": "E",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "E",
+          "E",
+          "E"
+        ],
+        "visual": [
+          "E",
+          "E",
+          "E"
+        ],
+        "knowledge": [
+          "E",
+          "E",
+          "E"
+        ],
+        "both": [
+          "E",
+          "E",
+          "E"
+        ],
+        "neutral": [
+          "E",
+          "E",
+          "E"
+        ]
+      }
+    },
+    {
+      "id": "128899185",
+      "skill": "area_across_axis",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "128844559",
+      "skill": "logarithmic_axis_reading",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          0,
+          0,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          0,
+          0,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          0,
+          0,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          null,
+          null,
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          null,
+          null,
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "C",
+          null,
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "147840959",
+      "skill": "harmonic_spectrum",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          0,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          0
+        ],
+        "knowledge": [
+          1,
+          1,
+          0
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          0,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          null,
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          null
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          null
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          null,
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "147103686",
+      "skill": "rc_discharge_topology",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "73714308",
+      "skill": "similarity_angle_criterion",
+      "gold": "B",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "B",
+          "B"
+        ],
+        "visual": [
+          "B",
+          "B",
+          "B"
+        ],
+        "knowledge": [
+          "B",
+          "B",
+          "B"
+        ],
+        "both": [
+          "B",
+          "B",
+          "B"
+        ],
+        "neutral": [
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    },
+    {
+      "id": "28991309",
+      "skill": "exponential_graph_sign",
+      "gold": "D",
+      "correct_by_condition": {
+        "original": [
+          0,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          0
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          0
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "D",
+          "D"
+        ],
+        "visual": [
+          "D",
+          "D",
+          "D"
+        ],
+        "knowledge": [
+          "D",
+          "D",
+          "B"
+        ],
+        "both": [
+          "D",
+          "D",
+          "D"
+        ],
+        "neutral": [
+          "D",
+          "D",
+          null
+        ]
+      }
+    },
+    {
+      "id": "134725651",
+      "skill": "composition_of_reflections",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "70929634",
+      "skill": "coordinate_collinearity",
+      "gold": "D",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "D",
+          "D",
+          "D"
+        ],
+        "visual": [
+          "D",
+          "D",
+          "D"
+        ],
+        "knowledge": [
+          "D",
+          "D",
+          "D"
+        ],
+        "both": [
+          "D",
+          "D",
+          "D"
+        ],
+        "neutral": [
+          "D",
+          "D",
+          "D"
+        ]
+      }
+    },
+    {
+      "id": "203659738",
+      "skill": "hyperbolic_line_intersection",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          0,
+          1,
+          0
+        ],
+        "visual": [
+          1,
+          0,
+          0
+        ],
+        "knowledge": [
+          0,
+          0,
+          0
+        ],
+        "both": [
+          1,
+          1,
+          0
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "B",
+          "C",
+          "D"
+        ],
+        "visual": [
+          "C",
+          null,
+          "D"
+        ],
+        "knowledge": [
+          "B",
+          "D",
+          "B"
+        ],
+        "both": [
+          "C",
+          "C",
+          "B"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    },
+    {
+      "id": "28991369",
+      "skill": "logarithm_graph_sign",
+      "gold": "F",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          0,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          0,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "F",
+          "F",
+          "F"
+        ],
+        "visual": [
+          "F",
+          "F",
+          "F"
+        ],
+        "knowledge": [
+          "D",
+          "F",
+          "F"
+        ],
+        "both": [
+          "F",
+          "F",
+          "F"
+        ],
+        "neutral": [
+          "H",
+          "F",
+          "F"
+        ]
+      }
+    },
+    {
+      "id": "125873682",
+      "skill": "parallel_triangle_similarity",
+      "gold": "A",
+      "correct_by_condition": {
+        "original": [
+          1,
+          1,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          1
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "A",
+          "A",
+          "A"
+        ],
+        "visual": [
+          "A",
+          "A",
+          "A"
+        ],
+        "knowledge": [
+          "A",
+          "A",
+          "A"
+        ],
+        "both": [
+          "A",
+          "A",
+          "A"
+        ],
+        "neutral": [
+          "A",
+          "A",
+          "A"
+        ]
+      }
+    },
+    {
+      "id": "68599705",
+      "skill": "external_surface_area",
+      "gold": "C",
+      "correct_by_condition": {
+        "original": [
+          1,
+          0,
+          1
+        ],
+        "visual": [
+          1,
+          1,
+          0
+        ],
+        "knowledge": [
+          1,
+          1,
+          1
+        ],
+        "both": [
+          1,
+          1,
+          1
+        ],
+        "neutral": [
+          1,
+          1,
+          1
+        ]
+      },
+      "answers_by_condition": {
+        "original": [
+          "C",
+          "D",
+          "C"
+        ],
+        "visual": [
+          "C",
+          "C",
+          "D"
+        ],
+        "knowledge": [
+          "C",
+          "C",
+          "C"
+        ],
+        "both": [
+          "C",
+          "C",
+          "C"
+        ],
+        "neutral": [
+          "C",
+          "C",
+          "C"
+        ]
+      }
+    }
+  ],
+  "secondary_information_strata": {
+    "mostly_repeats_question": {
+      "n": 10,
+      "mean_accuracy_percent": {
+        "original": 100.0,
+        "visual": 100.0,
+        "knowledge": 100.0,
+        "both": 100.0,
+        "neutral": 100.0
+      },
+      "visual_minus_original_pp": 0.0
+    },
+    "adds_image_observations": {
+      "n": 30,
+      "mean_accuracy_percent": {
+        "original": 77.77777777777779,
+        "visual": 92.22222222222223,
+        "knowledge": 77.77777777777779,
+        "both": 95.55555555555556,
+        "neutral": 81.11111111111111
+      },
+      "visual_minus_original_pp": 14.444444444444443
+    }
+  },
+  "source_agreement_sensitivity": {
+    "n": 33,
+    "mean_accuracy_percent": {
+      "original": 82.82828282828282,
+      "visual": 93.93939393939394,
+      "knowledge": 82.82828282828282,
+      "both": 95.95959595959596,
+      "neutral": 85.85858585858585
+    },
+    "scope": "Secondary sensitivity excluding seven source-answer disagreements; source agreement is not independent gold."
+  },
+  "limitations": [
+    "Labels reviewed by this assistant, not independent human gold.",
+    "Convenience sample from original BMMR train; not representative of MMMU.",
+    "Prompt/information intervention does not localize an encoder or reasoning mechanism.",
+    "Bootstrap resamples 40 questions jointly across seeds; conditional on these seeds and labels.",
+    "Exploratory multiple comparisons; intervals are not multiplicity-adjusted.",
+    "Neutral text length is matched to the combined condition, not to each shorter single condition.",
+    "No SFT and no official MMMU performance gain tested in this diagnostic."
+  ]
+}

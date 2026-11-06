@@ -1,0 +1,48 @@
+{
+  "source_revision": "e07b24f9758b6421c8b92cc5cfb0de26dd722b5a",
+  "source_sha256": "9ba5b51c37a800a6e523e46071b38c0821cb5ef74fa1f06bc22e3fc9ee8a5b4a",
+  "annotation_sha256": "171c1b2641f434f5a0aefcd155d1a37a4e8455c6c00e19598580e27cace85d61",
+  "protected_index_sha256": "55d4149062e1eaf17ed3cde3a5c5bf4a5865069e19de85e1b71c8b537c9d408e",
+  "text_overlap_flags_sha256": "8a5bcbb5ab5c5ff9380dd81e989feca096454bbbbc71038dcd608a3cf8447e7e",
+  "files": {
+    "train.jsonl": "c3c54cb8be9e0d2856a98354a8eac9701137fdcb9fc4e66795e248f95d0a24a8",
+    "diagnostic.jsonl": "5aa87c90a83f169ddc00614295c2c8d2e04011c024fc5fbc0f9ffe34e94f19c1"
+  },
+  "counts": {
+    "diagnostic": 5,
+    "train": 19
+  },
+  "source_answer_disagreements": [
+    {
+      "id": "98096888",
+      "split": "diagnostic",
+      "source": "D",
+      "reviewed": "B"
+    },
+    {
+      "id": "130215501",
+      "split": "train",
+      "source": "C",
+      "reviewed": "A"
+    },
+    {
+      "id": "146516885",
+      "split": "train",
+      "source": "E",
+      "reviewed": "C"
+    },
+    {
+      "id": "138068443",
+      "split": "train",
+      "source": "E",
+      "reviewed": "D"
+    }
+  ],
+  "selection": "Input quality and skill relevance chosen before student inference. All original source rows are train. Broad skill families kept within one experimental split.",
+  "limitations": [
+    "Small convenience pilot, not a representative efficacy estimate.",
+    "Same assistant authored and reviewed labels; no human or second-model verification.",
+    "No detected overlap under text, byte, pixel, and dHash screens; semantic overlap cannot be fully ruled out.",
+    "Publisher-level source IDs are unavailable in BMMR; group separation is a manual skill/template approximation."
+  ]
+}

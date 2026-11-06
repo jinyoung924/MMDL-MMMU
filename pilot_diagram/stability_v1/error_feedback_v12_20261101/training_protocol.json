@@ -1,0 +1,156 @@
+{
+  "CONF_and_official_access": false,
+  "DEV_screen_eligible_steps": [
+    30
+  ],
+  "GPU_preflight": "Derived authority only after exact original replay hashes and all native registration fields are unchanged. Preserve original execution runtime bytes and old registration/protocol hashes, record actual generation preceded retry registrations. No new GPU preflight, no performance gate exception.",
+  "TRAIN_feedback_corpus_sha256": "1f04aa76285261352404b0016c059f635437c637c95813d7328160cd2a53e280",
+  "all48_new_candidate_screen_responses_semantic_audit_required_regardless_numeric_gate": true,
+  "arm_A": "Same masked student excerpt plus Restart from verified conditions and exact nativeTerraTRAINsolution.",
+  "arm_B": "Same masked excerpt plus explicit diagnosis/correction followed by exact A Restart/solution suffix.",
+  "arms": [
+    "A_RESTART",
+    "B_FEEDBACK"
+  ],
+  "batch_size": 1,
+  "branch": "solgyu-lee",
+  "checkpoint_selection_for_training": false,
+  "conditional_reasoning_gate": "Atleast2distinctweakcases withBASEwrong+definitelyinvalidproof to selectedcorrect+validproof in>=2of3seeds.",
+  "development_used_for_training": false,
+  "feedback_eligible_count": 23,
+  "feedback_hold_ids": [
+    "Geometry3K/train/259"
+  ],
+  "frozen_utc": "2026-11-01T13:22:08.768422+00:00",
+  "gradient_accumulation": 4,
+  "hold_policy": "Both arms use the same common-positive view for held T17, preserving24ids/120exposures. Never train the rejected false correction.",
+  "input_sha256": {
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_author_assignment.json": "1dd2ac67925c6710b518273e9dfaeacc7420f91211b490a8b1b4f8903990d9c9",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_feedback_QC_part1.json": "4f0e971ba95c14f90bbfd946d1ce488a0e9a39ee58463da6c06d9cac59e220fd",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_feedback_QC_part2.json": "197366dddcc03eb76791b80055cc3ae44d3920b7fc18b19ab42d91f9d6d489eb",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_feedback_corpus.json": "1f04aa76285261352404b0016c059f635437c637c95813d7328160cd2a53e280",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_feedback_corpus_QC.json": "3dd0638e79f24ee5483a42182c95fe55cbca2704ec65c78a32aaa0380ebd0249",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_feedback_drafts_part1.json": "5f69000a59b597c8cd6a19d4b1ba5e577389ec74516bb512e6d71f819cfc56ae",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_feedback_drafts_part2.json": "82b8504f5d61d397bf6f9b785618100613606860e879f11fc3ec67ca4e23fd96",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_preparation_manifest.json": "a2b2421b0cf1de5d39bc718fe5bd9ccdf9268c5895adb976001d27dc22d98078",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/TRAIN_preparation_protocol_v2.json": "6da412a577229a720e525099f17e70eea559a3b2277a4a3bef8288b7911b6cdf",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/encoding_repair_amendment.json": "14c86436c415a2758eb36c0feef2fc198fccad2052b9160945c00c12c789ad1a",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/error_feedback_v12_20261101/train_feedback.py": "a366967d20b32d2162ba8a74ece1e5017e2d2c0ba7e4161ca0c2b6279b733c9e",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/paired_freeze_v11_20261101/train_paired.py": "f2528462728144c572898cbc50ee1023203fe1981a0c51652335d9c09699100e",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/batch_1_outputs.json": "112ad47ff121ca25aaf974c883b5032e2758948ef052810937a08d422c385bac",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/batch_2_outputs.json": "f7468013eebf11d7f47b59b689ad85ee668f9b04785e5750a1472693cb04504c",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/batch_3_outputs.json": "fea569a4824855d9f41103336adabd0f524d222c6881e617d769569fe4eb724b",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/frozen_blind_inputs/train/answer_key_after_all_outputs_sealed.json": "59c1205ba8894f37f5fe86ebd10cd4730992885c7564408998e153109b484b54",
+    "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/stability_v1/teacher_terra61max_v1_20261101/outputs_prekey_seal.json": "16dcb76e0f23e695766b99be518c5b277f45d665f4a63661d3ae35c02f24617a"
+  },
+  "instrumentation_repair_amendment_sha256": "14c86436c415a2758eb36c0feef2fc198fccad2052b9160945c00c12c789ad1a",
+  "lr": 0.0001,
+  "n_train": 24,
+  "new_target_uptake": "Own-target48TRAINviews initial_BASEandstep30 NLL/top1, conditionallyteacherforced; retainheldduplicate andnoautonomousreasoningclaim.",
+  "newseed_recheck": {
+    "A_B_multiseed_effect_not_claimed": true,
+    "seeds": [
+      31,
+      32
+    ],
+    "stable_paired_newloss_each_seed_max": 0,
+    "weak_each_seed_min": 1,
+    "weak_net_over24_min": 4,
+    "winner_and_BASE_only": true
+  },
+  "no_adaptive_extension_or_new_hyperparameter_sweep": true,
+  "no_commit_push": true,
+  "old_target_BASE_equivalence_required_each_arm": true,
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "foreach": false,
+    "fused": false,
+    "name": "AdamW",
+    "state": "fresh_reset_not_original_optimizer",
+    "weight_decay": 0.0
+  },
+  "optimizer_steps_per_arm": 30,
+  "ordered_train_ids": [
+    "Geometry3K/train/242",
+    "Geometry3K/train/2100",
+    "Geometry3K/train/1006",
+    "Geometry3K/train/434",
+    "Geometry3K/train/31",
+    "Geometry3K/train/1326",
+    "Geometry3K/train/869",
+    "Geometry3K/train/1085",
+    "Geometry3K/train/750",
+    "Geometry3K/train/1445",
+    "Geometry3K/train/175",
+    "Geometry3K/train/794",
+    "Geometry3K/train/1483",
+    "Geometry3K/train/221",
+    "Geometry3K/train/1994",
+    "Geometry3K/train/1716",
+    "Geometry3K/train/259",
+    "Geometry3K/train/48",
+    "Geometry3K/train/1691",
+    "Geometry3K/train/1611",
+    "Geometry3K/train/1952",
+    "Geometry3K/train/1300",
+    "Geometry3K/train/1303",
+    "Geometry3K/train/553"
+  ],
+  "paired_error_cycles": [
+    1,
+    3
+  ],
+  "performance_scope": "RepeatedGeometryDEV24, not global orfive-seedconfirmation.",
+  "previous_v11_index_sha256": "d1f99432c2d2fb1215242b9a6c9f70683cee474c7dfd679c926e83edf9f918f0",
+  "prior_protocol_preserved_sha256": "755c461571901151de6f4aa7cab9f92c39ad204095e30194246a33147261d075",
+  "question_only_cycles": [
+    0,
+    2,
+    4
+  ],
+  "ready_for_training": true,
+  "recipe": {
+    "accum": 4,
+    "alpha": 32,
+    "autocast": "cuda_bfloat16",
+    "base_dtype": "bfloat16",
+    "base_vision_frozen": true,
+    "batch_size": 1,
+    "dropout": 0.0,
+    "lora_master_dtype": "float32",
+    "lr": 0.0001,
+    "max_grad_norm": 1.0,
+    "max_length": 6144,
+    "rank": 16,
+    "scheduler": null,
+    "seed": 0
+  },
+  "reserved_final_generation_seeds20_24_untouched": true,
+  "root_authorization": "User approved complete diagnostic plus TRAIN-only errorfeedback A/B workflow.",
+  "save_steps": [
+    5,
+    30
+  ],
+  "schema_version": "error_feedback_v12_fixed_paired_training_protocol_v1",
+  "screen_candidates": [
+    "A_RESTART30",
+    "B_FEEDBACK30"
+  ],
+  "screen_full_DEV24_generation_seed": 16,
+  "screen_gate": {
+    "stable_paired_newloss_max": 0,
+    "weak_BASE_relative_net_min": 2
+  },
+  "seed": 0,
+  "semantic_audit_cannot_override_failed_numeric_gate_or_reselect": true,
+  "shared_initialization": "Same exact originalv11 randomA/zeroB full7module504LoRA; freshBASEandoptimizerperarm; base/visionBF16frozen; LoRA/momentsFP32.",
+  "source_corpus_sha256": "1c17bbe2f55b98c6961c9b0727bb31c0fdf06430669faf5a82968efef647230f",
+  "status": "frozen_before_training",
+  "step5_policy": "Commonpositivefirst20exposures only; beforefeedback begins; no DEVcandidatechoice. Compare pairedstep5 bytes/losses and report numerical differences.",
+  "target_length_interpretation": "B-A tests feedback recipe bundle, including token/format dose difference. A-BASE/B-BASE include newpositiveoverlayandtraining.",
+  "winner_rule": "Highestweakcorrectamongpassingfinal30candidates, A_RESTARTif tied; nonepassSTOP."
+}

@@ -1,0 +1,54 @@
+{
+  "DEV_used_for_training": false,
+  "FIT128_MLP_removal_registered_gate_passed": true,
+  "active_experiments_remaining": false,
+  "all_prior_protected_files_unchanged": true,
+  "branch": "solgyu-lee",
+  "closed_utc": "2026-11-01T07:21:33.047569+00:00",
+  "confirmation_used": false,
+  "global_performance_improvement_established": false,
+  "independent_combined_report_review_sha256": "4ea5f2aff6b67490ce72b3e2fc659b0d80d195158c71b19368583f3be33acb09",
+  "initial_tracked_diff_unchanged": true,
+  "new_native_response_counts": {
+    "total": 320,
+    "v10": 8,
+    "v8_including_FRESH_v7": 264,
+    "v9": 48
+  },
+  "no_commit_or_push": true,
+  "official_used": false,
+  "ready_for_training": false,
+  "report_path": "reports/stability_sft_causal_findings_20261101.md",
+  "report_sha256": "1ad98de3a5f9c5c0d5a05974b76854993431b2a8ebfa3e49f1d816565f71fd68",
+  "schema_version": "teacher_SFT_causal_diagnostic_closure_v7_v10_v1",
+  "status": "closed_with_FIT128_parameter_contributor_proven_and_original_D90_replay_inadmissible",
+  "study_chain_verification": [
+    {
+      "index_path": "pilot_diagram/stability_v1/causal_init_v7_20261101/study_completion_index.json",
+      "sha256": "e25c2eff71f3d23c2451b3486815d9245616c337410b5e53a374442a8c1fb4e4",
+      "status": "complete_fixed_training_and_shared_native_evaluation",
+      "verified_files": 11
+    },
+    {
+      "index_path": "pilot_diagram/stability_v1/causal_modules_v8_20261101/study_completion_index.json",
+      "sha256": "b8032ba710f4748710dafd40d139fe36caa5022164d732de20371cc649fda885",
+      "status": "complete_fixed264_and_native_first88_semantic_review",
+      "verified_files": 102
+    },
+    {
+      "index_path": "pilot_diagram/stability_v1/causal_question_cue_v9_20261101/study_completion_index.json",
+      "sha256": "5191c4e605872fe812857741db01f9930aced3f5776260dfc232698d61d66a5c",
+      "status": "complete_fixed48_native_generation_and_ALL48_semantic_review",
+      "verified_files": 31
+    },
+    {
+      "index_path": "pilot_diagram/stability_v1/causal_legacy_modules_v10_20261101/study_stop_index.json",
+      "sha256": "08510e9b1c5e86fbc0c5b7b56093ef27d11fd4d8bf50d491867e4223c13d5b8f",
+      "status": "stopped_as_preregistered_exact_control_replay_failed",
+      "verified_files": 54
+    }
+  ],
+  "unique_training_recipe_cause_identified": false,
+  "v10_original_D90_causal_claim_admitted": false,
+  "v9_registered_gates_passed": false
+}

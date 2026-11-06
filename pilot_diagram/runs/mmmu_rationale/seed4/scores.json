@@ -1,0 +1,215 @@
+{
+  "per_subject": {
+    "Accounting": {
+      "correct": 14,
+      "num": 30,
+      "acc": 0.4666666666666667
+    },
+    "Agriculture": {
+      "correct": 16,
+      "num": 30,
+      "acc": 0.5333333333333333
+    },
+    "Architecture_and_Engineering": {
+      "correct": 11,
+      "num": 30,
+      "acc": 0.36666666666666664
+    },
+    "Art": {
+      "correct": 16,
+      "num": 30,
+      "acc": 0.5333333333333333
+    },
+    "Art_Theory": {
+      "correct": 23,
+      "num": 30,
+      "acc": 0.7666666666666667
+    },
+    "Basic_Medical_Science": {
+      "correct": 20,
+      "num": 30,
+      "acc": 0.6666666666666666
+    },
+    "Biology": {
+      "correct": 11,
+      "num": 30,
+      "acc": 0.36666666666666664
+    },
+    "Chemistry": {
+      "correct": 9,
+      "num": 30,
+      "acc": 0.3
+    },
+    "Clinical_Medicine": {
+      "correct": 22,
+      "num": 30,
+      "acc": 0.7333333333333333
+    },
+    "Computer_Science": {
+      "correct": 14,
+      "num": 30,
+      "acc": 0.4666666666666667
+    },
+    "Design": {
+      "correct": 21,
+      "num": 30,
+      "acc": 0.7
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "correct": 12,
+      "num": 30,
+      "acc": 0.4
+    },
+    "Economics": {
+      "correct": 22,
+      "num": 30,
+      "acc": 0.7333333333333333
+    },
+    "Electronics": {
+      "correct": 12,
+      "num": 30,
+      "acc": 0.4
+    },
+    "Energy_and_Power": {
+      "correct": 17,
+      "num": 30,
+      "acc": 0.5666666666666667
+    },
+    "Finance": {
+      "correct": 15,
+      "num": 30,
+      "acc": 0.5
+    },
+    "Geography": {
+      "correct": 12,
+      "num": 30,
+      "acc": 0.4
+    },
+    "History": {
+      "correct": 22,
+      "num": 30,
+      "acc": 0.7333333333333333
+    },
+    "Literature": {
+      "correct": 24,
+      "num": 30,
+      "acc": 0.8
+    },
+    "Manage": {
+      "correct": 11,
+      "num": 30,
+      "acc": 0.36666666666666664
+    },
+    "Marketing": {
+      "correct": 19,
+      "num": 30,
+      "acc": 0.6333333333333333
+    },
+    "Materials": {
+      "correct": 14,
+      "num": 30,
+      "acc": 0.4666666666666667
+    },
+    "Math": {
+      "correct": 15,
+      "num": 30,
+      "acc": 0.5
+    },
+    "Mechanical_Engineering": {
+      "correct": 10,
+      "num": 30,
+      "acc": 0.3333333333333333
+    },
+    "Music": {
+      "correct": 12,
+      "num": 30,
+      "acc": 0.4
+    },
+    "Pharmacy": {
+      "correct": 18,
+      "num": 30,
+      "acc": 0.6
+    },
+    "Physics": {
+      "correct": 16,
+      "num": 30,
+      "acc": 0.5333333333333333
+    },
+    "Psychology": {
+      "correct": 22,
+      "num": 30,
+      "acc": 0.7333333333333333
+    },
+    "Public_Health": {
+      "correct": 20,
+      "num": 30,
+      "acc": 0.6666666666666666
+    },
+    "Sociology": {
+      "correct": 21,
+      "num": 30,
+      "acc": 0.7
+    }
+  },
+  "overall_macro": 0.5455555555555556,
+  "overall_micro": 0.5455555555555556,
+  "n_questions": 900,
+  "elapsed_sec": 520.9,
+  "truncated": 13,
+  "fallback_guess": 7,
+  "answer_tag_found": 869,
+  "config": {
+    "model": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/runs/rationale_sft/merged",
+    "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "data": "MMMU/MMMU",
+    "data_revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "out": "/home/leesg17/UNI/multi-modal/MMMU-val/pilot_diagram/runs/mmmu_rationale/seed4",
+    "subjects": [
+      "Accounting",
+      "Agriculture",
+      "Architecture_and_Engineering",
+      "Art",
+      "Art_Theory",
+      "Basic_Medical_Science",
+      "Biology",
+      "Chemistry",
+      "Clinical_Medicine",
+      "Computer_Science",
+      "Design",
+      "Diagnostics_and_Laboratory_Medicine",
+      "Economics",
+      "Electronics",
+      "Energy_and_Power",
+      "Finance",
+      "Geography",
+      "History",
+      "Literature",
+      "Manage",
+      "Marketing",
+      "Materials",
+      "Math",
+      "Mechanical_Engineering",
+      "Music",
+      "Pharmacy",
+      "Physics",
+      "Psychology",
+      "Public_Health",
+      "Sociology"
+    ],
+    "limit": 0,
+    "prompt_style": "cot",
+    "max_new_tokens": 8192,
+    "max_pixels": 1310720,
+    "min_pixels": 4096,
+    "max_model_len": 24576,
+    "gpu_mem_util": 0.9,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 1.5,
+    "seed": 4,
+    "batch_invariant": 1,
+    "ids_file": ""
+  }
+}

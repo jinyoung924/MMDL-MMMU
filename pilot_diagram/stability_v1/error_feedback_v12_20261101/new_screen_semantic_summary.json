@@ -1,0 +1,138 @@
+{
+  "exact_quote_count": 81,
+  "forbidden_for_training": true,
+  "multi_seed_proof_gate_executed": false,
+  "n_full_responses": 48,
+  "numeric_gate_remains_failed": true,
+  "review_limit": "one native-first Terra6.1max reviewer percase; root visually spot-checked cases1095 and38; nothuman/formalverification",
+  "schema": "v12_all48_descriptive_semantic_summary_v1",
+  "selection_changed_by_semantics": false,
+  "source_sha256": "ab369ab62390aa22e81a286c8bcddfe24fef173dfc3a11a1cf5b683e320af09b",
+  "summary": {
+    "A_RESTART": {
+      "stable12": {
+        "BASE_to_candidate_proof_transitions": {
+          "False->True": 1,
+          "True->False": 5,
+          "True->True": 6
+        },
+        "first_unrecovered_error_counts": {
+          "None": 7,
+          "calculation": 1,
+          "image_facts": 1,
+          "relation_binding": 3
+        },
+        "invalid_proof": 5,
+        "invalid_to_valid_ids": [
+          "Geometry3K/train/1309"
+        ],
+        "n": 12,
+        "new_correct_with_invalid_proof_ids": [],
+        "new_correct_with_valid_proof_ids": [],
+        "pure_choice_mapping_error": 0,
+        "strict_correct": 10,
+        "unknown_proof": 0,
+        "valid_proof": 7,
+        "valid_to_invalid_ids": [
+          "Geometry3K/train/1943",
+          "Geometry3K/train/1779",
+          "Geometry3K/train/1976",
+          "Geometry3K/train/317",
+          "Geometry3K/train/983"
+        ]
+      },
+      "weak12": {
+        "BASE_to_candidate_proof_transitions": {
+          "False->False": 5,
+          "None->False": 2,
+          "True->False": 3,
+          "True->True": 2
+        },
+        "first_unrecovered_error_counts": {
+          "None": 2,
+          "image_facts": 6,
+          "relation_binding": 4
+        },
+        "invalid_proof": 10,
+        "invalid_to_valid_ids": [],
+        "n": 12,
+        "new_correct_with_invalid_proof_ids": [],
+        "new_correct_with_valid_proof_ids": [],
+        "pure_choice_mapping_error": 0,
+        "strict_correct": 2,
+        "unknown_proof": 0,
+        "valid_proof": 2,
+        "valid_to_invalid_ids": [
+          "Geometry3K/train/541",
+          "Geometry3K/train/2055",
+          "Geometry3K/train/1912"
+        ]
+      }
+    },
+    "B_FEEDBACK": {
+      "stable12": {
+        "BASE_to_candidate_proof_transitions": {
+          "False->True": 1,
+          "True->False": 3,
+          "True->True": 8
+        },
+        "first_unrecovered_error_counts": {
+          "None": 9,
+          "calculation": 1,
+          "image_facts": 1,
+          "model_theorem": 1
+        },
+        "invalid_proof": 3,
+        "invalid_to_valid_ids": [
+          "Geometry3K/train/1309"
+        ],
+        "n": 12,
+        "new_correct_with_invalid_proof_ids": [],
+        "new_correct_with_valid_proof_ids": [],
+        "pure_choice_mapping_error": 0,
+        "strict_correct": 11,
+        "unknown_proof": 0,
+        "valid_proof": 9,
+        "valid_to_invalid_ids": [
+          "Geometry3K/train/317",
+          "Geometry3K/train/1976",
+          "Geometry3K/train/1943"
+        ]
+      },
+      "weak12": {
+        "BASE_to_candidate_proof_transitions": {
+          "False->False": 4,
+          "False->True": 1,
+          "None->False": 2,
+          "True->False": 5
+        },
+        "first_unrecovered_error_counts": {
+          "None": 1,
+          "image_facts": 3,
+          "model_theorem": 3,
+          "relation_binding": 5
+        },
+        "invalid_proof": 11,
+        "invalid_to_valid_ids": [
+          "Geometry3K/train/63"
+        ],
+        "n": 12,
+        "new_correct_with_invalid_proof_ids": [
+          "Geometry3K/train/1095"
+        ],
+        "new_correct_with_valid_proof_ids": [],
+        "pure_choice_mapping_error": 0,
+        "strict_correct": 6,
+        "unknown_proof": 0,
+        "valid_proof": 1,
+        "valid_to_invalid_ids": [
+          "Geometry3K/train/38",
+          "Geometry3K/train/2055",
+          "Geometry3K/train/541",
+          "Geometry3K/train/908",
+          "Geometry3K/train/1912"
+        ]
+      }
+    }
+  }
+}

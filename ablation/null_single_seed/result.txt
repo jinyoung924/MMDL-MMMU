@@ -1,0 +1,32 @@
+### tuned = base seed1 relabeled as seed 0, --base-mean 0
+   Δacc all                              n=900   +2.22 pts  95% CI [-0.67, +5.22]
+   Δacc non-target, base stable-correct  n=470   +1.49 pts  95% CI [-1.06, +3.83]
+== non-target stable-correct (470): wrong in every paired seed — base 25 (noise floor), tuned 18 (format: truncated/no Answer tag 5, content: completed but wrong 13)
+### tuned = base seed1 relabeled as seed 0, --base-mean 1
+   Δacc all                              n=900   +2.03 pts  95% CI [-0.06, +4.14]
+   Δacc non-target, base stable-correct  n=470   +1.49 pts  95% CI [-1.06, +3.83]
+== non-target stable-correct (470): wrong in every paired seed — base 25 (noise floor), tuned 18 (format: truncated/no Answer tag 5, content: completed but wrong 13)
+### tuned = base seed2 relabeled as seed 0, --base-mean 0
+   Δacc all                              n=900   +0.44 pts  95% CI [-2.22, +3.22]
+   Δacc non-target, base stable-correct  n=475   +1.47 pts  95% CI [-0.84, +4.00]
+== non-target stable-correct (475): wrong in every paired seed — base 30 (noise floor), tuned 23 (format: truncated/no Answer tag 8, content: completed but wrong 15)
+### tuned = base seed2 relabeled as seed 0, --base-mean 1
+   Δacc all                              n=900   -0.19 pts  95% CI [-2.25, +1.97]
+   Δacc non-target, base stable-correct  n=475   +1.47 pts  95% CI [-0.84, +4.00]
+== non-target stable-correct (475): wrong in every paired seed — base 30 (noise floor), tuned 23 (format: truncated/no Answer tag 8, content: completed but wrong 15)
+### tuned = base seed3 relabeled as seed 0, --base-mean 0
+   Δacc all                              n=900   -0.11 pts  95% CI [-2.67, +2.56]
+   Δacc non-target, base stable-correct  n=478   +0.63 pts  95% CI [-1.88, +3.14]
+== non-target stable-correct (478): wrong in every paired seed — base 29 (noise floor), tuned 26 (format: truncated/no Answer tag 10, content: completed but wrong 16)
+### tuned = base seed3 relabeled as seed 0, --base-mean 1
+   Δacc all                              n=900   -0.89 pts  95% CI [-2.97, +1.17]
+   Δacc non-target, base stable-correct  n=478   +0.63 pts  95% CI [-1.88, +3.14]
+== non-target stable-correct (478): wrong in every paired seed — base 29 (noise floor), tuned 26 (format: truncated/no Answer tag 10, content: completed but wrong 16)
+### tuned = base seed4 relabeled as seed 0, --base-mean 0
+   Δacc all                              n=900   +0.44 pts  95% CI [-2.22, +3.22]
+   Δacc non-target, base stable-correct  n=474   +1.05 pts  95% CI [-1.48, +3.80]
+== non-target stable-correct (474): wrong in every paired seed — base 27 (noise floor), tuned 22 (format: truncated/no Answer tag 13, content: completed but wrong 9)
+### tuned = base seed4 relabeled as seed 0, --base-mean 1
+   Δacc all                              n=900   -0.19 pts  95% CI [-2.25, +1.92]
+   Δacc non-target, base stable-correct  n=474   +1.05 pts  95% CI [-1.48, +3.80]
+== non-target stable-correct (474): wrong in every paired seed — base 27 (noise floor), tuned 22 (format: truncated/no Answer tag 13, content: completed but wrong 9)

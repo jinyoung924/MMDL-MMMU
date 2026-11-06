@@ -1,0 +1,21 @@
+{
+ "excluded": {
+  "solved_by_32B_trained": 5031,
+  "not_letter_mc": 28723,
+  "mmmu_image_overlap": 32,
+  "not_single_image": 1064
+ },
+ "kept": 4020,
+ "pool": 3670,
+ "categories": {
+  "(GradeSchool) Geometric": 857,
+  "(GradeSchool) Science": 1560,
+  "Tables/Diagrams/Charts": 371,
+  "(GradeSchool) Non-Geo Math": 244,
+  "Commonsense": 44,
+  "Broader STEM Topics": 222,
+  "Spatial Reasoning": 181,
+  "Social Science": 191
+ },
+ "virl_revision": "812ec617dea4bc8a4e751663b88e4ebb7de4d00e"
+}

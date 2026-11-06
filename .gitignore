@@ -10,3 +10,15 @@ analysis/
 assignment_guidance.md
 Submission_template.md
 __pycache__/
+# GRPO 라운드별 생성 결과·어댑터·병합 체크포인트 (48GB). grpo/chain_v*.sh로 다시 만듭니다
+grpo/runs/
+# 다시 만들 수 있는 풀과 판정 모델 검증 원본. grpo/README.md "레포에 없는 것" 참고
+grpo/data/pool.jsonl
+grpo/data/pool_v3*
+grpo/data/pool_v6_all.jsonl
+grpo/data/screen_ids_v*.txt
+grpo/judge_validation_*
+# 216문항 진단의 응답 전문 (점수는 scores.json에 있음)
+runs/*_216/*/predictions.jsonl
+# LoRA 어댑터·가중치는 어디에 있든 올리지 않습니다
+*.safetensors
