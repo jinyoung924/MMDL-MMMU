@@ -37,3 +37,18 @@ Diagnostic evaluation on MMMU val only; MMMU val is never training data.
   Neither setting changes the prompt, decoding or scoring.
 - 8-question smoke test (first 8 of `ids_216`): loads with the Marlin backend, ~310 output tok/s, 2.8 min.
 - T2 launched 19:02 as systemd unit `v7-t2` (+ `v7-t2-watch` RAM guard).
+- 19:06: the first T2 launch failed at startup: the display had grown, so 0.935 (21.99 GiB) exceeded free memory
+  (21.97 GiB). Relaunched 19:12 with the default `--gpu-mem-util 0.90` and `--max-model-len 16384`
+  (1.5 GiB per full request). No MMMU val request can exceed it: at most 5 images × 1,280 tokens + text
+  ≤ 6.6k input tokens, + 8,192 output = 14.8k. So no output changes.
+
+## T2 result (2026-11-07 20:31) — FAILS both gates
+- `runs/diag_teacher_30b_a3b_awq/seed0`: **70.44** (gate a: ≥ 70.56 → fails by 0.12). Truncated 98 (8B: 73),
+  77.4 min. Official 74.2; the 8B teacher is 1.0 below its official score on our eval, the 4-bit 30B is 3.8 below.
+- Student 1–3/5 group (216): **52.3 %** (gate b: ≥ 60 % → fails; 8B: 52.8 %).
+- Descriptive: 0/5 group 28.3 % (8B 18.7 %), 4/5 77.3 % (8B 69.3 %), 5/5 94.4 % (8B 95.6 %). Business 81.3 (8B 81.3),
+  Tech & Eng 57.6 (8B 58.6). Paired vs the 8B teacher (seed 0 both): +1.89 [−1.0, +4.9]; vs base 5-seed mean +5.29
+  [+2.64, +7.80].
+- Verdict (registered rule): not a teacher candidate; the stronger-teacher direction stops. T3 is not run.
+  Where the student sometimes succeeds (1–3/5) the 4-bit 30B is no stronger than the 8B; it is stronger only on the
+  0/5 group (knowledge-type misses), +9.6 points.

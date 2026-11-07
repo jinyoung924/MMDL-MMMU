@@ -1,0 +1,218 @@
+{
+  "per_subject": {
+    "Accounting": {
+      "correct": 24,
+      "num": 30,
+      "acc": 0.8
+    },
+    "Agriculture": {
+      "correct": 18,
+      "num": 30,
+      "acc": 0.6
+    },
+    "Architecture_and_Engineering": {
+      "correct": 17,
+      "num": 30,
+      "acc": 0.5666666666666667
+    },
+    "Art": {
+      "correct": 19,
+      "num": 30,
+      "acc": 0.6333333333333333
+    },
+    "Art_Theory": {
+      "correct": 30,
+      "num": 30,
+      "acc": 1.0
+    },
+    "Basic_Medical_Science": {
+      "correct": 21,
+      "num": 30,
+      "acc": 0.7
+    },
+    "Biology": {
+      "correct": 22,
+      "num": 30,
+      "acc": 0.7333333333333333
+    },
+    "Chemistry": {
+      "correct": 20,
+      "num": 30,
+      "acc": 0.6666666666666666
+    },
+    "Clinical_Medicine": {
+      "correct": 19,
+      "num": 30,
+      "acc": 0.6333333333333333
+    },
+    "Computer_Science": {
+      "correct": 20,
+      "num": 30,
+      "acc": 0.6666666666666666
+    },
+    "Design": {
+      "correct": 25,
+      "num": 30,
+      "acc": 0.8333333333333334
+    },
+    "Diagnostics_and_Laboratory_Medicine": {
+      "correct": 12,
+      "num": 30,
+      "acc": 0.4
+    },
+    "Economics": {
+      "correct": 27,
+      "num": 30,
+      "acc": 0.9
+    },
+    "Electronics": {
+      "correct": 16,
+      "num": 30,
+      "acc": 0.5333333333333333
+    },
+    "Energy_and_Power": {
+      "correct": 18,
+      "num": 30,
+      "acc": 0.6
+    },
+    "Finance": {
+      "correct": 27,
+      "num": 30,
+      "acc": 0.9
+    },
+    "Geography": {
+      "correct": 18,
+      "num": 30,
+      "acc": 0.6
+    },
+    "History": {
+      "correct": 25,
+      "num": 30,
+      "acc": 0.8333333333333334
+    },
+    "Literature": {
+      "correct": 26,
+      "num": 30,
+      "acc": 0.8666666666666667
+    },
+    "Manage": {
+      "correct": 19,
+      "num": 30,
+      "acc": 0.6333333333333333
+    },
+    "Marketing": {
+      "correct": 25,
+      "num": 30,
+      "acc": 0.8333333333333334
+    },
+    "Materials": {
+      "correct": 15,
+      "num": 30,
+      "acc": 0.5
+    },
+    "Math": {
+      "correct": 22,
+      "num": 30,
+      "acc": 0.7333333333333333
+    },
+    "Mechanical_Engineering": {
+      "correct": 17,
+      "num": 30,
+      "acc": 0.5666666666666667
+    },
+    "Music": {
+      "correct": 10,
+      "num": 30,
+      "acc": 0.3333333333333333
+    },
+    "Pharmacy": {
+      "correct": 25,
+      "num": 30,
+      "acc": 0.8333333333333334
+    },
+    "Physics": {
+      "correct": 26,
+      "num": 30,
+      "acc": 0.8666666666666667
+    },
+    "Psychology": {
+      "correct": 21,
+      "num": 30,
+      "acc": 0.7
+    },
+    "Public_Health": {
+      "correct": 30,
+      "num": 30,
+      "acc": 1.0
+    },
+    "Sociology": {
+      "correct": 20,
+      "num": 30,
+      "acc": 0.6666666666666666
+    }
+  },
+  "overall_macro": 0.7044444444444444,
+  "overall_micro": 0.7044444444444444,
+  "n_questions": 900,
+  "elapsed_sec": 4642.4,
+  "truncated": 98,
+  "fallback_guess": 3,
+  "answer_tag_found": 801,
+  "config": {
+    "model": "QuantTrio/Qwen3-VL-30B-A3B-Instruct-AWQ",
+    "model_revision": "a5ea10732e2c9330957864ece3ec66d806a4b00d",
+    "data": "MMMU/MMMU",
+    "data_revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "out": "runs/diag_teacher_30b_a3b_awq/seed0",
+    "subjects": [
+      "Accounting",
+      "Agriculture",
+      "Architecture_and_Engineering",
+      "Art",
+      "Art_Theory",
+      "Basic_Medical_Science",
+      "Biology",
+      "Chemistry",
+      "Clinical_Medicine",
+      "Computer_Science",
+      "Design",
+      "Diagnostics_and_Laboratory_Medicine",
+      "Economics",
+      "Electronics",
+      "Energy_and_Power",
+      "Finance",
+      "Geography",
+      "History",
+      "Literature",
+      "Manage",
+      "Marketing",
+      "Materials",
+      "Math",
+      "Mechanical_Engineering",
+      "Music",
+      "Pharmacy",
+      "Physics",
+      "Psychology",
+      "Public_Health",
+      "Sociology"
+    ],
+    "limit": 0,
+    "prompt_style": "cot",
+    "max_new_tokens": 8192,
+    "max_pixels": 1310720,
+    "min_pixels": 4096,
+    "max_model_len": 16384,
+    "gpu_mem_util": 0.9,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 1.5,
+    "seed": 0,
+    "batch_invariant": 0,
+    "ids_file": "",
+    "enable_lora": false,
+    "lora_adapter": "",
+    "max_lora_rank": 16
+  }
+}
