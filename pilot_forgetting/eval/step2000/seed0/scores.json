@@ -111,9 +111,9 @@
       "acc": 0.5666666666666667
     },
     "Math": {
-      "correct": 21,
+      "correct": 22,
       "num": 30,
-      "acc": 0.7
+      "acc": 0.7333333333333333
     },
     "Mechanical_Engineering": {
       "correct": 17,
@@ -151,8 +151,8 @@
       "acc": 0.5666666666666667
     }
   },
-  "overall_macro": 0.6411111111111109,
-  "overall_micro": 0.6411111111111111,
+  "overall_macro": 0.6422222222222221,
+  "overall_micro": 0.6422222222222222,
   "n_questions": 900,
   "elapsed_sec": 3206.9,
   "truncated": 106,

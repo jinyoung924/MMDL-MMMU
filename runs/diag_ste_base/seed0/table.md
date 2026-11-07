@@ -22,7 +22,7 @@
 | 20 | Manage | 30 | 50.0 |
 | 21 | Marketing | 30 | 73.3 |
 | 22 | Materials | 30 | 40.0 |
-| 23 | Math | 30 | 56.7 |
+| 23 | Math | 30 | 60.0 |
 | 24 | Mechanical_Engineering | 30 | 63.3 |
 | 25 | Music | 30 | 36.7 |
 | 26 | Pharmacy | 30 | 56.7 |
@@ -30,4 +30,4 @@
 | 28 | Psychology | 30 | 76.7 |
 | 29 | Public_Health | 30 | 73.3 |
 | 30 | Sociology | 30 | 66.7 |
-| | **Overall (macro avg)** | **900** | **59.33** |
+| | **Overall (macro avg)** | **900** | **59.44** |

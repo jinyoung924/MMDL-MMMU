@@ -308,11 +308,18 @@ def screen(a):
     os.environ['VLLM_BATCH_INVARIANT'] = '0'
     from transformers import AutoProcessor
     pool = {q['qid']: q for q in map(json.loads, open(a.pool))}
-    qs = [fix_gold(pool[i]) for i in Path(a.ids).read_text().split()]
+    qs = [fix_gold(pool[i]) for i in Path(a.ids).read_text().splitlines() if i]  # one id per line (ViRL ids can hold spaces)
     qs = [q for q in qs if q['gold'] is not None]
     m = a.screen_model  # v6: the teacher screens the pool
     proc, t0 = AutoProcessor.from_pretrained(m, revision=REV if m == MODEL else JUDGE_REVS[m], **PIXELS), time.time()
-    rows = sample_rows(engine(a, 0, m), proc, [(q, q['text'], None) for q in qs], a.samples, a.max_tokens, logprobs=False)
+    llm = engine(a, 0, m)
+    if a.adapter:  # held-out test (heldout_protocol.md): a trained adapter on the base engine, as in training rollouts
+        from vllm.lora.request import LoRARequest
+        lora = LoRARequest('heldout', 1, a.adapter)
+    rows = sample_rows(llm, proc, [(q, q['text'], None) for q in qs], a.samples, a.max_tokens,
+                       lora if a.adapter else None, logprobs=False)
+    Path(a.out).with_suffix('.rows.jsonl').write_text(''.join(
+        json.dumps({k: r[k] for k in ('qid', 'finish', 'correct', 'text')}) + '\n' for r in rows))
     by = {}
     for r in rows:
         by.setdefault(r['qid'], []).append(r)

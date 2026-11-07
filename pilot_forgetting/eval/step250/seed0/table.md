@@ -16,13 +16,13 @@
 | 14 | Electronics | 30 | 46.7 |
 | 15 | Energy_and_Power | 30 | 63.3 |
 | 16 | Finance | 30 | 66.7 |
-| 17 | Geography | 30 | 56.7 |
+| 17 | Geography | 30 | 60.0 |
 | 18 | History | 30 | 66.7 |
 | 19 | Literature | 30 | 80.0 |
 | 20 | Manage | 30 | 63.3 |
 | 21 | Marketing | 30 | 90.0 |
 | 22 | Materials | 30 | 46.7 |
-| 23 | Math | 30 | 70.0 |
+| 23 | Math | 30 | 73.3 |
 | 24 | Mechanical_Engineering | 30 | 60.0 |
 | 25 | Music | 30 | 33.3 |
 | 26 | Pharmacy | 30 | 80.0 |
@@ -30,4 +30,4 @@
 | 28 | Psychology | 30 | 80.0 |
 | 29 | Public_Health | 30 | 86.7 |
 | 30 | Sociology | 30 | 56.7 |
-| | **Overall (macro avg)** | **900** | **65.00** |
+| | **Overall (macro avg)** | **900** | **65.22** |

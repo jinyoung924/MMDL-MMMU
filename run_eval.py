@@ -159,6 +159,10 @@ def parse_open_response(response):
 
 
 def eval_open(gold_i, pred_i):
+    # HF MMMU stores multi-answer golds as a string "['Tampa', 'Florida']"; the official
+    # answer_dict_val.json has them as lists. Without this, 3 open questions can never be correct.
+    if isinstance(gold_i, str) and gold_i.startswith("["):
+        gold_i = ast.literal_eval(gold_i)
     norm_answers = []
     for answer in (gold_i if isinstance(gold_i, list) else [gold_i]):
         norm_answers.extend(normalize_str(answer))

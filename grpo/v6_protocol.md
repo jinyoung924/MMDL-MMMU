@@ -106,3 +106,36 @@ On 32 copied v5 r007 stage-1 rows (4 questions, 21 finished), `runs/v6_smoke`:
 - Verdict: inconclusive (point <= 0). Above the floor 62.93 -> the chain continues to r019 (rules unchanged).
 - By discipline (vs base 5-seed mean): Business 74.8 -> 74.7, Tech & Eng 55.0 -> 54.8, other 66.1 -> 64.1. The trained
   domains did not move, and the training-pool truncation drop (9.4 % -> ~1-3 %) did not transfer to MMMU.
+
+## Dev result r019 (2026-11-06 20:53)
+- seed 0, 900 q: 63.89 -> -1.04 pts, 95 % CI [-3.07, +1.11]; base stable-correct -0.44 [-2.88, +1.99] (no forgetting
+  signal); truncation 14.1 -> 14.4 %. Compare: `runs/grpo_v6_r019_full/compare_base_mean.txt`.
+- Verdict: inconclusive (point <= 0). Above the floor -> the chain continues to r029 (rules unchanged).
+- By discipline: Business 74.8 -> 78.0, Tech & Eng 55.0 -> 50.5, other 66.1 -> 65.2 (subsets of 150/210 q; within noise).
+
+## Rescoring (2026-11-06 22:20, user decision)
+
+A scorer bug was fixed in `run_eval.py`: three open questions whose gold is a list (stored by HF as a string
+like "['Tampa', 'Florida']") could never be scored correct. All saved runs were re-scored with
+`scripts/rescore_open.py` (multiple-choice unchanged). The r029 dev run uses the fixed scorer.
+
+| | before | after |
+|---|---:|---:|
+| base 5-seed mean | 64.93 | 65.16 ± 0.93 |
+| r009 dev | 63.67 (−1.27, CI [−3.33, +0.80]) | 63.78 (−1.38, CI [−3.42, +0.76]) |
+| r019 dev | 63.89 (−1.04, CI [−3.07, +1.11]) | 64.11 (−1.04, CI [−3.04, +1.09]) |
+
+Verdicts are unchanged (both inconclusive). The registered floor stays at 62.93 as written; r029 is the
+last dev evaluation, so the floor no longer affects any decision.
+
+## Dev result r029 and end of v6 (2026-11-06 23:35)
+- seed 0, 900 q (fixed scorer; `rescore_open.py` reports unchanged): 65.11 vs base 5-seed mean 65.16 -> -0.04 pts,
+  95 % CI [-2.20, +1.96]; base stable-correct (453) +0.44 [-1.99, +2.87] (no forgetting signal); truncation
+  14.1 -> 12.1 %, mean response 7479 -> 6454 chars. Compare: `runs/grpo_v6_r029_full/compare_base_mean.txt`.
+- Verdict: inconclusive (point <= 0). No v6 checkpoint is a candidate (r009 -1.38, r019 -1.04, r029 -0.04), so by
+  the registered rules there is no 5-seed final and no data-only ablation. The chain finished all 30 rounds.
+- By discipline: Business 74.8 -> 74.7, Tech & Eng 55.0 -> 52.9, other 66.4 -> 67.2. The trained domains did not move.
+- Truncation groups (selected on held-out base seeds 1-4, compared on seed 0; >= 2/4 truncated, n=160): truncation
+  70.6 -> 60.0 %, accuracy 39.4 -> 37.5 %. The fewer truncations did not become correct answers. Rest (n=740):
+  70.1 -> 71.1 %.
+- Next: the held-out pool test (`heldout_protocol.md`) uses the r029 adapter.

@@ -81,9 +81,9 @@
       "acc": 0.7333333333333333
     },
     "Geography": {
-      "correct": 20,
+      "correct": 21,
       "num": 30,
-      "acc": 0.6666666666666666
+      "acc": 0.7
     },
     "History": {
       "correct": 21,
@@ -111,9 +111,9 @@
       "acc": 0.5666666666666667
     },
     "Math": {
-      "correct": 17,
+      "correct": 18,
       "num": 30,
-      "acc": 0.5666666666666667
+      "acc": 0.6
     },
     "Mechanical_Engineering": {
       "correct": 16,
@@ -151,8 +151,8 @@
       "acc": 0.6666666666666666
     }
   },
-  "overall_macro": 0.6622222222222223,
-  "overall_micro": 0.6622222222222223,
+  "overall_macro": 0.6644444444444445,
+  "overall_micro": 0.6644444444444444,
   "n_questions": 900,
   "elapsed_sec": 2670.4,
   "truncated": 140,
