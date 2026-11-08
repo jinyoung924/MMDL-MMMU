@@ -30,6 +30,8 @@ if __name__ == '__main__':
     f0, f1 = G / f'runs/heldout/{pool}_base.jsonl', G / f'runs/heldout/{pool}_{tag}.jsonl'
     b, t = load(f0), load(f1)
     for s in ('seen', 'unseen'):
+        if not (G / f'data/heldout/{pool}_{s}.txt').exists():  # v8 has no seen set
+            continue
         ids = [i for i in (G / f'data/heldout/{pool}_{s}.txt').read_text().splitlines() if i in b and i in t]
         acc = lambda r: r['correct'] / r['n']
         tr = lambda r: r['trunc'] / r['n']

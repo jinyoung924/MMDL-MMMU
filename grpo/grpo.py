@@ -312,7 +312,7 @@ def screen(a):
     qs = [q for q in qs if q['gold'] is not None]
     m = a.screen_model  # v6: the teacher screens the pool
     proc, t0 = AutoProcessor.from_pretrained(m, revision=REV if m == MODEL else JUDGE_REVS[m], **PIXELS), time.time()
-    llm = engine(a, 0, m)
+    llm = engine(a, a.seed, m)
     if a.adapter:  # held-out test (heldout_protocol.md): a trained adapter on the base engine, as in training rollouts
         from vllm.lora.request import LoRARequest
         lora = LoRARequest('heldout', 1, a.adapter)
@@ -799,6 +799,7 @@ if __name__ == '__main__':
     ap.add_argument('--validation', action='store_true')
     ap.add_argument('--judge-name', default='haiku')  # subagent judge label for the gate directories
     ap.add_argument('--judge-workers', type=int, default=8)
+    ap.add_argument('--seed', type=int, default=0)  # screen engine seed; v8 top-ups use 1 so they do not repeat seed-0 samples
     ap.add_argument('--samples', type=int, default=4)  # per question (v4: 8)
     ap.add_argument('--no-topup', dest='topup', action='store_false')  # v4: no plain top-up
     ap.add_argument('--hints', action='store_true')  # v4: Sonnet hints for 0-correct questions

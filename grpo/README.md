@@ -29,11 +29,11 @@ rollout (vLLM)  →  [judge (v3–v5) | teacher-score (v6)]  →  train (HF + PE
 | `prepare_virl.py` | v1/v2 풀: ViRL39K 단일 이미지 객관식 → `data/pool.jsonl` (3,670) |
 | `prepare_vwi.py` | v3–v6 풀: VisualWebInstruct-verified 숫자 단답 → `data/pool_v3.jsonl` (8,091), `prepare_vwi.py v6` → `data/pool_v6_all.jsonl` (3,795) |
 | `prepare_vwi_mc.py` | v7 풀: VWI-verified 객관식 → `data/pool_v7.jsonl` (3,924, `data/pool_v7_qids.json`에서 다시 만듦), 안 본 300문항 분리 |
-| `rft.py`, `chain_v7.sh` | v7 RFT: base가 4번 중 1–3번 맞힌 문항의 자기 정답 풀이 선택(`select`) → LoRA 학습(`train`) → 관문 1·2 |
+| `rft.py`, `chain_v7.sh`, `chain_v8.sh` | v7·v8 RFT: base가 가끔 맞힌 문항의 자기 정답 풀이 선택(`select`, v8은 `ids v8`·`select v8`) → LoRA 학습(`train`) → 관문 1·2 |
 | `ste_eval.py`, `prep_queue.sh` | v6 사전 점검(프롬프트 변형, 교사 후보 평가) |
 | `judge_instructions.md` | v3–v5 Sonnet 판정 지시문 |
 | `ram_watch.sh` | RAM이 5GB 아래로 떨어지면 우리 작업만 멈추는 감시기 |
-| `v3_protocol.md` … `v7_protocol.md`, `v6_prep_protocol.md`, `v7_prep_protocol.md` | **실행 전에 등록한 규칙**과 그 뒤의 수정(Amendment)·정지 기록. 결과를 본 뒤 규칙을 바꾼 경우는 모두 여기에 사유와 함께 남아 있습니다 |
+| `v3_protocol.md` … `v8_protocol.md`, `v6_prep_protocol.md`, `v7_prep_protocol.md` | **실행 전에 등록한 규칙**과 그 뒤의 수정(Amendment)·정지 기록. 결과를 본 뒤 규칙을 바꾼 경우는 모두 여기에 사유와 함께 남아 있습니다 |
 | `data/ids_{216,166,88,430}.txt` | MMMU val을 base 5 seed 정답 수로 나눈 문항 목록(1–3/5, 0/5, 4/5, 5/5). **평가용이며 학습에는 쓰지 않습니다** |
 | `data/pool_v4.jsonl`, `data/pool_v6.jsonl` | 실제로 학습에 쓴 풀. base·교사 사전 풀이 결과(`screen_v4.jsonl`, `screen_v6.jsonl`)로 걸렀기 때문에 GPU 없이는 다시 만들 수 없어 함께 올립니다 |
 

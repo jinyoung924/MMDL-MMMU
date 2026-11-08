@@ -3,6 +3,7 @@
 
 python grpo/rft.py select     # runs/heldout/v7_base.rows.jsonl -> runs/v7/rft_train.jsonl, data/heldout/v7_{seen,all}.txt
 python grpo/rft.py train      # -> runs/v7/rft/epoch{1,2} (LoRA adapters)
+python grpo/rft.py ids v8 / select v8 / train v8     # v8_protocol.md, outputs under runs/v8
 Run from the repo root in the `vllm-train` env; merge with `grpo.py merge --adapter runs/v7/rft/epoch2 --out ...`.
 """
 import json, random, sys, time
@@ -12,7 +13,54 @@ G = Path(__file__).resolve().parent
 sys.path[:0] = [str(G), str(G.parent)]
 from grpo import LORA_TARGETS, MODEL, PIXELS, REV, chat
 
-OUT = G / 'runs/v7'
+OUT = G / 'runs' / (sys.argv[2] if len(sys.argv) > 2 else 'v7')
+
+
+def rows_by(*files):
+    by = {}
+    for f in files:
+        for r in map(json.loads, open(f)):
+            by.setdefault(r['qid'], []).append(r)
+    return by
+
+
+def ids_v8():
+    """v8 items (v8_protocol.md): hard numeric items (11/04 base screen: < 2 of 2 correct, not both truncated) and the v7
+    MC training candidates with < 4 of 4 correct. 300 random numeric items are held out before any v8 sampling."""
+    by = rows_by(G / 'runs/heldout/v7_base.rows.jsonl')
+    mc = [q for q in (G / 'data/v7_train_ids.txt').read_text().split() if sum(r['correct'] for r in by[q]) < 4]
+    num = [r['qid'] for r in map(json.loads, open(G / 'data/screen_v4.jsonl'))
+           if r['correct'] < 2 and r['trunc'] < 2 and r['qid'] not in set(mc)]  # 2 VWI items are in both pools: MC only
+    random.Random(0).shuffle(num)
+    assert len(num) == 881 and len(mc) == 821
+    import hashlib  # VWI sub-questions share a source idx ("838101.4") or an image: such train items leave training
+    img = {q['qid']: q['image'] for q in map(json.loads, open(G / 'data/pool_v3.jsonl'))}
+    key = lambda q: (q.split('.')[0], hashlib.sha256(open(img[q], 'rb').read()).hexdigest())
+    held = {k for q in num[:300] for k in key(q)}
+    train = [q for q in num[300:] if not set(key(q)) & held]
+    for f, ids in (('heldout/v8_unseen', num[:300]), ('v8_num_train', train), ('v8_num_all', num[:300] + train), ('v8_mc_train', mc)):
+        (G / f'data/{f}.txt').write_text('\n'.join(ids) + '\n')
+
+
+def select_v8():
+    """8 base samples per training item (numeric: v8 screen; MC: v7 screen + v8 top-up) -> up to 4 correct responses
+    of each item with 1-7 of 8 correct. Stop if fewer than 500 items qualify."""
+    pools = [{q['qid']: q for q in map(json.loads, open(G / f'data/{p}.jsonl'))} for p in ('pool_v3', 'pool_v7')]
+    h = G / 'runs/heldout'  # rows per pool: 3 numeric qids also exist in pool_v7 (MC rendering of the same VWI item)
+    bys = rows_by(h / 'v8_base.rows.jsonl'), rows_by(h / 'v7_base.rows.jsonl', h / 'v8mc_base.rows.jsonl')
+    rng, data, items = random.Random(0), [], []
+    for pool, by, f in zip(pools, bys, ('v8_num_train', 'v8_mc_train')):
+        for qid in (G / f'data/{f}.txt').read_text().split():
+            assert len(by[qid]) == 8, qid
+            chosen = pick(by[qid], rng, k=4)
+            items += [qid] if chosen else []
+            data += [{'qid': qid, 'text': pool[qid]['text'], 'image': pool[qid]['image'], 'response': r['text']}
+                     for r in chosen]
+    print(json.dumps({'items': len(items), 'responses': len(data)}))
+    if len(items) < 500:
+        sys.exit('fewer than 500 items qualify: stop (v8_protocol.md step 2)')
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / 'rft_train.jsonl').write_text(''.join(json.dumps(d, ensure_ascii=False) + '\n' for d in data))
 
 
 def pick(rows, rng, k=2):
@@ -113,4 +161,6 @@ if __name__ == '__main__':
     rng = random.Random(0)
     assert pick([{'correct': True}] * 4, rng) == [] and pick([{'correct': False}] * 4, rng) == []
     assert len(pick([{'correct': True}] * 3 + [{'correct': False}], rng)) == 2
-    {'select': select, 'train': train}[sys.argv[1]]()
+    assert len(pick([{'correct': True}] * 7 + [{'correct': False}], rng, k=4)) == 4
+    v8 = OUT.name == 'v8'
+    {'ids': ids_v8, 'select': select_v8 if v8 else select, 'train': train}[sys.argv[1]]()
