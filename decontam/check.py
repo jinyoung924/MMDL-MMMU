@@ -172,7 +172,7 @@ def grade(a):
     verdict = None
     if a.verdicts:
         verdict = {(v["tid"], v["eid"]): v["same"] for v in map(json.loads, open(a.verdicts, encoding="utf-8"))}
-    confirmed = set(Path(a.confirmed).read_text(encoding="utf-8").split()) if a.confirmed else set()   # "tid eid" lines -> image match
+    confirmed = {" ".join(l.split()) for l in Path(a.confirmed).read_text(encoding="utf-8").splitlines() if l.strip()} if a.confirmed else set()   # "tid eid" lines -> image match
     cnt = Counter()
     hits_e = {"mmmu": set(), "pro": set()}
     removed, pending, by_subset = [], 0, Counter()
