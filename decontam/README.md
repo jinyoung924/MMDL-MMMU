@@ -19,6 +19,8 @@ RUN_NAME=decontam_v1 SKIP_SMOKE=1 RUN_CMD='bash decontam/run_all.sh "$OUT"' \
 
 끝나면 노트북에서 `bash cloud/local.sh fetch decontam_v1` 후 `runs/decontam_v1/dataset_search_filled.md`를 엽니다. 4열이 채워진 표입니다.
 
+**Colab에서 돌릴 때**는 `decontam/colab.ipynb`를 Colab에 올려 위에서부터 실행합니다. RunPod과 같은 코드이고 다른 점은 셋입니다: vLLM 대신 transformers로 판정기를 돌림, GPU가 20GB 미만(T4·L4)이면 판정기가 Qwen2.5-**3B**(7B는 fp16으로 안 올라감. 약한 판정기가 놓치는 만큼은 recall의 `text`·`trans`에 그대로 드러나 r이 낮아짐), E 인덱스·결과는 Drive(`MyDrive/decontam/`)에 쌓여 세션이 끊겨도 이어서 돌아감.
+
 **처음엔 노트북에서 `python decontam/tests/test_local.py`로 논리부터 확인합니다** (네트워크·GPU 없이 수 초, `PASS`가 나와야 함).
 
 ## 흐름

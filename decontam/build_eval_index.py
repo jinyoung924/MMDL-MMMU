@@ -92,7 +92,9 @@ def main():
         for im in it["images"]:
             img_eid.append(it["eid"])
             img_sha.append(pixel_sha256(im))
-            imgs.append(to_rgb(im))
+            im = to_rgb(im)
+            im.thumbnail((1024, 1024))    # keep RAM bounded (Pro screenshots are large); SSCD resizes to 288 anyway
+            imgs.append(im)
             th = imgs[-1].copy()
             th.thumbnail((384, 384))
             th.save(a.out / "thumbs" / f"{len(imgs) - 1}.jpg", quality=85)

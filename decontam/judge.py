@@ -26,20 +26,73 @@ Question 2:
 Reply with exactly one word: SAME or DIFFERENT."""
 
 
+SMALL = "Qwen/Qwen2.5-3B-Instruct"   # GPUs under 20 GB (Colab T4/L4): the 7B does not fit in fp16
+
+
+def pick(model=None, backend="auto"):
+    """auto: vLLM when installed (RunPod), else plain transformers (Colab). model None: 7B, or 3B on a small GPU."""
+    if backend == "auto":
+        try:
+            import vllm  # noqa: F401
+            backend = "vllm"
+        except ImportError:
+            backend = "hf"
+    if model is None:
+        model = MODEL
+        if backend == "hf":
+            import torch
+            if not torch.cuda.is_available() or torch.cuda.get_device_properties(0).total_memory < 20e9:
+                model = SMALL
+    return model, backend
+
+
 class LLM:
-    def __init__(self, model=MODEL, backend="vllm"):
-        self.backend = backend
+    def __init__(self, model=None, backend="auto"):
+        model, backend = pick(model, backend)
+        self.backend, self.model = backend, model
+        print(f"[llm] {backend} {model}", flush=True)
         if backend == "vllm":
             from vllm import LLM as V, SamplingParams
             self.llm = V(model=model, max_model_len=4096, gpu_memory_utilization=0.85)
             self.SP = SamplingParams
+        elif backend == "hf":
+            import torch
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+            self.torch = torch
+            self.tok = AutoTokenizer.from_pretrained(model, padding_side="left")
+            bf16 = torch.cuda.is_available() and torch.cuda.is_bf16_supported()
+            self.m = AutoModelForCausalLM.from_pretrained(
+                model, torch_dtype=torch.bfloat16 if bf16 else torch.float16,
+                device_map="cuda" if torch.cuda.is_available() else None).eval()
 
     def chat(self, prompts, max_tokens=8, temperature=0.0):
         if self.backend == "dummy":
             return [dummy(p) for p in prompts]
+        if self.backend == "hf":
+            return self._hf(prompts, max_tokens, temperature)
         sp = self.SP(temperature=temperature, max_tokens=max_tokens, seed=0)
         outs = self.llm.chat([[{"role": "user", "content": p}] for p in prompts], sp, use_tqdm=False)
         return [o.outputs[0].text.strip() for o in outs]
+
+    def _hf(self, prompts, max_tokens, temperature, batch=16):
+        torch, out = self.torch, []
+        torch.manual_seed(0)
+        texts = [self.tok.apply_chat_template([{"role": "user", "content": p}], tokenize=False,
+                                              add_generation_prompt=True) for p in prompts]
+        order = sorted(range(len(texts)), key=lambda i: len(texts[i]))     # similar lengths per batch = less padding
+        res = {}
+        for b in range(0, len(order), batch):
+            ids = order[b:b + batch]
+            x = self.tok([texts[i] for i in ids], return_tensors="pt", padding=True).to(self.m.device)
+            with torch.no_grad():
+                y = self.m.generate(**x, max_new_tokens=max_tokens, do_sample=temperature > 0,
+                                    temperature=temperature if temperature > 0 else None, top_p=None, top_k=None,
+                                    pad_token_id=self.tok.eos_token_id)
+            for i, row in zip(ids, y[:, x["input_ids"].shape[1]:]):
+                res[i] = self.tok.decode(row, skip_special_tokens=True).strip()
+            if (b // batch) % 50 == 0:
+                print(f"[llm] {min(b + batch, len(order))}/{len(order)}", flush=True)
+        return [res[i] for i in range(len(texts))]
 
 
 def dummy(prompt):
@@ -57,8 +110,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--cands", required=True)
     ap.add_argument("--out", help="default: verdicts.jsonl next to --cands")
-    ap.add_argument("--model", default=MODEL)
-    ap.add_argument("--backend", default="vllm", choices=["vllm", "dummy"])
+    ap.add_argument("--model", default=None, help=f"default {MODEL}, or {SMALL} on a GPU under 20 GB without vLLM")
+    ap.add_argument("--backend", default="auto", choices=["auto", "vllm", "hf", "dummy"])
     a = ap.parse_args()
     cands = [json.loads(l) for l in open(a.cands, encoding="utf-8")]
     out = Path(a.out or Path(a.cands).with_name("verdicts.jsonl"))

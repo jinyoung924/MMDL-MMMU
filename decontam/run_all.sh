@@ -7,7 +7,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 OUT=${1:-runs/decontam}
 WORK=${WORK:-$( [[ -d /workspace && -w /workspace ]] && echo /workspace/decontam || echo decontam/work )}
-IDX="$WORK/eval_index"; RES="$WORK/results"; DATA="$WORK/data"; REC="$WORK/recall"
+IDX="$WORK/eval_index"; RES="$WORK/results"; DATA=${DATA:-$WORK/data}; REC="$WORK/recall"   # Colab: WORK on Drive, DATA on local disk
 DATASETS=${DATASETS:-"cosyn_music musixqa cosyn_circuit circuitvqa cosyn_chemical pathvqa slake vqarad pubmedvision chemvqa ssmr nota openmmreasoner virl39k"}
 mkdir -p "$OUT" "$RES" "$DATA"
 python -m pip install -q gdown pyarrow 2>/dev/null || true
