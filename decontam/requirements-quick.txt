@@ -1,0 +1,6 @@
+# quick_check.py (CPU only). The full RunPod check (run_all.sh) uses the eval environment instead.
+numpy
+pillow
+pyarrow
+huggingface_hub
+gdown
