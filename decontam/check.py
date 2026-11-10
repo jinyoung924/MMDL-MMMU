@@ -31,13 +31,21 @@ from common import (E_SIZE, NGRAM, SSCD_MATCH, TEMPLATE_MIN, image_embedder, ite
 import load_train
 
 
+def _sha_map(shas, eids):
+    """pixel SHA -> every E item that uses that image (MMMU val and MMMU-Pro share many images)."""
+    m = defaultdict(set)
+    for s, e in zip(shas, eids):
+        m[s].add(e)
+    return m
+
+
 def load_index(d):
     d = Path(d)
     items = [json.loads(l) for l in open(d / "items.jsonl", encoding="utf-8")]
     z = np.load(d / "images.npz")
     g = json.loads((d / "grams.json").read_text(encoding="utf-8"))
     return {"items": {i["eid"]: i for i in items}, "eids": [i["eid"] for i in items],
-            "img_eid": z["eid"].tolist(), "sha": {s: e for s, e in zip(z["sha"].tolist(), z["eid"].tolist())},
+            "img_eid": z["eid"].tolist(), "sha": _sha_map(z["sha"].tolist(), z["eid"].tolist()),
             "img_emb": z["emb"].astype(np.float32), "txt_emb": np.load(d / "text_emb.npy").astype(np.float32),
             "ngram": g["ngram"], "exact": g["exact"], "embedders": g["embedders"],
             "calib": json.loads((d / "calib.json").read_text(encoding="utf-8")), "dir": d}
@@ -85,13 +93,13 @@ def detect(a):
         sim = V @ idx["img_emb"].T if len(flat) else np.zeros((0, 0))
         per = defaultdict(lambda: {"img_exact": set(), "img_near": {}, "review": {}})
         for n, j in enumerate(owner):
-            e = idx["sha"].get(pixel_sha256(flat[n]))
-            if e:
-                per[j]["img_exact"].add(e)
+            per[j]["img_exact"] |= idx["sha"].get(pixel_sha256(flat[n]), set())
             k = int(sim[n].argmax())
             s, e2 = float(sim[n, k]), idx["img_eid"][k]
-            if s >= SSCD_MATCH:
-                per[j]["img_near"][e2] = max(s, per[j]["img_near"].get(e2, 0))
+            if s >= SSCD_MATCH:   # every E image above the bar, not just the best: a shared image has two owners
+                for kk in np.flatnonzero(sim[n] >= SSCD_MATCH):
+                    ee = idx["img_eid"][kk]
+                    per[j]["img_near"][ee] = max(float(sim[n, kk]), per[j]["img_near"].get(ee, 0))
             elif s >= floor:
                 per[j]["review"][e2] = s
                 n_review[0] += 1

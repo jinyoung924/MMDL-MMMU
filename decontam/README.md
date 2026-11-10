@@ -4,16 +4,20 @@
 
 ## 돌리기
 
-pod에서 저장소를 클론하고 이 폴더(`decontam/`)를 저장소 맨 위에 둔 뒤 실행합니다. 새 파일만 추가하므로 main에 올리지 않고 압축을 풀어도 `runpod.sh` 검사에 걸리지 않습니다.
+`reports` 브랜치에 이 폴더가 들어 있으니 그 브랜치를 클론해서 돌립니다. 처음엔 **SLAKE 하나로 전 과정을 확인**하고(E 인덱스·recall도 이때 만들어짐), pod을 살려 둔 채 나머지를 돌립니다. 두 번째 실행은 `/workspace/decontam`의 E 인덱스를 그대로 다시 씁니다.
 
 ```bash
-git clone https://github.com/jinyoung924/MMDL-MMMU.git /workspace/MMDL-MMMU && cd /workspace/MMDL-MMMU
-python -m zipfile -e decontam.zip .
+git clone -b reports https://github.com/jinyoung924/MMDL-MMMU.git /workspace/MMDL-MMMU && cd /workspace/MMDL-MMMU
+# 1) 확인용: SLAKE 하나
+DATASETS=slake AUTO_TERMINATE=0 RUN_NAME=decontam_v1 SKIP_SMOKE=1 RUN_CMD='bash decontam/run_all.sh "$OUT"' \
+  nohup bash cloud/runpod.sh > /workspace/runpod.out 2>&1 &
+tail -f /workspace/runpod.out          # "[run_all ...] done" 이 나오면 끝
+# 2) 전체 (ChemVQA는 데이터가 없으면 건너뜀)
 RUN_NAME=decontam_v1 SKIP_SMOKE=1 RUN_CMD='bash decontam/run_all.sh "$OUT"' \
   nohup bash cloud/runpod.sh > /workspace/runpod.out 2>&1 &
 ```
 
-끝나면 노트북에서 `bash cloud/local.sh fetch decontam_v1` 후 `runs/decontam_v1/dataset_search_filled.md`를 엽니다. 4열이 채워진 표입니다. 일부만 돌리려면 `DATASETS="cosyn_music slake"`를 앞에 붙입니다.
+끝나면 노트북에서 `bash cloud/local.sh fetch decontam_v1` 후 `runs/decontam_v1/dataset_search_filled.md`를 엽니다. 4열이 채워진 표입니다.
 
 **처음엔 노트북에서 `python decontam/tests/test_local.py`로 논리부터 확인합니다** (네트워크·GPU 없이 수 초, `PASS`가 나와야 함).
 
@@ -52,6 +56,6 @@ fill_md.py            report.json의 한 줄을 dataset_search.md 4열에 써 �
 
 ## 아직 확인하지 못한 것
 
-- 실제 HF 데이터와 GPU로는 돌려 보지 않았습니다. 가짜 E·T로 전 경로(`tests/test_local.py`)만 확인했습니다.
+- 실제 HF 데이터와 GPU로는 돌려 보지 않았습니다. 가짜 E·T로 전 경로(`tests/test_local.py`)만 확인했습니다. 간이 검사(`quick_check.py`)를 실제 데이터로 돌리며 찾은 두 가지는 반영했습니다: 같은 그림을 MMMU와 Pro가 함께 쓰면 두 문항 모두 적중으로 셈, CircuitVQA는 `master.json`의 train만 읽음.
 - SSCD 가중치(`dl.fbaipublicfiles.com`)와 다국어 임베딩 모델을 pod에서 처음 받습니다.
 - 4장(행동 검사: clean/flagged 비교, 보기 순서, blind)은 파인튜닝한 모델이 있어야 해서 여기에 없습니다.

@@ -56,9 +56,10 @@ for ds in $DATASETS; do
         fetch gdrive 10kqGKCNAIG3VpOUvj4Ym6AH49ZaLvC_1 --to "$DATA/circuitvqa" >/dev/null
         fetch gdrive 1qH6jfWym0Wjg9KKCPQto7MZr0VWM9QpF --to "$DATA/circuitvqa" >/dev/null
       fi
-      need "$DATA/circuitvqa" "circuitvqa: download failed -> put files under $DATA/circuitvqa" && \
-      run circuitvqa image,text,trans,both --json "$DATA/circuitvqa/**/*.json,$DATA/circuitvqa/**/*.csv" \
-          --image-root "$DATA/circuitvqa" --fields "${CIRCUIT_FIELDS:-}" ;;
+      # master.json holds every QA once (master_*.json are prompt variants of the same QA); images by file name
+      need "$DATA/circuitvqa/questions/all/master.json" "circuitvqa: download failed -> put files under $DATA/circuitvqa" && \
+      run circuitvqa image,text,trans,both --json "$DATA/circuitvqa/questions/all/master.json" --where splittype=train \
+          --image-root "$DATA/circuitvqa/384a/model-inputs" --fields image=file ;;
     pathvqa)  run pathvqa image,text,trans,both --hf flaviagiammarino/path-vqa --split train ;;
     vqarad)   run vqarad image,text,trans,both --hf flaviagiammarino/vqa-rad --split train ;;
     slake)
