@@ -4,6 +4,10 @@
 python grpo/rft.py select     # runs/heldout/v7_base.rows.jsonl -> runs/v7/rft_train.jsonl, data/heldout/v7_{seen,all}.txt
 python grpo/rft.py train      # -> runs/v7/rft/epoch{1,2} (LoRA adapters)
 python grpo/rft.py ids v8 / select v8 / train v8     # v8_protocol.md, outputs under runs/v8
+python grpo/rft.py prep v9 / select v9 / train v9    # v9_protocol.md (SDFT-style), outputs under runs/v9
+python grpo/rft.py select v10 / train v10            # v10_protocol.md (v9 data + replay), outputs under runs/v10
+python grpo/rft.py select v11 / train v11            # v11_protocol.md part 1 (v9 data + long own-style anchors)
+python grpo/rft.py select v12 / train v12            # v12_protocol.md (v11 data + long own-correct MC anchors)
 Run from the repo root in the `vllm-train` env; merge with `grpo.py merge --adapter runs/v7/rft/epoch2 --out ...`.
 """
 import json, random, sys, time
@@ -59,6 +63,131 @@ def select_v8():
     print(json.dumps({'items': len(items), 'responses': len(data)}))
     if len(items) < 500:
         sys.exit('fewer than 500 items qualify: stop (v8_protocol.md step 2)')
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / 'rft_train.jsonl').write_text(''.join(json.dumps(d, ensure_ascii=False) + '\n' for d in data))
+
+
+REF = ('\n\nReference solution (to help you understand the method; do not mention it):\n{ref}\n\n'
+       'Now solve the problem yourself, step by step, in your own words.')
+
+
+def prep_v9():
+    """v9 (v9_protocol.md): the v8 training items with <= 3 of 8 base correct. The prompt gets the VWI reference
+    solution before the CoT suffix; 'text_plain' keeps the normal prompt, which is what training uses."""
+    pools = [{q['qid']: q for q in map(json.loads, open(G / f'data/{p}.jsonl'))} for p in ('pool_v3', 'pool_v7')]
+    h = G / 'runs/heldout'
+    bys = rows_by(h / 'v8_base.rows.jsonl'), rows_by(h / 'v7_base.rows.jsonl', h / 'v8mc_base.rows.jsonl')
+    out = []
+    for pool, by, f in zip(pools, bys, ('v8_num_train', 'v8_mc_train')):
+        for qid in (G / f'data/{f}.txt').read_text().split():
+            if sum(r['correct'] for r in by[qid]) <= 3:
+                q = pool[qid]
+                head, sep, tail = q['text'].rpartition('\nThink step by step')
+                assert sep and q['reference'].strip(), qid
+                out.append({**q, 'text': head + REF.format(ref=q['reference'].strip()) + sep + tail, 'text_plain': q['text']})
+    assert len({q['qid'] for q in out}) == len(out)
+    print(json.dumps({'items': len(out)}))
+    (G / 'data/pool_v9_ref.jsonl').write_text(''.join(json.dumps(q, ensure_ascii=False) + '\n' for q in out))
+    (G / 'data/v9_ids.txt').write_text(''.join(q['qid'] + '\n' for q in out))
+
+
+def select_v9():
+    """Up to 2 random correct, finished responses per item that do not mention the reference; stop if < 300 items."""
+    pool = {q['qid']: q for q in map(json.loads, open(G / 'data/pool_v9_ref.jsonl'))}
+    by = rows_by(G / 'runs/heldout/v9_ref.rows.jsonl')
+    rng, data, items = random.Random(0), [], []
+    for qid in (G / 'data/v9_ids.txt').read_text().split():
+        ok = [r for r in by[qid] if r['correct'] and 'reference' not in r['text'].lower()]
+        chosen = rng.sample(ok, min(2, len(ok)))
+        items += [qid] if chosen else []
+        data += [{'qid': qid, 'text': pool[qid]['text_plain'], 'image': pool[qid]['image'], 'response': r['text']}
+                 for r in chosen]
+    print(json.dumps({'items': len(items), 'responses': len(data)}))
+    if len(items) < 300:
+        sys.exit('fewer than 300 items qualify: stop (v9_protocol.md step 2)')
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / 'rft_train.jsonl').write_text(''.join(json.dumps(d, ensure_ascii=False) + '\n' for d in data))
+
+
+def select_v10():
+    """v10 (v10_protocol.md): the v9 training data plus the same number of replay responses, i.e. the base's own correct
+    responses on items it already solves: numeric v8 training items with >= 7 of 8 correct (up to 4 each), then one
+    response each from random v7 MC training items with 4 of 4. Replay items sharing a source id or an exact image
+    with the v8 held-out set are skipped."""
+    import hashlib
+    sdft = [json.loads(l) for l in open(G / 'runs/v9/rft_train.jsonl')]
+    pools = [{q['qid']: q for q in map(json.loads, open(G / f'data/{p}.jsonl'))} for p in ('pool_v3', 'pool_v7')]
+    key = lambda pool, q: (q.split('.')[0], hashlib.sha256(open(pool[q]['image'], 'rb').read()).hexdigest())
+    held = {k for q in (G / 'data/heldout/v8_unseen.txt').read_text().split() for k in key(pools[0], q)}
+    ok = lambda pool, q: not set(key(pool, q)) & held
+    entry = lambda pool, r: {'qid': r['qid'], 'text': pool[r['qid']]['text'], 'image': pool[r['qid']]['image'],
+                             'response': r['text'], 'replay': True}
+    h, rng, rep = G / 'runs/heldout', random.Random(0), []
+    nb = rows_by(h / 'v8_base.rows.jsonl')
+    for qid in (G / 'data/v8_num_train.txt').read_text().split():
+        good = [r for r in nb[qid] if r['correct']]
+        if len(good) >= 7 and ok(pools[0], qid):
+            rep += [entry(pools[0], r) for r in rng.sample(good, 4)]
+    mb = rows_by(h / 'v7_base.rows.jsonl')
+    mc = [q for q in (G / 'data/v7_train_ids.txt').read_text().split() if sum(r['correct'] for r in mb[q]) == 4]
+    rng.shuffle(mc)
+    for qid in mc:
+        if len(rep) >= len(sdft):
+            break
+        if ok(pools[1], qid):
+            rep.append(entry(pools[1], rng.choice(mb[qid])))
+    print(json.dumps({'sdft': len(sdft), 'replay': len(rep), 'replay_numeric': sum(r['qid'] in nb for r in rep)}))
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / 'rft_train.jsonl').write_text(''.join(json.dumps(d, ensure_ascii=False) + '\n' for d in sdft + rep))
+
+
+def select_v11():
+    """v11 part 1 (v11_protocol.md): the v9 training data plus the same number of long own-style anchors, i.e. the
+    base's own correct, finished responses on the hard numeric v8 training items (any count of 1..8 correct; up to 4
+    per item, seed 0), shuffled and cut to the v9 count. v8_num_train already excludes held-out source ids and images;
+    the check is repeated."""
+    import hashlib
+    sdft = [json.loads(l) for l in open(G / 'runs/v9/rft_train.jsonl')]
+    pool = {q['qid']: q for q in map(json.loads, open(G / 'data/pool_v3.jsonl'))}
+    key = lambda q: (q.split('.')[0], hashlib.sha256(open(pool[q]['image'], 'rb').read()).hexdigest())
+    held = {k for q in (G / 'data/heldout/v8_unseen.txt').read_text().split() for k in key(q)}
+    rng, rep, nb = random.Random(0), [], rows_by(G / 'runs/heldout/v8_base.rows.jsonl')
+    for qid in (G / 'data/v8_num_train.txt').read_text().split():
+        good = [r for r in nb[qid] if r['correct'] and r['finish'] == 'stop']
+        assert not set(key(qid)) & held, qid
+        rep += [{'qid': qid, 'text': pool[qid]['text'], 'image': pool[qid]['image'], 'response': r['text'], 'replay': True}
+                for r in rng.sample(good, min(4, len(good)))]
+    rng.shuffle(rep)
+    rep = rep[:len(sdft)]
+    print(json.dumps({'sdft': len(sdft), 'anchor': len(rep), 'anchor_items': len({r['qid'] for r in rep}),
+                      'anchor_median_chars': sorted(len(r['response']) for r in rep)[len(rep) // 2]}))
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / 'rft_train.jsonl').write_text(''.join(json.dumps(d, ensure_ascii=False) + '\n' for d in sdft + rep))
+
+
+def select_v12():
+    """v12 (v12_protocol.md): v11 data as is (v9 targets + numeric anchors) plus the base's own correct, finished
+    responses on the hard MC v8 training items (up to 4 per item, seed 0). Also writes the MC check set: v7 held-out
+    items that share no source id or image with any v12 training item."""
+    import hashlib
+    v11 = [json.loads(l) for l in open(G / 'runs/v11/rft_train.jsonl')]
+    pools = {q['qid']: q for p in ('pool_v3', 'pool_v7') for q in map(json.loads, open(G / f'data/{p}.jsonl'))}
+    p7 = {q['qid']: q for q in map(json.loads, open(G / 'data/pool_v7.jsonl'))}
+    key = lambda pool, q: (q.split('.')[0], hashlib.sha256(open(pool[q]['image'], 'rb').read()).hexdigest())
+    held8 = {k for q in (G / 'data/heldout/v8_unseen.txt').read_text().split() for k in key(pools, q)}
+    rng, mc, mb = random.Random(0), [], rows_by(G / 'runs/heldout/v7_base.rows.jsonl', G / 'runs/heldout/v8mc_base.rows.jsonl')
+    for qid in (G / 'data/v8_mc_train.txt').read_text().split():
+        good = [r for r in mb[qid] if r['correct'] and r['finish'] == 'stop']
+        assert len(mb[qid]) == 8 and not set(key(p7, qid)) & held8, qid
+        mc += [{'qid': qid, 'text': p7[qid]['text'], 'image': p7[qid]['image'], 'response': r['text'], 'replay': True}
+               for r in rng.sample(good, min(4, len(good)))]
+    data = v11 + mc
+    train_keys = {k for d in data for k in (d['qid'].split('.')[0], hashlib.sha256(open(d['image'], 'rb').read()).hexdigest())}
+    check = [q for q in (G / 'data/heldout/v7_unseen.txt').read_text().split() if not set(key(p7, q)) & train_keys]
+    (G / 'data/heldout/v7_unseen_v12.txt').write_text(''.join(q + '\n' for q in check))
+    print(json.dumps({'v9': sum(not d.get('replay') for d in v11), 'num_anchor': sum(bool(d.get('replay')) for d in v11),
+                      'mc_anchor': len(mc), 'mc_items': len({d['qid'] for d in mc}),
+                      'mc_median_chars': sorted(len(d['response']) for d in mc)[len(mc) // 2], 'mc_check_items': len(check)}))
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / 'rft_train.jsonl').write_text(''.join(json.dumps(d, ensure_ascii=False) + '\n' for d in data))
 
@@ -162,5 +291,6 @@ if __name__ == '__main__':
     assert pick([{'correct': True}] * 4, rng) == [] and pick([{'correct': False}] * 4, rng) == []
     assert len(pick([{'correct': True}] * 3 + [{'correct': False}], rng)) == 2
     assert len(pick([{'correct': True}] * 7 + [{'correct': False}], rng, k=4)) == 4
-    v8 = OUT.name == 'v8'
-    {'ids': ids_v8, 'select': select_v8 if v8 else select, 'train': train}[sys.argv[1]]()
+    sel = {'v7': select, 'v8': select_v8, 'v9': select_v9, 'v10': select_v10, 'v11': select_v11,
+           'v12': select_v12}.get(OUT.name)  # other runs (music/protocol.md) bring their own rft_train.jsonl and only train
+    {'ids': ids_v8, 'prep': prep_v9, 'select': sel, 'train': train}[sys.argv[1]]()

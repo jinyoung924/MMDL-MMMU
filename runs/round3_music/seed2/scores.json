@@ -1,0 +1,44 @@
+{
+  "per_subject": {
+    "Music": {
+      "correct": 10,
+      "num": 30,
+      "acc": 0.3333333333333333
+    }
+  },
+  "overall_macro": 0.3333333333333333,
+  "overall_micro": 0.3333333333333333,
+  "n_questions": 30,
+  "elapsed_sec": 307.0,
+  "truncated": 8,
+  "fallback_guess": 1,
+  "answer_tag_found": 21,
+  "config": {
+    "model": "grpo/runs/round3/merged",
+    "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "data": "MMMU/MMMU",
+    "data_revision": "98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "out": "runs/round3_music/seed2",
+    "subjects": [
+      "Music"
+    ],
+    "limit": 0,
+    "prompt_style": "cot",
+    "max_new_tokens": 8192,
+    "max_pixels": 1310720,
+    "min_pixels": 4096,
+    "max_model_len": 24576,
+    "gpu_mem_util": 0.9,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 1.5,
+    "seed": 2,
+    "batch_invariant": 1,
+    "ids_file": "",
+    "enable_lora": false,
+    "lora_adapter": "",
+    "max_lora_rank": 16
+  }
+}

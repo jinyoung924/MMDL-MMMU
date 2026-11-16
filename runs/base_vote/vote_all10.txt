@@ -1,0 +1,6 @@
+== 10 runs, 900 questions
+   single run: 64.72 ± 1.16  (64.67, 66.78, 64.89, 64.44, 65.00, 64.11, 63.67, 63.33, 63.78, 66.56)
+   majority of 10: 67.56   gain +2.83 pts  95% CI [+1.50, +4.12]
+   questions where no response votes: 3
+   majority of 5, mean over 252 subsets: 66.94  (min 64.89, max 68.78)
+   largest subject changes: Art -2.7, Electronics -2.7, Biology -2.0, History +7.0, Accounting +7.0, Math +8.0

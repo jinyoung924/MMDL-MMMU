@@ -1,0 +1,9 @@
+== paired on seeds [0], 900 questions; 'base stable-correct' selected on held-out base seeds [1, 2, 3, 4]
+   Δacc vs per-question mean of base seeds [0, 1, 2, 3, 4] (stable-correct group: paired seeds only)
+   Δacc all                              n=900   -1.16 pts  95% CI [-3.36, +1.22]
+   Δacc target subjects                  n=  0    +nan pts  95% CI [+nan, +nan]
+   Δacc non-target subjects              n=900   -1.16 pts  95% CI [-3.49, +1.16]
+   Δacc non-target, base stable-correct  n=453   -1.77 pts  95% CI [-4.42, +0.66]
+== non-target stable-correct (453): wrong in every paired seed — base 22 (noise floor), tuned 30 (format: truncated/no Answer tag 10, content: completed but wrong 20)
+   base  truncated  14.1%  Answer tag  85.9%  mean response    7479 chars
+   tuned truncated  14.9%  Answer tag  84.9%  mean response    5874 chars

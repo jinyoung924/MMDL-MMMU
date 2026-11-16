@@ -1,0 +1,5 @@
+   Music, all 30                        n=30  base  36.0 -> tuned  33.3  Δ  -2.67 [-16.67, +12.00]
+   Music, 25 outside the paired check   n=25  base  35.2 -> tuned  26.4  Δ  -8.80 [-20.00, +3.20]
+   the 5 paired-check questions         n= 5  base  40.0 -> tuned  68.0  Δ +28.00 [-32.00, +76.00]
+   per seed  base 40.0 33.3 30.0 30.0 46.7  tuned 23.3 30.0 33.3 46.7 33.3
+   truncated  base 49.3 % -> tuned 29.3 %

@@ -1,0 +1,112 @@
+{
+ "sft": 5000,
+ "rl": 1000,
+ "heldout": 300,
+ "skipped": {
+  "MMMU image hit": 60
+ },
+ "subsets": {
+  "scienceqa": {
+   "trajectories": 7546,
+   "questions": 3455,
+   "images": 3455,
+   "sft_candidates": 1204,
+   "heldout": 34,
+   "rl": 124,
+   "sft": 778
+  },
+  "m3cot": {
+   "trajectories": 6568,
+   "questions": 2820,
+   "images": 2820,
+   "sft_candidates": 1695,
+   "heldout": 34,
+   "rl": 124,
+   "sft": 778
+  },
+  "ai2d": {
+   "trajectories": 2307,
+   "questions": 1646,
+   "images": 1098,
+   "sft_candidates": 123,
+   "heldout": 34,
+   "rl": 124,
+   "sft": 104
+  },
+  "geometry3k": {
+   "trajectories": 7019,
+   "questions": 1175,
+   "images": 1175,
+   "sft_candidates": 979,
+   "heldout": 33,
+   "rl": 124,
+   "sft": 778
+  },
+  "geos": {
+   "trajectories": 288,
+   "questions": 43,
+   "images": 43,
+   "sft_candidates": 0,
+   "heldout": 33,
+   "rl": 10
+  },
+  "geo170k": {
+   "trajectories": 1203,
+   "questions": 797,
+   "images": 684,
+   "sft_candidates": 493,
+   "heldout": 33,
+   "rl": 124,
+   "sft": 429
+  },
+  "geomverse": {
+   "trajectories": 1422,
+   "questions": 756,
+   "images": 756,
+   "sft_candidates": 583,
+   "heldout": 33,
+   "rl": 124,
+   "sft": 578
+  },
+  "mavis_geo": {
+   "trajectories": 4771,
+   "questions": 3222,
+   "images": 3222,
+   "sft_candidates": 863,
+   "heldout": 33,
+   "rl": 123,
+   "sft": 778
+  },
+  "mavis_function": {
+   "trajectories": 28285,
+   "questions": 13454,
+   "images": 13454,
+   "sft_candidates": 13254,
+   "heldout": 33,
+   "rl": 123,
+   "sft": 777
+  }
+ },
+ "kind": {
+  "sft": {
+   "mc": 3297,
+   "num": 1703
+  },
+  "rl": {
+   "mc": 709,
+   "num": 291
+  },
+  "heldout": {
+   "mc": 217,
+   "num": 83
+  }
+ },
+ "sft_steps_mean": 5.78,
+ "rl_ref_steps_mean": 4.32,
+ "sft_target_chars": {
+  "p10": 697,
+  "median": 1222,
+  "p90": 2092
+ },
+ "sft_targets_with_consistent_last_result": 0.661
+}

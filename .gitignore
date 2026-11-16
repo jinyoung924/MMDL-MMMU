@@ -20,5 +20,27 @@ grpo/data/screen_ids_v*.txt
 grpo/judge_validation_*
 # 216문항 진단의 응답 전문 (점수는 scores.json에 있음)
 runs/*_216/*/predictions.jsonl
+# StructReward 재현용 외부 데이터(VisualPRM400K-v1.1, 92GB)와 학습 산출물. structreward/protocol.md 참고
+structreward/data/*
+!structreward/data/build_summary.json
+!structreward/data/heldout_ids.txt
+!structreward/data/probe_ids.txt
+structreward/runs/
 # LoRA 어댑터·가중치는 어디에 있든 올리지 않습니다
 *.safetensors
+# 악보 판독 SFT의 합성 문항·실행 산출물·사례 이미지 (300MB). music/reading.py, music/chain*.sh, music/step0.py로 다시 만듭니다
+music/data/
+music/runs/
+music/rerender/
+music/step0/cases/
+# 다음 후보 태깅 사례와 화학 구조식 문항 (58MB). targets/tag.py, targets/chem.py로 다시 만듭니다
+targets/chem/
+targets/diagrams/
+# 실행 출력
+*.out
+# 11/09 이후 실행의 MMMU 응답 전문 (약 300MB). 점수는 scores.json, base와의 비교는 compare_*.txt에 있습니다
+runs/**/predictions.jsonl
+# 다시 만들 수 있는 풀 (prepare_vwi_mc.py, rft.py, v11_pilot.py)
+grpo/data/pool_v7.jsonl
+grpo/data/pool_v9_ref.jsonl
+grpo/data/pool_v11_*.jsonl

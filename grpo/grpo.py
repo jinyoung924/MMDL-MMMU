@@ -18,8 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from run_eval import ANSWER_TAG_MC
 
-MODEL = 'Qwen/Qwen3-VL-4B-Instruct'
-REV = 'ebb281ec70b05090aa6165b016eac8ec08e71b17'
+MODEL = os.environ.get('GRPO_MODEL', 'Qwen/Qwen3-VL-4B-Instruct')  # structreward stage B: the merged cold-start model,
+REV = None if 'GRPO_MODEL' in os.environ else 'ebb281ec70b05090aa6165b016eac8ec08e71b17'  # a local folder (no revision)
 PIXELS = {'min_pixels': 4096, 'max_pixels': 1310720}  # = run_eval defaults
 JUDGE_REVS = {'Qwen/Qwen3-VL-8B-Instruct-FP8': '9cdc6310a8cb770ce18efaf4e9935334512aee45'}  # pinned like MODEL
 TEACHER = 'Qwen/Qwen3-VL-8B-Instruct-FP8'  # v6 on-policy distillation teacher (v6_prep_protocol.md B1)
@@ -211,6 +211,9 @@ def sample_rows(llm, proc, items, n, max_tokens, lora=None, stage=1, logprobs=Tr
     from vllm import SamplingParams
     if not items:
         return []
+    if len(items) > 1500:  # a 5,000-question screen decoded and preprocessed every image at once: out of RAM (11/14 20:52)
+        return [r for i in range(0, len(items), 500)
+                for r in sample_rows(llm, proc, items[i:i + 500], n, max_tokens, lora, stage, logprobs)]
     chats = [chat(proc, t) for _, t, _ in items]
     prompts = [{'prompt': c, 'multi_modal_data': {'image': [Image.open(q['image']).convert('RGB')]}}
                for c, (q, _, _) in zip(chats, items)]
@@ -465,7 +468,9 @@ def train(a):
                 kl = (d.exp() - d - 1).sum()
                 loss = loss + a.beta * kl
                 acc["kl"] += float(kl.detach()) / ntok
-            (loss / ntok).backward()
+            # default: one mean over all tokens of the update (a long response weighs by its length);
+            # --per-response: mean over the tokens of each response, then over responses (StructReward eq. 12)
+            (loss / (n * len(items)) if a.per_response else loss / ntok).backward()
             with torch.no_grad():
                 acc['mismatch'] += float((lp - mu).abs().sum()) / ntok
                 acc['clipped'] += float(((ratio - 1).abs() > a.clip).sum()) / ntok
@@ -478,13 +483,33 @@ def train(a):
                       'groups': len(step), 'samples': len(items), 'tokens': ntok})
         print('step', s, stats[-1], flush=True)
 
+    # structreward stage B: judgment / choice examples built from this round's rollouts (sr.py aux), plain cross-entropy
+    aux_f, aux_stats = run / f'rounds/r{a.round:03d}.aux.jsonl', []
+    aux = [json.loads(l) for l in open(aux_f)] if aux_f.exists() else []
+    for i in range(0, len(aux), 8):
+        tot = 0.0
+        for x in aux[i:i + 8]:
+            with Image.open(x['image']) as img:
+                im, prompt = img.convert('RGB'), chat(proc, x['text'])
+                enc = proc(text=[prompt + x['target'] + '<|im_end|>'], images=[im], return_tensors='pt')
+                n = enc['input_ids'].shape[1] - proc(text=[prompt], images=[im], return_tensors='pt')['input_ids'].shape[1]
+            with torch.autocast('cuda', dtype=torch.bfloat16):
+                loss = -logps({k: v.cuda() for k, v in enc.items()}, n).mean()
+            (loss / len(aux[i:i + 8])).backward()
+            tot += float(loss) / len(aux[i:i + 8])
+        torch.nn.utils.clip_grad_norm_(params, 1.0)
+        opt.step()
+        opt.zero_grad(set_to_none=True)
+        aux_stats.append({'examples': len(aux[i:i + 8]), 'loss': round(tot, 5)})
+        print('aux step', aux_stats[-1], flush=True)
+
     model.save_pretrained(str(adapter))
     torch.save(opt.state_dict(), run / 'optim.pt')
     if (a.round + 1) % a.ckpt_every == 0:
         shutil.copytree(adapter, run / f'ckpt/r{a.round:03d}', dirs_exist_ok=True)
     log(run, {'round': a.round, 'phase': 'train', 'groups': len(groups), 'steps': len(steps),
               'peak_gb': round(torch.cuda.max_memory_allocated() / 2**30, 1),
-              'sec': round(time.time() - t0), 'per_step': stats})
+              'sec': round(time.time() - t0), 'per_step': stats, **({'aux_steps': aux_stats} if aux else {})})
 
 
 def judge(a):
@@ -534,7 +559,7 @@ def guard(a):
     if a.length_ref:  # v6 Amendment 1: finished responses only, relative to the teacher's length on the same question
         ref = {s['qid']: s['tokens'] for s in map(json.loads, open(a.length_ref))}
         tok0, tok = length_ratio(a.run, 0, ref), mean([length_ratio(a.run, r['round'], ref) for r in ro[-2:]])
-    why = [w for w, bad in [('accuracy', acc < 0.7 * acc0), ('truncation', ro[-1]['stage1_trunc'] > 0.35),
+    why = [w for w, bad in [('accuracy', acc < a.acc_floor * acc0), ('truncation', ro[-1]['stage1_trunc'] > a.trunc_max),
                             ('length_collapse', a.length_guard and tok < 0.6 * tok0),
                             ('kl', kl > 0.1), ('reward_hacking', hacking)] if bad]
     print('guard', {f'acc_{a.acc_window}round': round(acc, 3), 'acc_round0': acc0, 'trunc': ro[-1]['stage1_trunc'],
@@ -805,6 +830,9 @@ if __name__ == '__main__':
     ap.add_argument('--hints', action='store_true')  # v4: Sonnet hints for 0-correct questions
     ap.add_argument('--reward', default='v3', choices=['v3', 'v4', 'v5'])
     ap.add_argument('--drop-truncated', action='store_true')  # v5 overlong filtering
+    ap.add_argument('--acc-floor', type=float, default=0.7)  # guard: accuracy window below this share of round 0 (hard pool: 0.5)
+    ap.add_argument('--trunc-max', type=float, default=0.35)  # guard: cut share of the last round (hard pool: 0.5)
+    ap.add_argument('--per-response', action='store_true')  # structreward Amendment 7: loss normalized per response
     ap.add_argument('--length-guard', action='store_true')  # v5 stop rule: 2-round mean length < 0.6 x round 0
     ap.add_argument('--ids', default='')
     ap.add_argument('--screen-model', default=MODEL)

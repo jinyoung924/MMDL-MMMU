@@ -1,4 +1,4 @@
-# grpo/ — 강화학습(GRPO) 실험 코드 v1–v6
+# grpo/ — 강화학습(GRPO)과 자기 풀이 SFT 실험 코드 v1–v12
 
 Qwen3-VL-4B-Instruct를 RTX 4090(24GB) 한 장에서 GRPO + LoRA로 학습하는 코드입니다.
 실험별 설정·결과·교훈은 [reports/training_experiments.md](../reports/training_experiments.md)에 정리돼 있습니다.
@@ -30,10 +30,11 @@ rollout (vLLM)  →  [judge (v3–v5) | teacher-score (v6)]  →  train (HF + PE
 | `prepare_vwi.py` | v3–v6 풀: VisualWebInstruct-verified 숫자 단답 → `data/pool_v3.jsonl` (8,091), `prepare_vwi.py v6` → `data/pool_v6_all.jsonl` (3,795) |
 | `prepare_vwi_mc.py` | v7 풀: VWI-verified 객관식 → `data/pool_v7.jsonl` (3,924, `data/pool_v7_qids.json`에서 다시 만듦), 안 본 300문항 분리 |
 | `rft.py`, `chain_v7.sh`, `chain_v8.sh` | v7·v8 RFT: base가 가끔 맞힌 문항의 자기 정답 풀이 선택(`select`, v8은 `ids v8`·`select v8`) → LoRA 학습(`train`) → 관문 1·2 |
+| `rft.py`, `chain_v9.sh` … `chain_v12.sh`, `chain_v11p.sh`, `chain_v11_mmmu.sh`, `v11_pilot.py` | v9–v12 SDFT: 참고 해설을 보고 자기 말로 쓴 풀이 만들기(`prep v9`) → 버전별 선택(`select v9` … `select v12`) → LoRA 학습(`train`) → 관문 1. `v11_pilot.py`는 풀이 모양을 base에 맞추는 방법을 100문항으로 먼저 시험한 것, `chain_v11_mmmu.sh`는 v11의 5 seed 참고 평가 |
 | `ste_eval.py`, `prep_queue.sh` | v6 사전 점검(프롬프트 변형, 교사 후보 평가) |
 | `judge_instructions.md` | v3–v5 Sonnet 판정 지시문 |
 | `ram_watch.sh` | RAM이 5GB 아래로 떨어지면 우리 작업만 멈추는 감시기 |
-| `v3_protocol.md` … `v8_protocol.md`, `v6_prep_protocol.md`, `v7_prep_protocol.md` | **실행 전에 등록한 규칙**과 그 뒤의 수정(Amendment)·정지 기록. 결과를 본 뒤 규칙을 바꾼 경우는 모두 여기에 사유와 함께 남아 있습니다 |
+| `v3_protocol.md` … `v12_protocol.md`, `v6_prep_protocol.md`, `v7_prep_protocol.md` | **실행 전에 등록한 규칙**과 그 뒤의 수정(Amendment)·정지 기록. 결과를 본 뒤 규칙을 바꾼 경우는 모두 여기에 사유와 함께 남아 있습니다 |
 | `data/ids_{216,166,88,430}.txt` | MMMU val을 base 5 seed 정답 수로 나눈 문항 목록(1–3/5, 0/5, 4/5, 5/5). **평가용이며 학습에는 쓰지 않습니다** |
 | `data/pool_v4.jsonl`, `data/pool_v6.jsonl` | 실제로 학습에 쓴 풀. base·교사 사전 풀이 결과(`screen_v4.jsonl`, `screen_v6.jsonl`)로 걸렀기 때문에 GPU 없이는 다시 만들 수 없어 함께 올립니다 |
 
@@ -66,3 +67,12 @@ systemd-run --user --unit grpo-v6 -p WorkingDirectory=$PWD bash -c "bash grpo/ch
 - **이미지 토큰을 미리 펼친 토큰 프롬프트**를 넘기면 vLLM이 한 번 더 펼칩니다. `<|image_pad|>` 하나만 넣고, 교사가 본 토큰이 학생 토큰과 같은지 검사합니다(`teacher-score`의 assert).
 - **systemd-oomd가 RAM 부족 시 VS Code 스코프 전체를 죽입니다**(62GB 머신). 긴 작업은 `systemd-run --user`로 띄우고 `ram_watch.sh`를 같이 돌립니다.
 - 같은 GPU에 다른 작업이 있으면 `--gpu-mem`을 0.68 정도로 낮춥니다(0.90에서 vLLM OOM).
+
+## structreward/가 함께 쓰는 부분
+
+StructReward 재현과 어려운 문항 학습([structreward/README.md](../structreward/README.md))은 이 폴더의 `grpo.py`를 그대로 씁니다. 그때 추가한 선택 항목은 기본값이 예전 동작입니다.
+
+- 환경 변수 `GRPO_MODEL`: 출발 모델을 base 대신 병합한 모델 폴더로 바꿉니다(생성, 학습, KL 기준 모두).
+- `train --per-response`: 손실을 응답별로 평균한 뒤 합칩니다(기본은 한 번의 갱신에 든 모든 토큰의 평균).
+- `guard --acc-floor`, `--trunc-max`: 정답률·잘림 정지 기준(기본 0.7, 0.35).
+- `rounds/rNNN.aux.jsonl`이 있으면 `train`이 그 회차의 판단 과제를 교차 엔트로피로 함께 학습합니다.

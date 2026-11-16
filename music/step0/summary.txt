@@ -1,0 +1,7 @@
+cases 27, judged 26 (both D/S: ['validation_Music_18'])
+first_error = P: A 23, B 23; strict 23, lenient 23; need 13
+kappa (P vs not) 1.00; tag agreement 25/27
+A: tag {'P': 15, 'G': 9, 'X': 1, 'D': 1, 'K': 1}  first_error {'P': 24, 'K': 3}  reading_kind {'pitch': 11, 'rhythm-or-meter': 7, 'other': 2, 'clef': 2, 'accidental-or-key-signature': 2}
+B: tag {'P': 14, 'G': 9, 'K': 2, 'D': 1, 'X': 1}  first_error {'P': 24, 'K': 3}  reading_kind {'pitch': 10, 'rhythm-or-meter': 7, 'other': 3, 'clef': 2, 'accidental-or-key-signature': 2}
+disagree on P (0): []
+GATE: PASS

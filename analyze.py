@@ -7,6 +7,8 @@ python analyze.py compare   results/seed* vs tuned/seed0 tuned/seed1 --target "S
 python analyze.py compare   results/seed* vs dev/seed0 --base-mean 1        # single-seed dev run vs the 5-seed base mean
 python analyze.py export    results/seed* --out DIR --sample 48            # first 48 of a seeded shuffle -> DIR/untagged/<id>/
 python analyze.py export    results/seed* --out DIR --tags T.jsonl --per-type 5   # first 5 per tag, same order -> DIR/<type>/<id>/
+python analyze.py vote      results/seed*                   # self-consistency: one answer per question by majority (vote/protocol.md)
+python analyze.py vote      results/seed* runs/base_vote/seed* --k 5   # mean over all 5-run subsets of the given runs
 (`export` needs `datasets`; tags follow reports/failure_tagging_protocol.md, one JSON object per line)
 """
 import ast, json, math, random, re, statistics as st, sys
@@ -35,13 +37,23 @@ def sd(xs):
     return st.stdev(xs) if len(xs) > 1 else 0.0
 
 
+def settings(d):
+    """Eval settings of a run, for the comparability checks. Runs recorded before run_eval.py had the LoRA options ran
+    without LoRA, the same as the options at their off values. gpu_mem_util is left out: it is the GPU share, and in
+    batch-invariant mode it does not change the responses (base seed 0 on Music at 0.75 reproduces the official
+    responses 30/30, structreward/runs/check_mem.txt)."""
+    c = {"enable_lora": False, "lora_adapter": "", "max_lora_rank": 16, **json.load(open(Path(d) / "scores.json"))["config"]}
+    c.pop("gpu_mem_util", None)
+    return c
+
+
 def check_comparable(dirs):
     """Seeds are only averaged if every other config key is identical — otherwise the mean is meaningless."""
-    cfgs = [json.load(open(Path(d) / "scores.json"))["config"] for d in dirs]
+    cfgs = [settings(d) for d in dirs]
     diff = {k for c in cfgs for k in set(c) | set(cfgs[0]) if k not in ("seed", "out") and c.get(k) != cfgs[0].get(k)}
     if diff:
         sys.exit(f"refusing to aggregate: runs differ in {sorted(diff)}")
-    return cfgs[0]
+    return json.load(open(Path(dirs[0]) / "scores.json"))["config"]
 
 
 def aggregate(dirs):
@@ -125,9 +137,9 @@ def compare(base_dirs, tuned_dirs, target_subjects=(), reps=2000, base_mean=Fals
     base seed 0 sits 0.6 below the 5-seed mean). The stable-correct group still uses the paired seeds only."""
     cfg = lambda d: json.load(open(Path(d) / "scores.json"))["config"]
     skip = {"seed", "out", "model", "model_revision", "ids_file"}
-    b0 = cfg(base_dirs[0])
+    b0 = settings(base_dirs[0])
     for d in tuned_dirs:
-        diff = {k for k in set(cfg(d)) | set(b0) if k not in skip and cfg(d).get(k) != b0.get(k)}
+        diff = {k for k in set(settings(d)) | set(b0) if k not in skip and settings(d).get(k) != b0.get(k)}
         if diff:
             sys.exit(f"refusing to compare: eval settings differ in {sorted(diff)}")
     base = {cfg(d)["seed"]: load(d) for d in base_dirs}
@@ -168,6 +180,64 @@ def compare(base_dirs, tuned_dirs, target_subjects=(), reps=2000, base_mean=Fals
         print(f"   {name:5s} truncated {100 * st.mean(p['truncated'] for p in P):5.1f}%  "
               f"Answer tag {100 * st.mean(p['answer_tag_found'] for p in P):5.1f}%  "
               f"mean response {st.mean(len(p['response']) for p in P):7.0f} chars")
+
+
+def answer_key(p):
+    """What one response votes for. Multiple choice: the letter the frozen pipeline scored, unless that letter was the
+    parser's random guess (nothing found in the text). Open: the last number of the "Answer:" line, else its text.
+    None = no vote (random guess, or an open response without an "Answer:" line, e.g. cut off)."""
+    if p["question_type"] == "multiple-choice":
+        return None if p["fallback_guess"] else p["parsed"]
+    if not p["answer_tag_found"]:
+        return None
+    tag = re.findall(r"Answer:\s*(.+)", p["response"], re.I)[-1].strip().rstrip(".").lower()
+    nums = re.findall(r"-?\d[\d,]*\.?\d*(?:e[-+]?\d+)?", tag)
+    try:
+        return round(float(nums[-1].replace(",", "")), 6) if nums else tag
+    except ValueError:
+        return tag
+
+
+def voted(preds):
+    """One question, several runs -> is the majority answer correct? Most frequent answer among the responses that
+    vote; ties go to the answer of the earliest run; if no response votes, the first run's stored result stands."""
+    keys = [answer_key(p) for p in preds]
+    counts = Counter(k for k in keys if k is not None)
+    if not counts:
+        return preds[0]["correct"]
+    top = max(counts.values())
+    win = next(k for k in keys if k is not None and counts[k] == top)
+    return next(p["correct"] for p, k in zip(preds, keys) if k == win)
+
+
+def vote(dirs, k=0, reps=2000):
+    """Self-consistency over runs of the frozen pipeline (same config, different seeds). Prints the single-run mean,
+    the accuracy of the majority answer over all runs, and the paired gain with a bootstrap CI over questions.
+    k: also the mean accuracy over every k-run subset (what a vote of k samples gives on average)."""
+    from itertools import combinations
+    check_comparable(dirs)
+    runs = [load(d) for d in dirs]
+    ids = sorted(runs[0])
+    single = {i: st.mean(R[i]["correct"] for R in runs) for i in ids}
+    maj = {i: voted([R[i] for R in runs]) for i in ids}
+    d = [maj[i] - single[i] for i in ids]
+    rng = random.Random(0)
+    boots = sorted(st.mean(rng.choice(d) for _ in d) for _ in range(reps))
+    per_run = [100 * st.mean(R[i]["correct"] for i in ids) for R in runs]
+    print(f"== {len(runs)} runs, {len(ids)} questions")
+    print(f"   single run: {st.mean(per_run):.2f} ± {sd(per_run):.2f}  ({', '.join(f'{x:.2f}' for x in per_run)})")
+    print(f"   majority of {len(runs)}: {100 * st.mean(maj.values()):.2f}   gain {100 * st.mean(d):+.2f} pts  "
+          f"95% CI [{100 * boots[int(0.025 * reps)]:+.2f}, {100 * boots[int(0.975 * reps) - 1]:+.2f}]")
+    novote = sum(all(answer_key(R[i]) is None for R in runs) for i in ids)
+    print(f"   questions where no response votes: {novote}")
+    if k and k < len(runs):
+        accs = [100 * st.mean(voted([runs[j][i] for j in c]) for i in ids) for c in combinations(range(len(runs)), k)]
+        print(f"   majority of {k}, mean over {len(accs)} subsets: {st.mean(accs):.2f}  (min {min(accs):.2f}, max {max(accs):.2f})")
+    subj = defaultdict(list)
+    for i in ids:
+        subj[runs[0][i]["subject"]].append(i)
+    rows = sorted(((100 * st.mean(maj[i] for i in q) - 100 * st.mean(single[i] for i in q), s2) for s2, q in subj.items()))
+    print("   largest subject changes: " + ", ".join(f"{s2} {x:+.1f}" for x, s2 in rows[:3] + rows[-3:]))
 
 
 def load_tags(path):
@@ -255,6 +325,15 @@ if __name__ == "__main__":
         k = dirs.index("vs")
         compare(dirs[:k], dirs[k + 1:], tuple(opts.get("--target", "").split(",")) if "--target" in opts else (),
                 base_mean=opts.get("--base-mean") == "1")
+    elif cmd == "vote":
+        P = lambda **kw: {"answer_tag_found": True, "fallback_guess": False, "question_type": "multiple-choice", "response": "",
+                          "parsed": None, "correct": False, **kw}
+        O = lambda text, ok: P(question_type="open", response=f"...\nAnswer: {text}", correct=ok)
+        assert voted([P(parsed="A", correct=True), P(parsed="B"), P(parsed="A", correct=True)]) is True
+        assert voted([P(parsed="B"), P(parsed="A", correct=True)]) is False  # tie -> earliest run
+        assert voted([P(parsed="B", fallback_guess=True), P(parsed="A", correct=True)]) is True  # a random guess does not vote
+        assert voted([O("13.0 g", True), O("12.9", False), O("13", True)]) is True and answer_key(O("1,250 m", True)) == 1250.0
+        vote(dirs, int(opts.get("--k", 0)))
     elif cmd == "export":
         export(dirs, opts["--out"], tags, int(opts.get("--per-type", 0)), int(opts.get("--sample", 0)),
                int(opts.get("--seed", 0)))
