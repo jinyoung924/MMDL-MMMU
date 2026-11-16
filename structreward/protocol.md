@@ -852,3 +852,16 @@ diagnostic 6 has released the GPU.
   16 %). Rounds 0–1 ran end to end: right 0.56 / 0.52, cut 10.4 / 17.7 %, mean 3,645 / 3,988 tokens, 9 of 12 groups
   trained in each (3 updates), KL max 0.001 / 0.002, guards pass. A round takes 11–13 minutes (rollout 7.5–9.6,
   training 2.7–3), so round 24 is about 5 hours after the start.
+- 2026-11-16 23:20: **run `hard1`, round 24** (Amendment 9; 25 rounds, 70 updates, KL max 0.029, no guard tripped). MMMU dev seed 0 =
+  **64.89**, Δ −0.27 [−2.53, +1.89] against the base mean, +0.22 [−2.67, +3.11] against base seed 0; base stable-correct
+  (453) −0.88 [−3.53, +1.32]. **MMMU truncation 128 of 900 = 14.2 %** (base seed 0: 127 = 14.1 %; base seeds 0–4: 127 /
+  139 / 133 / 146 / 144, mean 15.3 %). Finished by both (739): 71.0 → 70.9. Cut only by the base (33): 33.3 → 39.4; cut
+  only by `hard1` (34): 41.2 → 26.5; cut by both (94): 34.0 → 40.4. Pool (different questions each round, so no
+  same-question comparison): first 8 rounds right 0.497, cut 0.135; last 8 rounds right 0.431, cut 0.194. Probes after
+  rounds 7 / 15 / 23: cut 23 / 17 / 21 %, right 42 / 40 / 40 % (base, one response each: 31 / 28).
+  Registered acceptance at r024: dev above the base mean: **no** (64.89 < 65.16); truncation ≤ 14.1 %: 14.2 %, one
+  question above the registered number, which was the base's seed-0 value (the base's own seeds reach 16.2 %). Not
+  accepted; no 5-seed evaluation. Dev floor passed (64.89 > 63.06), so the run continues to round 49 as registered.
+  Reading: the first of the seven GRPO runs of this protocol without a rise of MMMU truncation, and without a gain.
+  It agrees with the hypothesis of 15:44, but pool and start model (A3 → base) changed together in a single run, so it
+  does not separate them.

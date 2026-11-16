@@ -21,7 +21,7 @@ Qwen3-VL-4B-Instruct로 StructReward(arXiv 2608.08326 v2)를 재현한 실험과
 | GRPO 4차: 감사에서 찾은 결함 수정 | `chain_b.sh` | Amendment 7 | `runs/sr_rl6_r019_full/` | 62.89 |
 | GRPO 5차: KL 계수 0.01 | `chain_b.sh` | Amendment 8 | `runs/sr_rl7_r024_full/` | 62.00 |
 | 원인 확인: 과정 점수·판단 과제 없이 | `chain_b.sh` | Run log 11/16 11:21 (diagnostic 6) | `runs/sr_rl8_r024_full/` | 63.78 |
-| 어려운 문항 학습 (base에서 출발) | `chain_hard.sh` | Amendment 9 | `runs/hard1_r024_full/` | §6 참고 |
+| 어려운 문항 학습 (base에서 출발) | `chain_hard.sh` | Amendment 9 | `runs/hard1_r024_full/` | 64.89 (25회차) |
 
 모든 MMMU 수치는 900문항, seed 0입니다. 1·2·4차는 보호 장치에 걸려 멈춘 시점의 모델을 잰 참고 평가입니다.
 
